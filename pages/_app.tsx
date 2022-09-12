@@ -12,7 +12,7 @@ function MyApp({ Component, pageProps }: AppProps<{ dehydratedState: unknown }>)
   const { locale } = useRouter();
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((event, session) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange((event, session) => {
       fetch('/api/auth', {
         method: 'POST',
         headers: new Headers({ 'Content-Type': 'application/json' }),
@@ -20,6 +20,10 @@ function MyApp({ Component, pageProps }: AppProps<{ dehydratedState: unknown }>)
         body: JSON.stringify({ event, session }),
       });
     });
+
+    return () => {
+      authListener?.unsubscribe()
+    }
   }, []);
 
   return (
