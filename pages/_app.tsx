@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { IntlProvider } from 'react-intl';
 
 import { getMessages } from '@i18n/getMessages';
-import { supabase } from '@supabase/supabaseClient';
+import { supabase } from 'utils/supabaseClient';
 import { useEffect } from 'react';
 import { Provider } from 'react-redux';
 import store from '@redux/store';

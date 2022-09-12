@@ -1,5 +1,5 @@
 import { Box, Button, Container, Spinner, Stack, Text } from '@chakra-ui/react';
-import { supabase } from 'supabase/supabaseClient';
+import { supabase } from 'utils/supabaseClient';
 import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { useDispatch } from 'react-redux';
