@@ -6,33 +6,37 @@ kill_timeout = 5
 processes = []
 
 [env]
+NEXT_PUBLIC_SITE_URL="https://staging.retrobox.app"
+NEXT_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhvenFrbXZ2bGtkZGZpbGZ4anZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjI5OTU3OTMsImV4cCI6MTk3ODU3MTc5M30.daMbrqk10ZKJKeOySmfNw6t6F-OAt7YaIf5VtMbLcUc"
+NEXT_PUBLIC_SUPABASE_URL = "https://hozqkmvvlkddfilfxjvr.supabase.co"
+NODE_ENV = "production"
 
 [experimental]
-  allowed_public_ports = []
-  auto_rollback = true
+allowed_public_ports = []
+auto_rollback = true
 
 [[services]]
-  http_checks = []
-  internal_port = 8080
-  processes = ["app"]
-  protocol = "tcp"
-  script_checks = []
-  [services.concurrency]
-    hard_limit = 25
-    soft_limit = 20
-    type = "connections"
+http_checks = []
+internal_port = 8080
+processes = ["app"]
+protocol = "tcp"
+script_checks = []
+[services.concurrency]
+hard_limit = 25
+soft_limit = 20
+type = "connections"
 
-  [[services.ports]]
-    force_https = true
-    handlers = ["http"]
-    port = 80
+[[services.ports]]
+force_https = true
+handlers = ["http"]
+port = 80
 
-  [[services.ports]]
-    handlers = ["tls", "http"]
-    port = 443
+[[services.ports]]
+handlers = ["tls", "http"]
+port = 443
 
-  [[services.tcp_checks]]
-    grace_period = "1s"
-    interval = "15s"
-    restart_limit = 0
-    timeout = "2s"
+[[services.tcp_checks]]
+grace_period = "1s"
+interval = "15s"
+restart_limit = 0
+timeout = "2s"
