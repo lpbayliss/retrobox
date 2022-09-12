@@ -1,7 +1,12 @@
-import { Container, Stack, Text } from '@chakra-ui/react';
-import { supabase } from '@utils/supabaseClient';
+import { Box, Button, Container, Spinner, Stack, Text } from '@chakra-ui/react';
+import { supabase } from 'supabase/supabaseClient';
 import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
+import { useDispatch } from 'react-redux';
+import * as actions from "@actions"
+import { useSelector } from 'react-redux';
+import * as selectors from '@selectors'
+import { useEffect } from 'react';
 
 interface ProfileProps {
   user: any;
@@ -14,6 +19,14 @@ export const getServerSideProps: GetServerSideProps<ProfileProps> = async ({ req
 };
 
 const Login: NextPage<ProfileProps> = ({ user }) => {
+  const dispatch = useDispatch();
+  const myProfile = useSelector(selectors.myProfile)
+  const isFetchingProfile = useSelector(selectors.isFetchingProfile)
+
+  useEffect(() => {
+    dispatch(actions.fetchMyProfile())
+  }, [dispatch])
+
   return (
     <div>
       <Head>
@@ -22,7 +35,8 @@ const Login: NextPage<ProfileProps> = ({ user }) => {
       </Head>
       <Container as="main" maxW="md" py={{ base: '12', md: '24' }}>
         <Stack spacing="8">
-          <Text>{JSON.stringify(user)}</Text>
+          {isFetchingProfile ? <Spinner /> :
+            <Text>{JSON.stringify(myProfile, null, 2)}</Text>}
         </Stack>
       </Container>
     </div>

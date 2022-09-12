@@ -12,7 +12,7 @@ import {
   useBreakpointValue,
   useToast,
 } from '@chakra-ui/react';
-import { supabase } from '@utils/supabaseClient';
+import { supabase } from 'supabase/supabaseClient';
 import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -42,7 +42,10 @@ const Login: NextPage = () => {
 
   const onSubmit: SubmitHandler<LoginFormValues> = async ({ email }) => {
     try {
-      const { error } = await supabase.auth.signIn({ email }, { redirectTo: process.env.NEXT_PUBLIC_SITE_URL + '/login' });
+      const { error } = await supabase.auth.signIn(
+        { email },
+        { redirectTo: process.env.NEXT_PUBLIC_SITE_URL + '/login' },
+      );
       if (error) throw error;
       toast({
         title: 'Link sent',

@@ -1,4 +1,4 @@
-import { supabase } from '@utils/supabaseClient';
+import { supabase } from 'supabase/supabaseClient';
 import { NextApiRequest, NextApiResponse } from 'next';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {

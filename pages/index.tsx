@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Heading,
-  Img,
-  LightMode,
-  Stack,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Button, Heading, Img, LightMode, Stack, Text } from '@chakra-ui/react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 
