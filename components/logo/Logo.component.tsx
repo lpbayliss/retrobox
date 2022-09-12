@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/react";
+import { Box } from '@chakra-ui/react';
 
 const Logo = () => (
   <Box fontSize="6xl" textAlign="center">

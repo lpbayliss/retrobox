@@ -1,15 +1,15 @@
-import { ComponentStyleConfig } from "@chakra-ui/react";
-import { mode } from "@chakra-ui/theme-tools";
+import { ComponentStyleConfig } from '@chakra-ui/react';
+import { mode } from '@chakra-ui/theme-tools';
 
 const Card: ComponentStyleConfig = {
   baseStyle: (props: any) => ({
-    display: "flex",
-    flexDirection: "column",
-    background: ["none", null, mode("white", "gray.900")(props)],
-    boxShadow: ["none", null, mode("md", "none")(props)],
+    display: 'flex',
+    flexDirection: 'column',
+    background: ['none', null, mode('white', 'gray.900')(props)],
+    boxShadow: ['none', null, mode('md', 'none')(props)],
     padding: 6,
-    borderRadius: "base",
-    minW: "sm",
+    borderRadius: 'base',
+    minW: 'sm',
   }),
 };
 

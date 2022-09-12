@@ -1,5 +1,5 @@
-import { ThemeConfig } from "@chakra-ui/react";
+import { ThemeConfig } from '@chakra-ui/react';
 
-const config: ThemeConfig = { initialColorMode: "system" };
+const config: ThemeConfig = { initialColorMode: 'system' };
 
 export default config;

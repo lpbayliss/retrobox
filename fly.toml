@@ -1,42 +1,41 @@
-# fly.toml file generated for retrobox-web on 2022-07-23T17:10:31+10:00
+# fly.toml file generated for retrobox on 2022-09-12T12:28:58+10:00
 
-app = "retrobox-web"
+app = "retrobox"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
 [env]
-  NODE_ENV="production"
-
-[build]
-  build-target = "runner"
+NEXT_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNqdnNyY3hkaG5lanJibXVoZXpmIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjI4ODk3ODYsImV4cCI6MTk3ODQ2NTc4Nn0.9uLYzv5oSGIlI1mfVE4ZcL3o-PMljL0Xi0wkKsoTJ60"
+NEXT_PUBLIC_SUPABASE_URL = "https://sjvsrcxdhnejrbmuhezf.supabase.co"
+NODE_ENV = "production"
 
 [experimental]
-  allowed_public_ports = []
-  auto_rollback = true
+allowed_public_ports = []
+auto_rollback = true
 
 [[services]]
-  http_checks = []
-  internal_port = 3000
-  processes = ["app"]
-  protocol = "tcp"
-  script_checks = []
-  [services.concurrency]
-    hard_limit = 25
-    soft_limit = 20
-    type = "connections"
+http_checks = []
+internal_port = 3000
+processes = ["app"]
+protocol = "tcp"
+script_checks = []
+[services.concurrency]
+hard_limit = 25
+soft_limit = 20
+type = "connections"
 
-  [[services.ports]]
-    force_https = true
-    handlers = ["http"]
-    port = 80
+[[services.ports]]
+force_https = true
+handlers = ["http"]
+port = 80
 
-  [[services.ports]]
-    handlers = ["tls", "http"]
-    port = 443
+[[services.ports]]
+handlers = ["tls", "http"]
+port = 443
 
-  [[services.tcp_checks]]
-    grace_period = "1s"
-    interval = "15s"
-    restart_limit = 0
-    timeout = "2s"
+[[services.tcp_checks]]
+grace_period = "1s"
+interval = "15s"
+restart_limit = 0
+timeout = "2s"

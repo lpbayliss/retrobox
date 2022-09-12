@@ -1,12 +1,12 @@
 /** @type {import('next').NextConfig} */
 
 const nextConfig = {
-  output: "standalone",
+  output: 'standalone',
   reactStrictMode: true,
   swcMinify: true,
   i18n: {
-    locales: ["en-AU"],
-    defaultLocale: "en-AU",
+    locales: ['en-AU'],
+    defaultLocale: 'en-AU',
   },
 };
 

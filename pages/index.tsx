@@ -1,9 +1,9 @@
-import { Box, Flex, Heading, Text } from "@chakra-ui/react/";
-import type { NextPage } from "next";
-import Head from "next/head";
-import { FormattedMessage } from "react-intl";
+import { Box, Flex, Heading, Text } from '@chakra-ui/react';
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import { FormattedMessage } from 'react-intl';
 
-import { Card } from "../components/card";
+import { Card } from '@components/card';
 
 const Index: NextPage = () => {
   return (

@@ -11,31 +11,20 @@ import {
   Text,
   useBreakpointValue,
   useToast,
-} from "@chakra-ui/react";
-import { supabase } from "@utils/supabaseClient";
-import type { GetServerSideProps, NextPage } from "next";
-import Head from "next/head";
-import { useForm } from "react-hook-form";
-import { FormattedMessage, useIntl } from "react-intl";
+} from '@chakra-ui/react';
+import { supabase } from '@utils/supabaseClient';
+import type { NextPage } from 'next';
+import Head from 'next/head';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { FormattedMessage, useIntl } from 'react-intl';
 
-import { Logo } from "../components/logo";
+import { Logo } from '@components/logo';
 
-export type ILoginFormInputs = {
+export type LoginFormValues = {
   email: string;
 };
 
-interface LoginProps {
-  error: boolean;
-}
-
-export const getServerSideProps: GetServerSideProps<LoginProps> = async ({
-  query,
-  res,
-}) => {
-  return { props: { error: false } };
-};
-
-const Login: NextPage<LoginProps> = ({ error }) => {
+const Login: NextPage = () => {
   const intl = useIntl();
   const toast = useToast();
 
@@ -43,24 +32,24 @@ const Login: NextPage<LoginProps> = ({ error }) => {
     handleSubmit,
     register,
     formState: { errors, isSubmitting },
-  } = useForm();
+  } = useForm<LoginFormValues>();
 
-  const onSubmit = async ({ email }: ILoginFormInputs) => {
+  const onSubmit: SubmitHandler<LoginFormValues> = async ({ email }) => {
     try {
       const { error } = await supabase.auth.signIn({ email });
       if (error) throw error;
       toast({
-        title: "Link sent",
+        title: 'Link sent',
         description: "We've sent a login link to your email.",
-        status: "success",
+        status: 'success',
         duration: 5000,
         isClosable: true,
       });
     } catch (error: any) {
       toast({
-        title: "Oops!",
-        description: "Something went wrong. Try again shortly",
-        status: "error",
+        title: 'Oops!',
+        description: 'Something went wrong. Try again shortly',
+        status: 'error',
         duration: 5000,
         isClosable: true,
       });
@@ -73,12 +62,12 @@ const Login: NextPage<LoginProps> = ({ error }) => {
         <title>Retrobox | Log in</title>
         <meta name="description" content="Log in" />
       </Head>
-      <Container as="main" maxW="md" py={{ base: "12", md: "24" }}>
+      <Container as="main" maxW="md" py={{ base: '12', md: '24' }}>
         <Stack spacing="8">
           <Stack spacing="6">
             <Logo />
-            <Stack textAlign="center" spacing={{ base: "2", md: "3" }}>
-              <Heading size={useBreakpointValue({ base: "xs", md: "sm" })}>
+            <Stack textAlign="center" spacing={{ base: '2', md: '3' }}>
+              <Heading size={useBreakpointValue({ base: 'xs', md: 'sm' })}>
                 <FormattedMessage id="LOGIN_PAGE_TITLE" />
               </Heading>
               <Text>
@@ -86,7 +75,6 @@ const Login: NextPage<LoginProps> = ({ error }) => {
               </Text>
             </Stack>
           </Stack>
-
           <Stack as="form" onSubmit={handleSubmit(onSubmit)} spacing="6">
             <FormControl>
               <Stack spacing="4">
@@ -94,29 +82,25 @@ const Login: NextPage<LoginProps> = ({ error }) => {
                   type="email"
                   id="email"
                   placeholder={intl.formatMessage({
-                    id: "LOGIN_PAGE_EMAIL_PLACEHOLDER",
+                    id: 'LOGIN_PAGE_EMAIL_PLACEHOLDER',
                   })}
                   variant="filled"
-                  {...register("email", {
-                    required: "This is required",
+                  {...register('email', {
+                    required: 'This is required',
                     minLength: {
                       value: 4,
-                      message: "Minimum length should be 4",
+                      message: 'Minimum length should be 4',
                     },
                   })}
                 />
                 <Button isLoading={isSubmitting} type="submit">
                   <FormattedMessage id="LOGIN_PAGE_SUBMIT_BUTTON_LABEL" />
                 </Button>
-                <FormErrorMessage>
-                  {errors.email && errors.email.message}
-                </FormErrorMessage>
+                <FormErrorMessage>{errors.email && errors.email.message}</FormErrorMessage>
               </Stack>
             </FormControl>
           </Stack>
-
           <Divider />
-
           <HStack justify="center" spacing="1">
             <Text color="muted" fontSize="sm">
               <FormattedMessage id="LOGIN_PAGE_ISSUES" />
