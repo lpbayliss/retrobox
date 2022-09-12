@@ -11,6 +11,8 @@ import { useState } from "react";
 import { IntlProvider } from "react-intl";
 
 import { getMessages } from "../i18n";
+import { supabase } from "@utils/supabaseClient";
+import { useEffect } from "react";
 
 function MyApp({
   Component,
@@ -18,6 +20,17 @@ function MyApp({
 }: AppProps<{ dehydratedState: unknown }>) {
   const { locale } = useRouter();
   const [queryClient] = useState(() => new QueryClient());
+
+  useEffect(() => {
+    supabase.auth.onAuthStateChange((event, session) => {
+      fetch("/api/auth", {
+        method: "POST",
+        headers: new Headers({ "Content-Type": "application/json" }),
+        credentials: "same-origin",
+        body: JSON.stringify({ event, session }),
+      });
+    });
+  }, []);
 
   return (
     <IntlProvider

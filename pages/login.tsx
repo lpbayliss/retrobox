@@ -12,13 +12,12 @@ import {
   useBreakpointValue,
   useToast,
 } from "@chakra-ui/react";
-import { useMutation } from "@tanstack/react-query";
+import { supabase } from "@utils/supabaseClient";
 import type { GetServerSideProps, NextPage } from "next";
 import Head from "next/head";
-import { SubmitHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { FormattedMessage, useIntl } from "react-intl";
 
-import { requestMagicLink, sendToken } from "../api";
 import { Logo } from "../components/logo";
 
 export type ILoginFormInputs = {
@@ -33,16 +32,7 @@ export const getServerSideProps: GetServerSideProps<LoginProps> = async ({
   query,
   res,
 }) => {
-  if (!query.token) return { props: { error: false } };
-  console.log("Token found!");
-  try {
-    const result = await sendToken(String(query.token));
-    console.log("cookie to pass", result?.setCookie);
-    res.setHeader("set-cookie", result?.setCookie || []);
-    return { redirect: { destination: "/" }, props: { error: false } };
-  } catch (e) {
-    return { redirect: { destination: "/" }, props: { error: true } };
-  }
+  return { props: { error: false } };
 };
 
 const Login: NextPage<LoginProps> = ({ error }) => {
@@ -50,50 +40,31 @@ const Login: NextPage<LoginProps> = ({ error }) => {
   const toast = useToast();
 
   const {
-    register,
     handleSubmit,
+    register,
     formState: { errors, isSubmitting },
-  } = useForm<ILoginFormInputs>();
+  } = useForm();
 
-  const requestMagicLinkMutation = useMutation(
-    ({ destination }: { destination: string }) => {
-      return requestMagicLink(destination);
+  const onSubmit = async ({ email }: ILoginFormInputs) => {
+    try {
+      const { error } = await supabase.auth.signIn({ email });
+      if (error) throw error;
+      toast({
+        title: "Link sent",
+        description: "We've sent a login link to your email.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    } catch (error: any) {
+      toast({
+        title: "Oops!",
+        description: "Something went wrong. Try again shortly",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
     }
-  );
-
-  const handleOnSubmit: SubmitHandler<ILoginFormInputs> = ({ email }) => {
-    requestMagicLinkMutation.mutate(
-      { destination: email },
-      {
-        onSuccess: () => {
-          toast({
-            title: intl.formatMessage({ id: "LOGIN_FORM_ON_SUCCESS_TITLE" }),
-            description: intl.formatMessage(
-              {
-                id: "LOGIN_FORM_ON_SUCCESS_MESSAGE",
-              },
-              { email }
-            ),
-            status: "info",
-            duration: 5000,
-            isClosable: true,
-            position: "bottom-left",
-          });
-        },
-        onError: () => {
-          toast({
-            title: intl.formatMessage({ id: "LOGIN_FORM_ON_ERROR_TITLE" }),
-            description: intl.formatMessage({
-              id: "LOGIN_FORM_ON_ERROR_MESSAGE",
-            }),
-            status: "error",
-            duration: 5000,
-            isClosable: true,
-            position: "bottom-left",
-          });
-        },
-      }
-    );
   };
 
   return (
@@ -108,47 +79,38 @@ const Login: NextPage<LoginProps> = ({ error }) => {
             <Logo />
             <Stack textAlign="center" spacing={{ base: "2", md: "3" }}>
               <Heading size={useBreakpointValue({ base: "xs", md: "sm" })}>
-                <FormattedMessage id="LOGIN_PAGE_FORM_TITLE" />
+                <FormattedMessage id="LOGIN_PAGE_TITLE" />
               </Heading>
               <Text>
-                <FormattedMessage id="LOGIN_PAGE_FORM_SUBTITLE" />
+                <FormattedMessage id="LOGIN_PAGE_SUBTITLE" />
               </Text>
-              {error && (
-                <Text color="red.300" fontSize="sm">
-                  <FormattedMessage id="LOGIN_PAGE_LOGIN_ERROR" />
-                </Text>
-              )}
             </Stack>
           </Stack>
 
-          <Stack as="form" onSubmit={handleSubmit(handleOnSubmit)} spacing="6">
-            <FormControl isInvalid={!!errors.email}>
+          <Stack as="form" onSubmit={handleSubmit(onSubmit)} spacing="6">
+            <FormControl>
               <Stack spacing="4">
                 <Input
+                  type="email"
                   id="email"
                   placeholder={intl.formatMessage({
-                    id: "LOGIN_FORM_PLACEHOLDER",
+                    id: "LOGIN_PAGE_EMAIL_PLACEHOLDER",
                   })}
                   variant="filled"
                   {...register("email", {
-                    required: intl.formatMessage({
-                      id: "LOGIN_FORM_ERROR_REQUIRED",
-                    }),
-                    pattern: {
-                      value:
-                        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                      message: intl.formatMessage({
-                        id: "LOGIN_FORM_ERROR_PATTERN",
-                      }),
+                    required: "This is required",
+                    minLength: {
+                      value: 4,
+                      message: "Minimum length should be 4",
                     },
                   })}
                 />
+                <Button isLoading={isSubmitting} type="submit">
+                  <FormattedMessage id="LOGIN_PAGE_SUBMIT_BUTTON_LABEL" />
+                </Button>
                 <FormErrorMessage>
                   {errors.email && errors.email.message}
                 </FormErrorMessage>
-                <Button isLoading={isSubmitting} type="submit">
-                  <FormattedMessage id="LOGIN_FORM_SUBMIT_TEXT" />
-                </Button>
               </Stack>
             </FormControl>
           </Stack>

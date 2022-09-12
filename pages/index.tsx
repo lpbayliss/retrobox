@@ -1,32 +1,11 @@
 import { Box, Flex, Heading, Text } from "@chakra-ui/react/";
-import { useMutation } from "@tanstack/react-query";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
 import { FormattedMessage } from "react-intl";
 
-import { createBox } from "../api";
 import { Card } from "../components/card";
-import {
-  CreateBoxForm,
-  ICreateBoxFormInputs,
-} from "../components/create-box-form";
 
 const Index: NextPage = () => {
-  const router = useRouter();
-
-  const mutation = useMutation((input: { name: string }) => {
-    return createBox(input.name);
-  });
-
-  const handleOnSubmit = async (input: ICreateBoxFormInputs) => {
-    mutation.mutate(input, {
-      onSuccess: ({ data }) => {
-        router.push(`/box/${data.id}`);
-      },
-    });
-  };
-
   return (
     <div>
       <Head>
@@ -40,15 +19,13 @@ const Index: NextPage = () => {
             📦
           </Box>
           <Heading mx="auto" pb="4" size="4xl">
-            <FormattedMessage id="RETROBOX" />
+            <FormattedMessage id="APP_NAME" />
           </Heading>
           <Text maxW="xs" mx="auto" pb="4" color="grey" fontSize="sm">
             <FormattedMessage id="APP_DESCRIPTION" />
           </Text>
-          <CreateBoxForm mx="auto" minW="xs" onSubmit={handleOnSubmit} />
         </Card>
       </Flex>
-      <footer></footer>
     </div>
   );
 };
