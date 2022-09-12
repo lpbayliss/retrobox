@@ -12,7 +12,7 @@ import {
   useBreakpointValue,
   useToast,
 } from '@chakra-ui/react';
-import { supabase } from 'supabase/supabaseClient';
+import { supabase } from 'utils/supabaseClient';
 import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { SubmitHandler, useForm } from 'react-hook-form';
