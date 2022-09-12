@@ -1,0 +1,25 @@
+name: Deploy API
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'supabase/migrations/**'
+
+jobs:
+  deploy:
+    name: Migrate Postgres
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install Supabase CLI
+        run: brew install supabase/tap/supabase
+      - name: Set Remote DB
+        shell: bash
+        env:
+          SUPABASE_PASSWORD: ${{ secrets.SUPABASE_PASSWORD }}
+          SUPABASE_PROJECT_REF: ${{ secrets.SUPABASE_PROJECT_REF }}
+        run: |
+          supabase db remote set 'postgresql://postgres:"$SUPABASE_PASSWORD"@db."$SUPABASE_PROJECT_REF".supabase.co:5432/postgres'
+      - name: Push Migrations
+        run: supabase db push
