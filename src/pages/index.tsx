@@ -6,9 +6,8 @@ const Index: NextPage = () => {
   return (
     <Box>
       <Head>
-        <title>Home</title>
-        <meta name="description" content="Home" />
-        <link rel="icon" href="/favicon.ico" />
+        <title>Welcome to Retrobox</title>
+        <meta name="description" content="Welcome" />
       </Head>
       <Box as="section" py="7.5rem">
         <Box maxW={{ base: 'xl', md: '5xl' }} mx="auto" px={{ base: '6', md: '8' }}>

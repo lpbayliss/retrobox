@@ -7,8 +7,6 @@ processes = []
 
 [env]
 NEXT_PUBLIC_SITE_URL="https://retrobox.app"
-NEXT_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNqdnNyY3hkaG5lanJibXVoZXpmIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjI4ODk3ODYsImV4cCI6MTk3ODQ2NTc4Nn0.9uLYzv5oSGIlI1mfVE4ZcL3o-PMljL0Xi0wkKsoTJ60"
-NEXT_PUBLIC_SUPABASE_URL = "https://sjvsrcxdhnejrbmuhezf.supabase.co"
 NODE_ENV = "production"
 
 [experimental]
