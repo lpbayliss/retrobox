@@ -1,4 +1,4 @@
-import theme from '../theme/theme.ts';
+import theme from '../src/theme/theme.ts';
 import { reactIntl } from './reactIntl.js';
 
 console.log(reactIntl.messages.length);
