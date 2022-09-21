@@ -1,6 +1,10 @@
 name: 'Chromatic Publish'
 
-on: push
+on:
+  push:
+    paths:
+      - '.storybook/**'
+      - 'src/**'
 
 env:
   FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
