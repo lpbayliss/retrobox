@@ -1,6 +1,6 @@
 import { Flex } from '@chakra-ui/react';
 import { AppLayout } from '@components/layouts/app-layout';
-import { NextPageWithLayout } from 'pages/_app';
+import { NextPageWithLayout } from '../../pages/_app';
 
 const AppPage: NextPageWithLayout = () => {
   return (
