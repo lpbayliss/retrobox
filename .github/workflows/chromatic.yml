@@ -2,6 +2,9 @@ name: 'Chromatic Publish'
 
 on: push
 
+env:
+  FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
+
 jobs:
   storybook:
     name: Chromatic Publish
