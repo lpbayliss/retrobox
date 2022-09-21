@@ -5,9 +5,6 @@ on:
     branches:
       - 'develop'
       - 'main'
-    paths:
-      - '.storybook/**'
-      - 'src/**'
 
 env:
   FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
