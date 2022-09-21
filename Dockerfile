@@ -1,5 +1,5 @@
 # Install dependencies only when needed
-FROM node:18-alpine AS deps
+FROM node:16-alpine AS deps
 ARG FONTAWESOME_NPM_AUTH_TOKEN
 ENV FONTAWESOME_NPM_AUTH_TOKEN ${FONTAWESOME_NPM_AUTH_TOKEN}
 
@@ -17,7 +17,7 @@ RUN \
 
 
 # Rebuild the source code only when needed
-FROM node:18-alpine AS builder
+FROM node:16-alpine AS builder
 ENV FONTAWESOME_NPM_AUTH_TOKEN ${FONTAWESOME_NPM_AUTH_TOKEN}
 
 WORKDIR /app
@@ -27,7 +27,7 @@ COPY . .
 RUN yarn build
 
 # Production image, copy all the files and run next
-FROM node:18-alpine AS runner
+FROM node:16-alpine AS runner
 WORKDIR /app
 
 ENV NODE_ENV production
