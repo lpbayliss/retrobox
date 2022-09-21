@@ -15,9 +15,9 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["components/*"],
-      "@theme/*": ["theme/*"],
-      "@i18n/*": ["i18n/*"]
+      "@components/*": ["src/components/*"],
+      "@theme/*": ["src/theme/*"],
+      "@i18n/*": ["src/i18n/*"]
     },
     "incremental": true
   },
