@@ -1,8 +1,8 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-import Card from "./card.component";
+import { ComponentMeta, ComponentStory } from '@storybook/react';
+import Card from './card.component';
 
 export default {
-  title: "Components / Card",
+  title: 'Components / Card',
   component: Card,
   argTypes: {},
 } as ComponentMeta<typeof Card>;

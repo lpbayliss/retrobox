@@ -6,10 +6,14 @@ kill_timeout = 5
 processes = []
 
 [env]
-NEXT_PUBLIC_SITE_URL="https://staging.retrobox.app"
-NEXT_PUBLIC_SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhvenFrbXZ2bGtkZGZpbGZ4anZyIiwicm9sZSI6ImFub24iLCJpYXQiOjE2NjI5OTU3OTMsImV4cCI6MTk3ODU3MTc5M30.daMbrqk10ZKJKeOySmfNw6t6F-OAt7YaIf5VtMbLcUc"
-NEXT_PUBLIC_SUPABASE_URL = "https://hozqkmvvlkddfilfxjvr.supabase.co"
+NEXT_PUBLIC_SITE_URL = "https://staging.retrobox.app"
 NODE_ENV = "production"
+
+[build]
+build-target = "runner"
+
+[deploy]
+release_command = "npx prisma migrate deploy"
 
 [experimental]
 allowed_public_ports = []

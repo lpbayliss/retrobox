@@ -1,6 +1,13 @@
 name: 'Chromatic Publish'
 
-on: push
+on:
+  push:
+    branches:
+      - 'develop'
+      - 'main'
+
+env:
+  FONTAWESOME_NPM_AUTH_TOKEN: ${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }}
 
 jobs:
   storybook:
@@ -8,6 +15,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - run: export FONTAWESOME_NPM_AUTH_TOKEN="$FONTAWESOME_NPM_AUTH_TOKEN"
       - run: yarn
       - uses: chromaui/action@v1
         with:

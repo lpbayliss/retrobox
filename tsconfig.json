@@ -15,16 +15,9 @@
     "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
-      "@components/*": ["components/*"],
-      "@theme/*": ["theme/*"],
-      "@i18n/*": ["i18n/*"],
-      "@supabase/*": ["supabase/*"],
-      "@reducers/*": ["reducers/*"],
-      "@redux/*": ["redux/*"],
-      "@sagas/*": ["sagas/*"],
-      "@selectors": ["selectors/index.ts"],
-      "@api": ["api/index.ts"],
-      "@actions": ["actions/index.ts"]
+      "@components/*": ["src/components/*"],
+      "@theme/*": ["src/theme/*"],
+      "@i18n/*": ["src/i18n/*"]
     },
     "incremental": true
   },

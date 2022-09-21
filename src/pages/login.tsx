@@ -12,8 +12,7 @@ import {
   useBreakpointValue,
   useToast,
 } from '@chakra-ui/react';
-import { supabase } from 'utils/supabaseClient';
-import type { GetServerSideProps, NextPage } from 'next';
+import type { NextPage } from 'next';
 import Head from 'next/head';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -22,12 +21,6 @@ import { Logo } from '@components/logo';
 
 export type LoginFormValues = {
   email: string;
-};
-
-export const getServerSideProps: GetServerSideProps = async ({ req }) => {
-  const { user } = await supabase.auth.api.getUserByCookie(req);
-  if (user) return { props: {}, redirect: { destination: '/app', permanent: false } };
-  return { props: {} };
 };
 
 const Login: NextPage = () => {
@@ -41,20 +34,9 @@ const Login: NextPage = () => {
   } = useForm<LoginFormValues>();
 
   const onSubmit: SubmitHandler<LoginFormValues> = async ({ email }) => {
-    try {
-      const { error } = await supabase.auth.signIn(
-        { email },
-        { redirectTo: process.env.NEXT_PUBLIC_SITE_URL + '/login' },
-      );
-      if (error) throw error;
-      toast({
-        title: 'Link sent',
-        description: "We've sent a login link to your email.",
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
-      });
-    } catch (error: any) {
+    const error = false;
+
+    if (error) {
       toast({
         title: 'Oops!',
         description: 'Something went wrong. Try again shortly',
@@ -62,13 +44,22 @@ const Login: NextPage = () => {
         duration: 5000,
         isClosable: true,
       });
+      return;
     }
+
+    toast({
+      title: 'Link sent',
+      description: "We've sent a login link to your email.",
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+    });
   };
 
   return (
     <div>
       <Head>
-        <title>Retrobox | Log in</title>
+        <title>Log in</title>
         <meta name="description" content="Log in" />
       </Head>
       <Container as="main" maxW="md" py={{ base: '12', md: '24' }}>

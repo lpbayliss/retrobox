@@ -9,7 +9,7 @@ class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <meta name="description" content="Retrobox | A small tool for collecting retro items" />
-          <link rel="icon" href="/images/favicon.ico" />
+          <link rel="icon" href="/favicon.ico" />
         </Head>
         <body>
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />
