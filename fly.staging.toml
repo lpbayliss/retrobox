@@ -10,7 +10,7 @@ NEXT_PUBLIC_SITE_URL = "https://staging.retrobox.app"
 NODE_ENV = "production"
 
 [deploy]
-release_command = "yarn prisma migrate deploy"
+release_command = "yarn prisma:deploy"
 
 [experimental]
 allowed_public_ports = []

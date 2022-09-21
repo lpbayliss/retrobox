@@ -10,7 +10,8 @@
     "lint:fix": "next lint --fix",
     "format": "prettier --write .",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook",
+    "prisma:deploy": "prisma migrate deploy"
   },
   "dependencies": {
     "@chakra-ui/icons": "2.0.9",
