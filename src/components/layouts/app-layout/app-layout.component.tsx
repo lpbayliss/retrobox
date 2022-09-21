@@ -22,6 +22,7 @@ import NextLink from 'next/link';
 import { PropsWithChildren } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faGear, faCalendarLines } from '@fortawesome/pro-duotone-svg-icons';
+import { useSession } from 'next-auth/react';
 
 interface SidebarLinkProps {
   label: string;
@@ -29,6 +30,7 @@ interface SidebarLinkProps {
   href: string;
   isActive?: boolean;
 }
+
 const SidebarLink = ({ label, icon, href, isActive }: SidebarLinkProps) => {
   const Icon = chakra(FontAwesomeIcon);
   return (
@@ -45,7 +47,9 @@ const SidebarLink = ({ label, icon, href, isActive }: SidebarLinkProps) => {
   );
 };
 
-const Sidebar = () => (
+const Sidebar = () => {
+  const { data: session, status } = useSession();
+  return (
   <Flex
     flex="1"
     bg="bg-surface"
@@ -62,7 +66,7 @@ const Sidebar = () => (
         <Avatar borderRadius="lg" size="md" name="Luke Bayliss" />
         <Box>
           <Text>Retrobox</Text>
-          <Text>Luke Bayliss</Text>
+          <Text>{JSON.stringify(session)}</Text>
         </Box>
       </HStack>
       <SidebarLink icon={faHouse} isActive label="Dashboard" href="/app" />
@@ -85,7 +89,7 @@ const Sidebar = () => (
       <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
     </VStack>
   </Flex>
-);
+)};
 
 const AppLayout = ({ children }: PropsWithChildren<{}>) => {
   const isDesktop = useBreakpointValue({ base: false, lg: true });

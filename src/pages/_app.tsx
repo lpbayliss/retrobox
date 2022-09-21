@@ -6,6 +6,10 @@ import { IntlProvider } from 'react-intl';
 import { getMessages } from '@i18n/getMessages';
 import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
+import { SessionProvider } from 'next-auth/react';
+import { Session } from 'next-auth';
+
+export type PageProps = { dehydratedState: unknown, session: Session };
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -15,17 +19,19 @@ type AppPropsWithLayout<P = {}, IP = P> = AppProps<P> & {
   Component: NextPageWithLayout<P, IP>;
 };
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout<{ dehydratedState: unknown }>) {
+function MyApp({ Component, pageProps }: AppPropsWithLayout<PageProps>) {
   const { locale } = useRouter();
 
   const getLayout = Component.getLayout ?? ((page) => page);
 
   return (
-    <IntlProvider locale={String(locale)} messages={getMessages(String(locale))}>
+    <SessionProvider session={pageProps.session}>
+      <IntlProvider locale={String(locale)} messages={getMessages(String(locale))}>
       <ChakraProvider resetCSS theme={theme}>
         {getLayout(<Component {...pageProps} />)}
       </ChakraProvider>
     </IntlProvider>
+    </SessionProvider>
   );
 }
 

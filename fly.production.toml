@@ -7,7 +7,9 @@ processes = []
 
 [env]
 NEXT_PUBLIC_SITE_URL = "https://retrobox.app"
+NEXTAUTH_URL="https://retrobox.app"
 NODE_ENV = "production"
+EMAIL_FROM="noreply@retrobox.app"
 
 [build]
 build-target = "runner"
