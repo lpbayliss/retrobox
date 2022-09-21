@@ -9,6 +9,9 @@ processes = []
 NEXT_PUBLIC_SITE_URL = "https://staging.retrobox.app"
 NODE_ENV = "production"
 
+[build]
+build-target = "runner"
+
 [deploy]
 release_command = "yarn prisma:deploy"
 

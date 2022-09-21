@@ -6,8 +6,11 @@ kill_timeout = 5
 processes = []
 
 [env]
-NEXT_PUBLIC_SITE_URL="https://retrobox.app"
+NEXT_PUBLIC_SITE_URL = "https://retrobox.app"
 NODE_ENV = "production"
+
+[build]
+build-target = "runner"
 
 [deploy]
 release_command = "yarn prisma:deploy"
