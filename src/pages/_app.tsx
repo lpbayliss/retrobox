@@ -8,8 +8,10 @@ import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
 import { SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
+import { withTRPC } from '@trpc/next';
+import type { AppRouter } from './api/trpc/[trpc]';
 
-export type PageProps = { dehydratedState: unknown, session: Session };
+export type PageProps = { dehydratedState: unknown; session: Session };
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -27,12 +29,20 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout<PageProps>) {
   return (
     <SessionProvider session={pageProps.session}>
       <IntlProvider locale={String(locale)} messages={getMessages(String(locale))}>
-      <ChakraProvider resetCSS theme={theme}>
-        {getLayout(<Component {...pageProps} />)}
-      </ChakraProvider>
-    </IntlProvider>
+        <ChakraProvider resetCSS theme={theme}>
+          {getLayout(<Component {...pageProps} />)}
+        </ChakraProvider>
+      </IntlProvider>
     </SessionProvider>
   );
 }
 
-export default MyApp;
+export default withTRPC<AppRouter>({
+  config({ ctx }) {
+    return {
+      url: `https://${process.env.NEXT_PUBLIC_SITE_URL}/api/trpc`,
+    };
+  },
+  
+  ssr: true,
+})(MyApp);
