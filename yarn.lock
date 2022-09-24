@@ -3712,10 +3712,10 @@
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-"@trpc/client@10.0.0-proxy-beta.2":
-  version "10.0.0-proxy-beta.2"
-  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.0.0-proxy-beta.2.tgz#54a924e2a872261a1d4b2a404b80e50d562b5c9e"
-  integrity sha512-29jaUrC57ZAWLf4mlbgdmC3XBVCnuzrlICW/FM65+JbhTlWwFMlbCqnpslstb2VIqLyeP+GH2S5DW+Av1eVSVw==
+"@trpc/client@10.0.0-proxy-beta.7":
+  version "10.0.0-proxy-beta.7"
+  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.0.0-proxy-beta.7.tgz#1f55b3accc79b71058794b74f03de7a4dc522f18"
+  integrity sha512-LCzvuD5KHw1K6Shvc3TE8JuVEUxW13vY8Y0zHNTNLfz7am8EgJnlEI/oYe8eKnzOF0X4NorWB6lZineJpV1dkA==
 
 "@trpc/next@10.0.0-proxy-beta.2":
   version "10.0.0-proxy-beta.2"
