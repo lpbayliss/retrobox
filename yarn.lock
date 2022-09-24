@@ -3671,7 +3671,7 @@
     regenerator-runtime "^0.13.7"
     resolve-from "^5.0.0"
 
-"@swc/helpers@0.4.11":
+"@swc/helpers@0.4.11", "@swc/helpers@^0.4.11":
   version "0.4.11"
   resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.4.11.tgz#db23a376761b3d31c26502122f349a21b592c8de"
   integrity sha512-rEUrBSGIoSFuYxwBYtlUFMlE2CwGhmW+w9355/5oduSw8e5h2+Tj4UrAGNNgP9915++wj5vkQo0UuOBqOAq4nw==
@@ -3717,11 +3717,12 @@
   resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.0.0-proxy-beta.7.tgz#1f55b3accc79b71058794b74f03de7a4dc522f18"
   integrity sha512-LCzvuD5KHw1K6Shvc3TE8JuVEUxW13vY8Y0zHNTNLfz7am8EgJnlEI/oYe8eKnzOF0X4NorWB6lZineJpV1dkA==
 
-"@trpc/next@10.0.0-proxy-beta.2":
-  version "10.0.0-proxy-beta.2"
-  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-10.0.0-proxy-beta.2.tgz#4527bf2d6d8fd8be96d8c3db6305e94c836bc4ea"
-  integrity sha512-QzPDhjcjwVtzRXyzPV4nVYh0FjuaRuPVwH2iubx6voSOGlWbcDqHkJYbCGUQwJQky74cbDxPYi2ij243bwWFLw==
+"@trpc/next@10.0.0-proxy-beta.7":
+  version "10.0.0-proxy-beta.7"
+  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-10.0.0-proxy-beta.7.tgz#981e49b364aaeb260818898048daaa16bc2da3db"
+  integrity sha512-MvH4VQYlLuTGkP65vTDcbH4Gq9lwu/Po+bEVE+ifXwH4g55jW5Q+8nQSRsNyMcPniHL9oZNm5eAICPb5saEhFg==
   dependencies:
+    "@swc/helpers" "^0.4.11"
     react-ssr-prepass "^1.5.0"
 
 "@trpc/react@10.0.0-proxy-beta.2":
