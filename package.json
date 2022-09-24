@@ -27,7 +27,7 @@
     "@prisma/client": "4.3.1",
     "@tanstack/react-query": "4.3.0",
     "@trpc/client": "10.0.0-proxy-beta.7",
-    "@trpc/next": "10.0.0-proxy-beta.2",
+    "@trpc/next": "10.0.0-proxy-beta.7",
     "@trpc/react": "10.0.0-proxy-beta.2",
     "@trpc/server": "10.0.0-proxy-beta.2",
     "faunadb": "4.7.0",
