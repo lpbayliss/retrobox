@@ -9,20 +9,15 @@ const { z } = require('zod');
 
 /*eslint sort-keys: "error"*/
 const envSchema = z.object({
-  DATABASE_URL: z.string().url().optional(),
+  DATABASE_URL: z.string().url(),
   EMAIL_FROM: z.string().email(),
-  EMAIL_SERVER: z.string().optional(),
-  NEXTAUTH_SECRET: z.string().optional(),
+  EMAIL_SERVER: z.string(),
+  NEXTAUTH_SECRET: z.string(),
   NEXTAUTH_URL: z.string().url(),
   NODE_ENV: z.enum(['development', 'test', 'production']),
   SITE_URL: z.string().url(),
 });
 
-const env = envSchema.safeParse(process.env);
+const env = envSchema.parse(process.env);
 
-if (!env.success) {
-  console.error('❌ Invalid environment variables:', JSON.stringify(env.error.format(), null, 4));
-  process.exit(1);
-}
-
-module.exports.env = env.data;
+module.exports.env = env;
