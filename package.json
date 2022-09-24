@@ -39,7 +39,8 @@
     "react-dom": "18.2.0",
     "react-hook-form": "7.36.1",
     "react-intl": "6.1.1",
-    "superjson": "^1.10.0"
+    "superjson": "^1.10.0",
+    "zod": "^3.19.1"
   },
   "devDependencies": {
     "@babel/core": "7.19.1",
