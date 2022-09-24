@@ -1,15 +1,16 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '@theme/theme';
-import type { AppProps } from 'next/app';
+import type { AppProps, AppType } from 'next/app';
 import { useRouter } from 'next/router';
 import { IntlProvider } from 'react-intl';
 import { getMessages } from '@i18n/getMessages';
 import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
-import { SessionProvider } from 'next-auth/react';
+import { getSession, SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
+import { trpc } from 'src/lib/trpc';
 
-export type PageProps = { dehydratedState: unknown, session: Session };
+export type PageProps = { session: Session | null };
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -19,7 +20,7 @@ type AppPropsWithLayout<P = {}, IP = P> = AppProps<P> & {
   Component: NextPageWithLayout<P, IP>;
 };
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout<PageProps>) {
+const MyApp: AppType<PageProps> = ({ Component, pageProps }: AppPropsWithLayout<PageProps>) => {
   const { locale } = useRouter();
 
   const getLayout = Component.getLayout ?? ((page) => page);
@@ -27,12 +28,18 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout<PageProps>) {
   return (
     <SessionProvider session={pageProps.session}>
       <IntlProvider locale={String(locale)} messages={getMessages(String(locale))}>
-      <ChakraProvider resetCSS theme={theme}>
-        {getLayout(<Component {...pageProps} />)}
-      </ChakraProvider>
-    </IntlProvider>
+        <ChakraProvider resetCSS theme={theme}>
+          {getLayout(<Component {...pageProps} />)}
+        </ChakraProvider>
+      </IntlProvider>
     </SessionProvider>
   );
-}
+};
 
-export default MyApp;
+MyApp.getInitialProps = async ({ ctx }) => {
+  return {
+    session: await getSession(ctx),
+  };
+};
+
+export default trpc.withTRPC(MyApp);

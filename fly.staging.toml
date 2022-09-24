@@ -6,11 +6,10 @@ kill_timeout = 5
 processes = []
 
 [env]
-NEXT_PUBLIC_SITE_URL = "https://staging.retrobox.app"
-NEXTAUTH_URL="https://staging.retrobox.app"
+SITE_URL = "https://staging.retrobox.app"
+NEXTAUTH_URL = "https://staging.retrobox.app"
 NODE_ENV = "production"
-EMAIL_FROM="noreply-staging@retrobox.app"
-
+EMAIL_FROM = "noreply-staging@retrobox.app"
 
 [build]
 build-target = "runner"

@@ -3678,6 +3678,19 @@
   dependencies:
     tslib "^2.4.0"
 
+"@tanstack/query-core@4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.3.0.tgz#24f76718d3b976b565ed81bce6c72f74b0d9b1a3"
+  integrity sha512-FTL37MJXAqQPHsBjY56ueTkMD9NrKkIOzWBX9TkVSWYvC9MnCY4hsq0KUF6EZi2PhamKgr9p4YvziqHzN5oBww==
+
+"@tanstack/react-query@4.3.0":
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query/-/react-query-4.3.0.tgz#0e7af559d78f8b7ab90c615d0ddbe9ced7760857"
+  integrity sha512-rVyGxi2MyGTj+r3EazPVdaqk+EZim7qsgS80frXXuPYeNCGEATmAwyc4wpnosc+c9cu9j/W9cih7+zBN5V7lqA==
+  dependencies:
+    "@tanstack/query-core" "4.3.0"
+    use-sync-external-store "^1.2.0"
+
 "@testing-library/dom@^8.3.0":
   version "8.17.1"
   resolved "https://registry.yarnpkg.com/@testing-library/dom/-/dom-8.17.1.tgz#2d7af4ff6dad8d837630fecd08835aee08320ad7"
@@ -3698,6 +3711,28 @@
   integrity sha512-5Kwtbo3Y/NowpkbRuSepbyMFkZmHgD+vPzYB/RJ4oxt5Gj/avFFBYjhw27cqSVPVw/3a67NK1PbiIr9k4Gwmdg==
   dependencies:
     "@babel/runtime" "^7.12.5"
+
+"@trpc/client@10.0.0-proxy-beta.2":
+  version "10.0.0-proxy-beta.2"
+  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.0.0-proxy-beta.2.tgz#54a924e2a872261a1d4b2a404b80e50d562b5c9e"
+  integrity sha512-29jaUrC57ZAWLf4mlbgdmC3XBVCnuzrlICW/FM65+JbhTlWwFMlbCqnpslstb2VIqLyeP+GH2S5DW+Av1eVSVw==
+
+"@trpc/next@10.0.0-proxy-beta.2":
+  version "10.0.0-proxy-beta.2"
+  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-10.0.0-proxy-beta.2.tgz#4527bf2d6d8fd8be96d8c3db6305e94c836bc4ea"
+  integrity sha512-QzPDhjcjwVtzRXyzPV4nVYh0FjuaRuPVwH2iubx6voSOGlWbcDqHkJYbCGUQwJQky74cbDxPYi2ij243bwWFLw==
+  dependencies:
+    react-ssr-prepass "^1.5.0"
+
+"@trpc/react@10.0.0-proxy-beta.2":
+  version "10.0.0-proxy-beta.2"
+  resolved "https://registry.yarnpkg.com/@trpc/react/-/react-10.0.0-proxy-beta.2.tgz#30d39c99c0d8ce6d0b653e525f08e6b199f65d6e"
+  integrity sha512-OKo6E9w/B3hQ3WyjB1SuI1GL2ksn16YxJdSwaA1D3ogP9ANF8jINptPMH3e4CGjCqunaJk4WahJh0wrei/lSJA==
+
+"@trpc/server@10.0.0-proxy-beta.2":
+  version "10.0.0-proxy-beta.2"
+  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-10.0.0-proxy-beta.2.tgz#21dae9d3617a27562fdc3bab84d4502301835193"
+  integrity sha512-SnPadN72l6OHN3NZvSBJZDr+hXGYKVNU+KtSqV86CbbTXGvdrgYusvrJPfF4VQqSLj6DSo98zirx07Qk+hVlpA==
 
 "@types/aria-query@^4.2.0":
   version "4.2.2"
@@ -5694,6 +5729,13 @@ cookie@^0.4.1:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/cookie/-/cookie-0.4.2.tgz#0e41f24de5ecf317947c82fc789e06a884824432"
   integrity sha512-aSWTXFzaKWkvHO1Ny/s+ePFpvKsPnjc551iI41v3ny/ow6tBG5Vd+FuqGNhh1LxOmVzOlGUriIlOaokOvhaStA==
+
+copy-anything@^3.0.2:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/copy-anything/-/copy-anything-3.0.2.tgz#7189171ff5e1893b2287e8bf574b8cd448ed50b1"
+  integrity sha512-CzATjGXzUQ0EvuvgOCI6A4BGOo2bcVx8B+eC2nF862iv9fopnPQwlrbACakNCHRIJbCSBj+J/9JeDf60k64MkA==
+  dependencies:
+    is-what "^4.1.6"
 
 copy-concurrently@^1.0.0:
   version "1.0.5"
@@ -8257,6 +8299,11 @@ is-weakref@^1.0.2:
   dependencies:
     call-bind "^1.0.2"
 
+is-what@^4.1.6:
+  version "4.1.7"
+  resolved "https://registry.yarnpkg.com/is-what/-/is-what-4.1.7.tgz#c41dc1d2d2d6a9285c624c2505f61849c8b1f9cc"
+  integrity sha512-DBVOQNiPKnGMxRMLIYSwERAS5MVY1B7xYiGnpgctsOFvVDz9f9PFXXxMcTOHuoqYp4NK9qFYQaIC1NRRxLMpBQ==
+
 is-whitespace-character@^1.0.0:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/is-whitespace-character/-/is-whitespace-character-1.0.4.tgz#0858edd94a95594c7c9dd0b5c174ec6e45ee4aa7"
@@ -10542,6 +10589,11 @@ react-remove-scroll@^2.5.4:
     use-callback-ref "^1.3.0"
     use-sidecar "^1.1.2"
 
+react-ssr-prepass@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/react-ssr-prepass/-/react-ssr-prepass-1.5.0.tgz#bc4ca7fcb52365e6aea11cc254a3d1bdcbd030c5"
+  integrity sha512-yFNHrlVEReVYKsLI5lF05tZoHveA5pGzjFbFJY/3pOqqjGOmMmqx83N4hIjN2n6E1AOa+eQEUxs3CgRnPmT0RQ==
+
 react-style-singleton@^2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/react-style-singleton/-/react-style-singleton-2.2.1.tgz#f99e420492b2d8f34d38308ff660b60d0b1205b4"
@@ -11631,6 +11683,13 @@ stylis@4.0.13:
   resolved "https://registry.yarnpkg.com/stylis/-/stylis-4.0.13.tgz#f5db332e376d13cc84ecfe5dace9a2a51d954c91"
   integrity sha512-xGPXiFVl4YED9Jh7Euv2V220mriG9u4B2TA6Ybjc1catrstKD2PpIdU3U0RKpkVBC2EhmL/F0sPCr9vrFTNRag==
 
+superjson@^1.10.0:
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/superjson/-/superjson-1.10.0.tgz#279362e6c1789b0b6bdfa280e82ee43d0e0fa514"
+  integrity sha512-ks6I5fm5KXUbDqt4Epe1VwkKDaC9+kIj5HF7yhiHjChFne0EkFqsnTv1mdHE2IT6fq2CzLC3zeA/fw0BRIoNwA==
+  dependencies:
+    copy-anything "^3.0.2"
+
 supports-color@^5.3.0:
   version "5.5.0"
   resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.5.0.tgz#e2e69a44ac8772f78a1ec0b35b689df6530efc8f"
@@ -12217,7 +12276,7 @@ use-sidecar@^1.1.2:
     detect-node-es "^1.1.0"
     tslib "^2.0.0"
 
-use-sync-external-store@1.2.0:
+use-sync-external-store@1.2.0, use-sync-external-store@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
   integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
@@ -12674,6 +12733,11 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zod@3.19.1:
+  version "3.19.1"
+  resolved "https://registry.yarnpkg.com/zod/-/zod-3.19.1.tgz#112f074a97b50bfc4772d4ad1576814bd8ac4473"
+  integrity sha512-LYjZsEDhCdYET9ikFu6dVPGp2YH9DegXjdJToSzD9rO6fy4qiRYFoyEYwps88OseJlPyl2NOe2iJuhEhL7IpEA==
 
 zwitch@^1.0.0:
   version "1.0.5"
