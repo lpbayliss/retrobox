@@ -1,17 +1,16 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '@theme/theme';
-import type { AppProps } from 'next/app';
+import type { AppProps, AppType } from 'next/app';
 import { useRouter } from 'next/router';
 import { IntlProvider } from 'react-intl';
 import { getMessages } from '@i18n/getMessages';
 import { NextPage } from 'next';
 import { ReactElement, ReactNode } from 'react';
-import { SessionProvider } from 'next-auth/react';
+import { getSession, SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
-import { withTRPC } from '@trpc/next';
-import type { AppRouter } from './api/trpc/[trpc]';
+import { trpc } from 'src/lib/trpc';
 
-export type PageProps = { dehydratedState: unknown; session: Session };
+export type PageProps = { session: Session | null };
 
 export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -21,7 +20,7 @@ type AppPropsWithLayout<P = {}, IP = P> = AppProps<P> & {
   Component: NextPageWithLayout<P, IP>;
 };
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout<PageProps>) {
+const MyApp: AppType<PageProps> = ({ Component, pageProps }: AppPropsWithLayout<PageProps>) => {
   const { locale } = useRouter();
 
   const getLayout = Component.getLayout ?? ((page) => page);
@@ -35,14 +34,12 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout<PageProps>) {
       </IntlProvider>
     </SessionProvider>
   );
-}
+};
 
-export default withTRPC<AppRouter>({
-  config({ ctx }) {
-    return {
-      url: `https://${process.env.NEXT_PUBLIC_SITE_URL}/api/trpc`,
-    };
-  },
-  
-  ssr: true,
-})(MyApp);
+MyApp.getInitialProps = async ({ ctx }) => {
+  return {
+    session: await getSession(ctx),
+  };
+};
+
+export default trpc.withTRPC(MyApp);

@@ -1,26 +1,29 @@
-import * as trpc from '@trpc/server';
+/**
+ * This file contains the tRPC http response handler and context creation for Next.js
+ */
 import * as trpcNext from '@trpc/server/adapters/next';
-import { z } from 'zod';
-export const appRouter = trpc
-  .router()
-  .query('hello', {
-    input: z
-      .object({
-        text: z.string().nullish(),
-      })
-      .nullish(),
-    resolve({ input }) {
-      return {
-        greeting: `hello ${input?.text ?? 'world'}`,
-      };
-    },
-  });
+import { createContext } from 'src/server/context';
+import { AppRouter, appRouter } from 'src/server/routers/_app';
 
-// export type definition of API
-export type AppRouter = typeof appRouter;
-
-// export API handler
-export default trpcNext.createNextApiHandler({
+export default trpcNext.createNextApiHandler<AppRouter>({
   router: appRouter,
-  createContext: () => null,
+  /**
+   * @link https://trpc.io/docs/context
+   */
+  createContext,
+  /**
+   * @link https://trpc.io/docs/error-handling
+   */
+  onError({ error }) {
+    if (error.code === 'INTERNAL_SERVER_ERROR') {
+      // send to bug reporting
+      console.error('Something went wrong', error);
+    }
+  },
+  /**
+   * Enable query batching
+   */
+  batching: {
+    enabled: true,
+  },
 });
