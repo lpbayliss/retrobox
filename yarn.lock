@@ -3730,10 +3730,10 @@
   resolved "https://registry.yarnpkg.com/@trpc/react/-/react-10.0.0-proxy-beta.7.tgz#cb60c936406cf04c4d4bb6fa134b81ff5ff3510f"
   integrity sha512-IslzqygvK7bJvDOq9ly6Wpl3CI9W+kw3BVklee267Za8d4G9p4VFNqFo9ycqI8wHmWle8hk69/AUjx+3+Wltfw==
 
-"@trpc/server@10.0.0-proxy-beta.2":
-  version "10.0.0-proxy-beta.2"
-  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-10.0.0-proxy-beta.2.tgz#21dae9d3617a27562fdc3bab84d4502301835193"
-  integrity sha512-SnPadN72l6OHN3NZvSBJZDr+hXGYKVNU+KtSqV86CbbTXGvdrgYusvrJPfF4VQqSLj6DSo98zirx07Qk+hVlpA==
+"@trpc/server@10.0.0-proxy-beta.7":
+  version "10.0.0-proxy-beta.7"
+  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-10.0.0-proxy-beta.7.tgz#3a503fba980cc012e75281429161ca5fbf07f710"
+  integrity sha512-u4FTbq21Gztg17JoePmhHk0ICzlLCUKI6w2x5ZPpHUWn4ysdjX4ZRm5dipHk8h4GDIDvpr7nD4BScwdMkbl4Vg==
 
 "@types/aria-query@^4.2.0":
   version "4.2.2"
