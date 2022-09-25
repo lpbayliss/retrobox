@@ -6,7 +6,7 @@ kill_timeout = 5
 processes = []
 
 [env]
-SITE_URL = "https://retrobox.app"
+APP_URL = "retrobox.app"
 NEXTAUTH_URL = "https://retrobox.app"
 NODE_ENV = "production"
 EMAIL_FROM = "noreply@retrobox.app"

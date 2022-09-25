@@ -3678,10 +3678,25 @@
   dependencies:
     tslib "^2.4.0"
 
+"@tanstack/match-sorter-utils@^8.1.1":
+  version "8.1.1"
+  resolved "https://registry.yarnpkg.com/@tanstack/match-sorter-utils/-/match-sorter-utils-8.1.1.tgz#895f407813254a46082a6bbafad9b39b943dc834"
+  integrity sha512-IdmEekEYxQsoLOR0XQyw3jD1GujBpRRYaGJYQUw1eOT1eUugWxdc7jomh1VQ1EKHcdwDLpLaCz/8y4KraU4T9A==
+  dependencies:
+    remove-accents "0.4.2"
+
 "@tanstack/query-core@4.3.0":
   version "4.3.0"
   resolved "https://registry.yarnpkg.com/@tanstack/query-core/-/query-core-4.3.0.tgz#24f76718d3b976b565ed81bce6c72f74b0d9b1a3"
   integrity sha512-FTL37MJXAqQPHsBjY56ueTkMD9NrKkIOzWBX9TkVSWYvC9MnCY4hsq0KUF6EZi2PhamKgr9p4YvziqHzN5oBww==
+
+"@tanstack/react-query-devtools@^4.6.0":
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/@tanstack/react-query-devtools/-/react-query-devtools-4.6.0.tgz#0ac511793d304990d77b136677a1f4a750a8a1a7"
+  integrity sha512-utuDpgHBNcb4UsszWqOXh3maj/FqgyccOpuTEdBdB0Ffl2T9bckCgWt3cFsVdGcGi6QsotT/qXAsZxC8vKAjQA==
+  dependencies:
+    "@tanstack/match-sorter-utils" "^8.1.1"
+    use-sync-external-store "^1.2.0"
 
 "@tanstack/react-query@4.3.0":
   version "4.3.0"
@@ -10834,6 +10849,11 @@ remark-squeeze-paragraphs@4.0.0:
   integrity sha512-8qRqmL9F4nuLPIgl92XUuxI3pFxize+F1H0e/W3llTk0UsjJaj01+RrirkMw7P21RKe4X6goQhYRSvNWX+70Rw==
   dependencies:
     mdast-squeeze-paragraphs "^4.0.0"
+
+remove-accents@0.4.2:
+  version "0.4.2"
+  resolved "https://registry.yarnpkg.com/remove-accents/-/remove-accents-0.4.2.tgz#0a43d3aaae1e80db919e07ae254b285d9e1c7bb5"
+  integrity sha512-7pXIJqJOq5tFgG1A2Zxti3Ht8jJF337m4sowbuHsW30ZnkQFnDzy9qBNhgzX8ZLW4+UBcXiiR7SwR6pokHsxiA==
 
 remove-trailing-separator@^1.0.1:
   version "1.1.0"

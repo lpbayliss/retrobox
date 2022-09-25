@@ -2,12 +2,21 @@ import { httpBatchLink } from '@trpc/client/links/httpBatchLink';
 import { loggerLink } from '@trpc/client/links/loggerLink';
 import { createTRPCNext } from '@trpc/next';
 import type { inferProcedureOutput } from '@trpc/server';
-import getConfig from 'next/config';
 import type { AppRouter } from '../server/routers/_app';
 import superjson from 'superjson';
 
-const { publicRuntimeConfig } = getConfig();
-const { APP_URL } = publicRuntimeConfig;
+function getBaseUrl() {
+  if (typeof window !== 'undefined') {
+    return '';
+  }
+
+  if (process.env.APP_URL) {
+    return `https://${process.env.APP_URL}`;
+  }
+
+  // assume localhost
+  return `http://localhost:${process.env.PORT ?? 3000}`;
+}
 
 /**
  * A set of strongly-typed React hooks from your `AppRouter` type signature with `createReactQueryHooks`.
@@ -32,7 +41,7 @@ export const trpc = createTRPCNext<AppRouter>({
             (opts.direction === 'down' && opts.result instanceof Error),
         }),
         httpBatchLink({
-          url: `${APP_URL}/api/trpc`,
+          url: `${getBaseUrl()}/api/trpc`,
           headers() {
             if (ctx?.req) {
               // on ssr, forward client's headers to the server

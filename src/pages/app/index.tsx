@@ -5,15 +5,18 @@ import { unstable_getServerSession } from 'next-auth/next';
 import { GetServerSideProps } from 'next';
 import { authOptions } from '../api/auth/[...nextauth]';
 import { Session } from 'next-auth';
+import { Card } from '@components/card';
+import { CreateBoxForm } from '@components/create-box-form';
 
 interface PageProps {
   session: Session | null;
 }
 
 export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
+  const session = await unstable_getServerSession(context.req, context.res, authOptions);
   return {
     props: {
-      session: await unstable_getServerSession(context.req, context.res, authOptions),
+      session,
     },
   };
 };
@@ -22,7 +25,9 @@ const AppPage: NextPageWithLayout<PageProps> = (props) => {
   return (
     <div>
       <Flex as="main" h="100vh">
-        {JSON.stringify(props.session)}
+        <Card>
+          <CreateBoxForm />
+        </Card>
       </Flex>
     </div>
   );

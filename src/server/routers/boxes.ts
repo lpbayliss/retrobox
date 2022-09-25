@@ -20,13 +20,12 @@ const getUserOrThrow = (ctx: Context) => {
   return user;
 };
 
-export const postRouter = t.router({
-  add: t.procedure
+export const boxRouter = t.router({
+  create: t.procedure
     .input(
       z.object({
         name: z.string().min(1),
         teamId: z.string().cuid().optional(),
-        userId: z.string().cuid().optional(),
       }),
     )
     .mutation(async ({ input, ctx }) => {

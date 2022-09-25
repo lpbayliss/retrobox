@@ -9,6 +9,7 @@ import { ReactElement, ReactNode } from 'react';
 import { getSession, SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
 import { trpc } from 'src/lib/trpc';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 export type PageProps = { session: Session | null };
 
@@ -30,6 +31,7 @@ const MyApp: AppType<PageProps> = ({ Component, pageProps }: AppPropsWithLayout<
       <IntlProvider locale={String(locale)} messages={getMessages(String(locale))}>
         <ChakraProvider resetCSS theme={theme}>
           {getLayout(<Component {...pageProps} />)}
+          {process.env.NODE_ENV !== 'production' && <ReactQueryDevtools initialIsOpen={false} />}
         </ChakraProvider>
       </IntlProvider>
     </SessionProvider>
