@@ -11,7 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Install modules
-        run: yarn
+        run: yarn --ignore-engines
       - name: Run ESLint
         run: yarn lint
 
@@ -20,14 +20,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v1
-
+      - uses: actions/checkout@v3
       - name: Install dependencies
-        run: npm install
-
+        run: yarn --ignore-engines
       - name: Run the tests
-        run: npm test:unit -- --coverage
+        run: yarn test:unit -- --coverage
