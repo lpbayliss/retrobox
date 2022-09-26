@@ -25,3 +25,5 @@ jobs:
         run: yarn --ignore-engines
       - name: Run the tests
         run: yarn test:unit -- --coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
