@@ -79,11 +79,11 @@ const Login: NextPage = () => {
             <FormControl>
               <Stack spacing="4">
                 <Input
-                  type="email"
                   id="email"
                   placeholder={intl.formatMessage({
                     id: 'LOGIN_PAGE_EMAIL_PLACEHOLDER',
                   })}
+                  type="email"
                   variant="filled"
                   {...register('email', {
                     required: 'This is required',

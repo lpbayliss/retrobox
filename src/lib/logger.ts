@@ -1,4 +1,4 @@
-import pino from 'pino';
+import { default as pino } from 'pino';
 import pretty from 'pino-pretty';
 
 const stream = pretty({
