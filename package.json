@@ -32,7 +32,7 @@
     "@trpc/react": "10.0.0-proxy-beta.7",
     "@trpc/server": "10.0.0-proxy-beta.7",
     "faunadb": "4.7.0",
-    "framer-motion": "7.3.6",
+    "framer-motion": "7.4.0",
     "next": "12.3.1",
     "next-auth": "4.12.0",
     "nodemailer": "6.7.8",
