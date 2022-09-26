@@ -9,8 +9,8 @@ jobs:
     name: Lint files
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Install modules
-      run: yarn
-    - name: Run ESLint
-      run: yarn lint
+      - uses: actions/checkout@v3
+      - name: Install modules
+        run: yarn
+      - name: Run ESLint
+        run: yarn lint

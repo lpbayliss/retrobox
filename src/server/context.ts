@@ -1,11 +1,8 @@
-import { PrismaClient } from '@prisma/client';
 import * as trpc from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
 import { getSession } from 'next-auth/react';
-
-const prisma = new PrismaClient({
-  log: process.env.NODE_ENV === 'development' ? ['query', 'error', 'warn'] : ['error'],
-});
+import { prisma } from '../lib/prisma';
+import logger from '../lib/logger';
 
 /**
  * Creates context for an incoming request
@@ -13,12 +10,13 @@ const prisma = new PrismaClient({
  */
 export const createContext = async ({ req, res }: trpcNext.CreateNextContextOptions) => {
   const session = await getSession({ req });
-  console.log('createContext for', session?.user?.name ?? 'unknown user');
+  const log = logger.child({ user: session?.user });
   return {
     req,
     res,
     prisma,
     session,
+    log,
   };
 };
 

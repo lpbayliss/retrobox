@@ -50,46 +50,47 @@ const SidebarLink = ({ label, icon, href, isActive }: SidebarLinkProps) => {
 const Sidebar = () => {
   const { data: session, status } = useSession();
   return (
-  <Flex
-    flex="1"
-    bg="bg-surface"
-    overflowY="auto"
-    borderRight="1px"
-    borderColor="gray.200"
-    maxW="xs"
-    py="8"
-    px="8"
-  >
-    <VStack w="full" alignItems="flex-start">
-      {/* Main */}
-      <HStack pb="12">
-        <Avatar borderRadius="lg" size="md" name="Luke Bayliss" />
-        <Box>
-          <Text>Retrobox</Text>
-          <Text>{JSON.stringify(session)}</Text>
-        </Box>
-      </HStack>
-      <SidebarLink icon={faHouse} isActive label="Dashboard" href="/app" />
-      <SidebarLink icon={faCalendarLines} label="Activity" href="/app/activity" />
-      <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
+    <Flex
+      flex="1"
+      bg="bg-surface"
+      overflowY="auto"
+      borderRight="1px"
+      borderColor="gray.200"
+      maxW="xs"
+      py="8"
+      px="8"
+    >
+      <VStack w="full" alignItems="flex-start">
+        {/* Main */}
+        <HStack pb="12">
+          <Avatar borderRadius="lg" size="md" name="Luke Bayliss" />
+          <Box>
+            <Text>Retrobox</Text>
+            <Text>{JSON.stringify(session)}</Text>
+          </Box>
+        </HStack>
+        <SidebarLink icon={faHouse} isActive label="Dashboard" href="/app" />
+        <SidebarLink icon={faCalendarLines} label="Activity" href="/app/activity" />
+        <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
 
-      {/* Teams */}
-      <Divider />
-      <Heading size="md" pt="4">
-        Teams
-      </Heading>
-      <SidebarLink icon={faHouse} label="Dashboard" href="/app" />
-      <SidebarLink icon={faCalendarLines} label="Activity" href="/app/activity" />
-      <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
+        {/* Teams */}
+        <Divider />
+        <Heading size="md" pt="4">
+          Teams
+        </Heading>
+        <SidebarLink icon={faHouse} label="Dashboard" href="/app" />
+        <SidebarLink icon={faCalendarLines} label="Activity" href="/app/activity" />
+        <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
 
-      {/* Recent */}
-      <Divider />
-      <SidebarLink icon={faHouse} label="Dashboard" href="/app" />
-      <SidebarLink icon={faCalendarLines} label="Activity" href="/app/activity" />
-      <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
-    </VStack>
-  </Flex>
-)};
+        {/* Recent */}
+        <Divider />
+        <SidebarLink icon={faHouse} label="Dashboard" href="/app" />
+        <SidebarLink icon={faCalendarLines} label="Activity" href="/app/activity" />
+        <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
+      </VStack>
+    </Flex>
+  );
+};
 
 const AppLayout = ({ children }: PropsWithChildren<{}>) => {
   const isDesktop = useBreakpointValue({ base: false, lg: true });
