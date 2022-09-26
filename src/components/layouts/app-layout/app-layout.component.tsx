@@ -39,7 +39,7 @@ const SidebarLink = ({ label, icon, href, isActive }: SidebarLinkProps) => {
         <Center w="20px">
           <Icon icon={icon} fontSize="xl" />
         </Center>
-        <Button variant="ghost" w="full" justifyContent="flex-start" fontWeight="normal">
+        <Button justifyContent="flex-start" w="full" fontWeight="normal" variant="ghost">
           {label}
         </Button>
       </HStack>
@@ -52,18 +52,18 @@ const Sidebar = () => {
   return (
     <Flex
       flex="1"
-      bg="bg-surface"
       overflowY="auto"
-      borderRight="1px"
-      borderColor="gray.200"
       maxW="xs"
-      py="8"
       px="8"
+      py="8"
+      bg="bg-surface"
+      borderColor="gray.200"
+      borderRight="1px"
     >
-      <VStack w="full" alignItems="flex-start">
+      <VStack alignItems="flex-start" w="full">
         {/* Main */}
         <HStack pb="12">
-          <Avatar borderRadius="lg" size="md" name="Luke Bayliss" />
+          <Avatar borderRadius="lg" name="Luke Bayliss" size="md" />
           <Box>
             <Text>Retrobox</Text>
             <Text>{JSON.stringify(session)}</Text>
@@ -75,7 +75,7 @@ const Sidebar = () => {
 
         {/* Teams */}
         <Divider />
-        <Heading size="md" pt="4">
+        <Heading pt="4" size="md">
           Teams
         </Heading>
         <SidebarLink icon={faHouse} label="Dashboard" href="/app" />
@@ -96,7 +96,7 @@ const AppLayout = ({ children }: PropsWithChildren<{}>) => {
   const isDesktop = useBreakpointValue({ base: false, lg: true });
 
   return (
-    <Flex as="section" direction={{ base: 'column', lg: 'row' }} height="100vh" overflowY="auto">
+    <Flex as="section" direction={{ base: 'column', lg: 'row' }} overflowY="auto" h="100vh">
       {isDesktop ? <Sidebar /> : <>Navbar</>}
       {children}
     </Flex>
