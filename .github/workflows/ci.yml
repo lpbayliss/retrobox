@@ -2,6 +2,10 @@ name: CI
 
 on:
   pull_request:
+  push:
+    branches:
+      - 'develop'
+      - 'main'
   workflow_dispatch:
 
 jobs:
@@ -9,8 +13,21 @@ jobs:
     name: Lint files
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Install modules
-      run: yarn
-    - name: Run ESLint
-      run: yarn lint
+      - uses: actions/checkout@v3
+      - name: Install modules
+        run: yarn --ignore-engines
+      - name: Run ESLint
+        run: yarn lint
+
+  test:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install dependencies
+        run: yarn --ignore-engines
+      - name: Run the tests
+        run: yarn test:unit -- --coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3

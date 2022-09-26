@@ -1,5 +1,5 @@
 # Install dependencies only when needed
-FROM node:18-alpine AS deps
+FROM node:16-alpine3.15 AS deps
 ARG FONTAWESOME_NPM_AUTH_TOKEN
 ENV FONTAWESOME_NPM_AUTH_TOKEN ${FONTAWESOME_NPM_AUTH_TOKEN}
 
@@ -8,8 +8,9 @@ WORKDIR /app
 
 # Install dependencies based on the preferred package manager
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* .npmrc ./
+COPY ./db ./db
 RUN \
-    if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
+    if [ -f yarn.lock ]; then yarn --ignore-engines --frozen-lockfile; \
     elif [ -f package-lock.json ]; then npm ci; \
     elif [ -f pnpm-lock.yaml ]; then yarn global add pnpm && pnpm i; \
     else echo "Lockfile not found." && exit 1; \
@@ -17,7 +18,7 @@ RUN \
 
 
 # Rebuild the source code only when needed
-FROM node:18-alpine AS builder
+FROM node:16-alpine3.15 AS builder
 ENV FONTAWESOME_NPM_AUTH_TOKEN ${FONTAWESOME_NPM_AUTH_TOKEN}
 
 WORKDIR /app
@@ -27,7 +28,7 @@ COPY . .
 RUN yarn build
 
 # Production image, copy all the files and run next
-FROM node:18-alpine AS runner
+FROM node:16-alpine3.15 AS runner
 WORKDIR /app
 
 ENV NODE_ENV production

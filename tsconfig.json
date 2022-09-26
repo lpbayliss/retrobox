@@ -14,12 +14,14 @@
     "isolatedModules": true,
     "jsx": "preserve",
     "baseUrl": ".",
+    "incremental": true,
+    "types": ["node", "jest", "@testing-library/jest-dom"],
     "paths": {
       "@components/*": ["src/components/*"],
       "@theme/*": ["src/theme/*"],
-      "@i18n/*": ["src/i18n/*"]
-    },
-    "incremental": true
+      "@i18n/*": ["src/i18n/*"],
+      "@lib/*": ["src/lib/*"]
+    }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
   "exclude": ["node_modules"]

@@ -22,6 +22,7 @@ import NextLink from 'next/link';
 import { PropsWithChildren } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHouse, faGear, faCalendarLines } from '@fortawesome/pro-duotone-svg-icons';
+import { useSession } from 'next-auth/react';
 
 interface SidebarLinkProps {
   label: string;
@@ -29,6 +30,7 @@ interface SidebarLinkProps {
   href: string;
   isActive?: boolean;
 }
+
 const SidebarLink = ({ label, icon, href, isActive }: SidebarLinkProps) => {
   const Icon = chakra(FontAwesomeIcon);
   return (
@@ -37,7 +39,7 @@ const SidebarLink = ({ label, icon, href, isActive }: SidebarLinkProps) => {
         <Center w="20px">
           <Icon icon={icon} fontSize="xl" />
         </Center>
-        <Button variant="ghost" w="full" justifyContent="flex-start" fontWeight="normal">
+        <Button justifyContent="flex-start" w="full" fontWeight="normal" variant="ghost">
           {label}
         </Button>
       </HStack>
@@ -45,53 +47,56 @@ const SidebarLink = ({ label, icon, href, isActive }: SidebarLinkProps) => {
   );
 };
 
-const Sidebar = () => (
-  <Flex
-    flex="1"
-    bg="bg-surface"
-    overflowY="auto"
-    borderRight="1px"
-    borderColor="gray.200"
-    maxW="xs"
-    py="8"
-    px="8"
-  >
-    <VStack w="full" alignItems="flex-start">
-      {/* Main */}
-      <HStack pb="12">
-        <Avatar borderRadius="lg" size="md" name="Luke Bayliss" />
-        <Box>
-          <Text>Retrobox</Text>
-          <Text>Luke Bayliss</Text>
-        </Box>
-      </HStack>
-      <SidebarLink icon={faHouse} isActive label="Dashboard" href="/app" />
-      <SidebarLink icon={faCalendarLines} label="Activity" href="/app/activity" />
-      <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
+const Sidebar = () => {
+  const { data: session, status } = useSession();
+  return (
+    <Flex
+      flex="1"
+      overflowY="auto"
+      maxW="xs"
+      px="8"
+      py="8"
+      bg="bg-surface"
+      borderColor="gray.200"
+      borderRight="1px"
+    >
+      <VStack alignItems="flex-start" w="full">
+        {/* Main */}
+        <HStack pb="12">
+          <Avatar borderRadius="lg" name="Luke Bayliss" size="md" />
+          <Box>
+            <Text>Retrobox</Text>
+            <Text>{JSON.stringify(session)}</Text>
+          </Box>
+        </HStack>
+        <SidebarLink icon={faHouse} isActive label="Dashboard" href="/app" />
+        <SidebarLink icon={faCalendarLines} label="Activity" href="/app/activity" />
+        <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
 
-      {/* Teams */}
-      <Divider />
-      <Heading size="md" pt="4">
-        Teams
-      </Heading>
-      <SidebarLink icon={faHouse} label="Dashboard" href="/app" />
-      <SidebarLink icon={faCalendarLines} label="Activity" href="/app/activity" />
-      <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
+        {/* Teams */}
+        <Divider />
+        <Heading pt="4" size="md">
+          Teams
+        </Heading>
+        <SidebarLink icon={faHouse} label="Dashboard" href="/app" />
+        <SidebarLink icon={faCalendarLines} label="Activity" href="/app/activity" />
+        <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
 
-      {/* Recent */}
-      <Divider />
-      <SidebarLink icon={faHouse} label="Dashboard" href="/app" />
-      <SidebarLink icon={faCalendarLines} label="Activity" href="/app/activity" />
-      <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
-    </VStack>
-  </Flex>
-);
+        {/* Recent */}
+        <Divider />
+        <SidebarLink icon={faHouse} label="Dashboard" href="/app" />
+        <SidebarLink icon={faCalendarLines} label="Activity" href="/app/activity" />
+        <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
+      </VStack>
+    </Flex>
+  );
+};
 
 const AppLayout = ({ children }: PropsWithChildren<{}>) => {
   const isDesktop = useBreakpointValue({ base: false, lg: true });
 
   return (
-    <Flex as="section" direction={{ base: 'column', lg: 'row' }} height="100vh" overflowY="auto">
+    <Flex as="section" direction={{ base: 'column', lg: 'row' }} overflowY="auto" h="100vh">
       {isDesktop ? <Sidebar /> : <>Navbar</>}
       {children}
     </Flex>

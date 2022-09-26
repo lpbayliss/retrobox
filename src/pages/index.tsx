@@ -14,16 +14,16 @@ const Index: NextPage = () => {
           <Box textAlign="center">
             <Heading
               as="h1"
-              size="3xl"
-              fontWeight="extrabold"
               maxW="48rem"
               mx="auto"
+              fontWeight="extrabold"
               lineHeight="1.2"
               letterSpacing="tight"
+              size="3xl"
             >
               Design collaboration without the chaos
             </Heading>
-            <Text fontSize="xl" mt="4" maxW="xl" mx="auto">
+            <Text maxW="xl" mt="4" mx="auto" fontSize="xl">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
               incididunt ut labore
             </Text>
@@ -39,21 +39,21 @@ const Index: NextPage = () => {
             <LightMode>
               <Button
                 as="a"
+                px="8"
+                fontSize="md"
+                fontWeight="bold"
+                colorScheme="blue"
                 href="/login"
                 size="lg"
-                colorScheme="blue"
-                px="8"
-                fontWeight="bold"
-                fontSize="md"
               >
                 Get started
               </Button>
-              <Button as="a" href="#" size="lg" px="8" fontWeight="bold" fontSize="md">
+              <Button as="a" px="8" fontSize="md" fontWeight="bold" href="#" size="lg">
                 Learn more
               </Button>
             </LightMode>
           </Stack>
-          <Box className="group" position="relative" rounded="lg" overflow="hidden" shadow="md">
+          <Box className="group" pos="relative" overflow="hidden" shadow="md" rounded="lg">
             <Img
               alt="Screenshot of Envelope App"
               src="https://res.cloudinary.com/chakra-ui-pro/image/upload/v1621085270/pro-website/app-screenshot-light_kit2sp.png"
