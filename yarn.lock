@@ -4018,10 +4018,10 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"
   integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
 
-"@trpc/client@10.0.0-proxy-beta.7":
-  version "10.0.0-proxy-beta.7"
-  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.0.0-proxy-beta.7.tgz#1f55b3accc79b71058794b74f03de7a4dc522f18"
-  integrity sha512-LCzvuD5KHw1K6Shvc3TE8JuVEUxW13vY8Y0zHNTNLfz7am8EgJnlEI/oYe8eKnzOF0X4NorWB6lZineJpV1dkA==
+"@trpc/client@10.0.0-proxy-beta.8":
+  version "10.0.0-proxy-beta.8"
+  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.0.0-proxy-beta.8.tgz#a48bcbf62392d388817b2062af2412a58153fba0"
+  integrity sha512-MDdftts73y/e7l9rF4mT8tH8xZjnBdOESCsF4Xs6PP9F8CA8XMEQH5qbftrKKQqKan/fQbi2dEZuhrdjljfGJg==
 
 "@trpc/next@10.0.0-proxy-beta.7":
   version "10.0.0-proxy-beta.7"
