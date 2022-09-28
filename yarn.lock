@@ -4122,10 +4122,10 @@
   resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.0.0-proxy-beta.9.tgz#a6172c37784ed6645056d9c8d59e1370419dae75"
   integrity sha512-bCj79s+z3UHfxxBMX40jS1g/satQamWgu3Ge+K+Szt435xi8IenuNshV54jk7VB0XpXXOUpqCY4pRrM8XG0PgA==
 
-"@trpc/next@10.0.0-proxy-beta.8":
-  version "10.0.0-proxy-beta.8"
-  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-10.0.0-proxy-beta.8.tgz#5891b6c2573f69be9c77305c4f1f5dfb0124994e"
-  integrity sha512-N3g2vGB/zrTNc7/oNCgE+W4hk3bqLBWBHGzuUXGVgtn8wI+acsrpU1bPrmzG9SrMzCDc2/E1Rb/kLcgaB8udNQ==
+"@trpc/next@10.0.0-proxy-beta.9":
+  version "10.0.0-proxy-beta.9"
+  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-10.0.0-proxy-beta.9.tgz#4fb3628416f8c8680fc92f10e7056794bdb173f2"
+  integrity sha512-MS3C65QCRkyN8u6Iw0s/JP0MwNy9lhR/SKyFp9pnnUbr2jAMtusG41ZUn5fj/pXC8PzTRS1SnnFfKtaaUCm+kQ==
   dependencies:
     "@swc/helpers" "^0.4.11"
     react-ssr-prepass "^1.5.0"
