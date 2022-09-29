@@ -13,7 +13,8 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
     "prisma:deploy": "prisma migrate deploy",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "unleash": "node ./unleash/server.js"
   },
   "dependencies": {
     "@chakra-ui/icons": "2.0.10",
@@ -31,6 +32,7 @@
     "@trpc/next": "10.0.0-proxy-beta.7",
     "@trpc/react": "10.0.0-proxy-beta.7",
     "@trpc/server": "10.0.0-proxy-beta.7",
+    "@unleash/proxy-client-react": "^3.3.0",
     "faunadb": "4.7.0",
     "framer-motion": "7.4.0",
     "next": "12.3.1",
@@ -43,6 +45,8 @@
     "react-hook-form": "7.36.1",
     "react-intl": "6.1.1",
     "superjson": "1.10.0",
+    "unleash-proxy-client": "^2.2.1",
+    "unleash-server": "^4.15.4",
     "zod": "3.19.1"
   },
   "devDependencies": {
