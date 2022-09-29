@@ -30,7 +30,7 @@
     "@trpc/client": "10.0.0-proxy-beta.9",
     "@trpc/next": "10.0.0-proxy-beta.9",
     "@trpc/react": "10.0.0-proxy-beta.9",
-    "@trpc/server": "10.0.0-proxy-beta.8",
+    "@trpc/server": "10.0.0-proxy-beta.9",
     "faunadb": "4.7.0",
     "framer-motion": "7.4.0",
     "next": "12.3.1",
