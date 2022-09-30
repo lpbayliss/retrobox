@@ -4130,10 +4130,10 @@
     "@swc/helpers" "^0.4.11"
     react-ssr-prepass "^1.5.0"
 
-"@trpc/react@10.0.0-proxy-beta.9":
-  version "10.0.0-proxy-beta.9"
-  resolved "https://registry.yarnpkg.com/@trpc/react/-/react-10.0.0-proxy-beta.9.tgz#f9ac77227b8ca3052c04efb7dc682e1cd29826f6"
-  integrity sha512-29QF5CZ7phrd0gs6Ax7L+BsbZ6XFm2fzp5rl3vpm+Ah5jPJvGyLmcj4Te4zuUWEKA5dyC/SCqNjsu4p3OE2fQQ==
+"@trpc/react@10.0.0-proxy-beta.10":
+  version "10.0.0-proxy-beta.10"
+  resolved "https://registry.yarnpkg.com/@trpc/react/-/react-10.0.0-proxy-beta.10.tgz#324783a51f99310dae316f2d8575e17bebc4a6ee"
+  integrity sha512-oIPGZIRkZ+hIJAWZr70xEENvr8eomaw/ey4e8sObGQNWxn64qjbh53h6304Em2ypcECCCPZrNGmoXb1H8TJU4g==
 
 "@trpc/server@10.0.0-proxy-beta.9":
   version "10.0.0-proxy-beta.9"
