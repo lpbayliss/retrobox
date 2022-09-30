@@ -4762,7 +4762,7 @@
     swagger-parser "^10.0.3"
     swagger-ui-dist "^4.10.3"
 
-"@unleash/proxy-client-react@^3.3.0":
+"@unleash/proxy-client-react@3.3.0":
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/@unleash/proxy-client-react/-/proxy-client-react-3.3.0.tgz#ea7b9b3590a6ca9e6cf4639623820ec88ac5122d"
   integrity sha512-ZUtdvBZ4zGvurSTx+0rHu5FnQeeZ+Sfjpw4M+AoOCbG7mAX6ZvXy2IEkn+2Nv2F/sfLBsFL1LP+xC/RtDfZvAw==
@@ -15147,7 +15147,7 @@ unleash-client@3.15.0:
     murmurhash3js "^3.0.1"
     semver "^7.3.5"
 
-unleash-proxy-client@^2.2.1:
+unleash-proxy-client@2.2.1:
   version "2.2.1"
   resolved "https://registry.yarnpkg.com/unleash-proxy-client/-/unleash-proxy-client-2.2.1.tgz#e6fdb3bb9511b90dd7fe3b09d5de623d5feda53d"
   integrity sha512-r4rtDRs3p/cnhCiYT/x4FhRYeTZuiy4Wi0W9gcsRaz8Ev6ILZkMcSShgPAdWro2jp2f/yGKQ8swivqKdeHuz9A==
@@ -15155,7 +15155,7 @@ unleash-proxy-client@^2.2.1:
     tiny-emitter "^2.1.0"
     uuid "^8.3.2"
 
-unleash-server@^4.15.4:
+unleash-server@4.15.4:
   version "4.15.4"
   resolved "https://registry.yarnpkg.com/unleash-server/-/unleash-server-4.15.4.tgz#0317a946a444d5537a36c3022952f584300b0e72"
   integrity sha512-6euyhFVPx/VdtXji69Clm+Pt0s+cV5b/mqhubM7SOvoX9HV53UiJAHKTuAtdziynXV5EDdpEIX1EhgB3qI4L0w==
