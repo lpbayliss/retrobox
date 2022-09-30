@@ -29,9 +29,10 @@ RUN yarn build
 
 # Production image, copy all the files and run next
 FROM node:18-alpine3.15 AS runner
+ARG NODE_ENV
 WORKDIR /app
 
-ENV NODE_ENV production
+ENV NODE_ENV ${NODE_ENV}
 ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN addgroup --system --gid 1001 nodejs

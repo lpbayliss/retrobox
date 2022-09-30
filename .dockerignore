@@ -2,7 +2,7 @@
 .storybook
 node_modules
 .env
-.env.example
+.env.local
 .gitignore
 .lintstagedrs.js
 renovate.json

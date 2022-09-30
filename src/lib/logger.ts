@@ -1,3 +1,4 @@
+import getConfig from 'next/config';
 import { default as pino } from 'pino';
 import pretty from 'pino-pretty';
 
@@ -7,7 +8,7 @@ const stream = pretty({
 
 const logger = pino(
   {
-    level: process.env.LOG_LEVEL || 'info',
+    level: process.env.LOG_LEVEL,
     base: {
       env: process.env.NODE_ENV,
     },

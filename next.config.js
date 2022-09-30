@@ -20,7 +20,4 @@ module.exports = getConfig({
     locales: ['en-AU'],
     defaultLocale: 'en-AU',
   },
-  publicRuntimeConfig: {
-    NODE_ENV: process.env.NODE_ENV,
-  },
 });
