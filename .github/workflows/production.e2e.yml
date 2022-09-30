@@ -1,0 +1,33 @@
+name: Playwright Staging
+
+on:
+  workflow_dispatch:
+  workflow_run:
+    workflows: ['Deploy to Production']
+    branches: [main]
+    types:
+      - completed
+
+jobs:
+  main:
+    name: Run Playwright Tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+      - name: Install dependencies
+        run: yarn
+      - name: Install Playwright
+        run: yarn playwright install --with-deps
+      - name: Run your tests
+        run: yarn playwright test
+        env:
+          PLAYWRIGHT_TEST_BASE_URL: 'https://retrobox.app'
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v2
+        with:
+          name: playwright-report
+          path: playwright-report

@@ -1,40 +1,28 @@
-import { Flex } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import { AppLayout } from '@components/layouts/app-layout';
-import { NextPageWithLayout } from '../../pages/_app';
-import { unstable_getServerSession } from 'next-auth/next';
-import { GetServerSideProps } from 'next';
-import { authOptions } from '../api/auth/[...nextauth]';
-import { Session } from 'next-auth';
+import { GetServerSideProps, NextPage } from 'next';
 import { Card } from '@components/card';
 import { CreateBoxForm } from '@components/create-box-form';
+import { withToggles } from '@lib/unleash';
+import { withServerSideSession } from '@lib/auth';
 
-interface PageProps {
-  session: Session | null;
-}
-
-export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => {
-  const session = await unstable_getServerSession(context.req, context.res, authOptions);
+export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
-    props: {
-      session,
-    },
+    props: await withToggles(await withServerSideSession(context)({})),
   };
 };
 
-const AppPage: NextPageWithLayout<PageProps> = (props) => {
+const AppPage: NextPage = ({ session }: any) => {
   return (
-    <div>
+    <AppLayout>
       <Flex as="main" h="100vh">
         <Card>
+          <Text>{JSON.stringify(session)}</Text>
           <CreateBoxForm />
         </Card>
       </Flex>
-    </div>
+    </AppLayout>
   );
-};
-
-AppPage.getLayout = function getLayout(page) {
-  return <AppLayout>{page}</AppLayout>;
 };
 
 export default AppPage;

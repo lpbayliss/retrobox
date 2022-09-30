@@ -1,47 +1,35 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from '@theme/theme';
-import type { AppProps, AppType } from 'next/app';
+import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { IntlProvider } from 'react-intl';
 import { getMessages } from '@i18n/getMessages';
-import { NextPage } from 'next';
-import { ReactElement, ReactNode } from 'react';
-import { getSession, SessionProvider } from 'next-auth/react';
+import { SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
-import { trpc } from 'src/lib/trpc';
+import { trpc } from '@lib/trpc';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { FlagProvider, IToggle } from '@unleash/proxy-client-react';
+import { getAppClient } from '@lib/unleash';
 
-export type PageProps = { session: Session | null };
-
-export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
-  getLayout?: (page: ReactElement) => ReactNode;
-};
-
-type AppPropsWithLayout<P = {}, IP = P> = AppProps<P> & {
-  Component: NextPageWithLayout<P, IP>;
-};
-
-const MyApp: AppType<PageProps> = ({ Component, pageProps }: AppPropsWithLayout<PageProps>) => {
+const MyApp = ({
+  Component,
+  pageProps: { session, toggles, ...pageProps },
+}: AppProps<{ session: Session; toggles: IToggle[] }>) => {
   const { locale } = useRouter();
-
-  const getLayout = Component.getLayout ?? ((page) => page);
+  const client = getAppClient(toggles);
 
   return (
-    <SessionProvider session={pageProps.session}>
-      <IntlProvider locale={String(locale)} messages={getMessages(String(locale))}>
-        <ChakraProvider resetCSS theme={theme}>
-          {getLayout(<Component {...pageProps} />)}
-          {process.env.NODE_ENV !== 'production' && <ReactQueryDevtools initialIsOpen={false} />}
-        </ChakraProvider>
-      </IntlProvider>
-    </SessionProvider>
+    <FlagProvider unleashClient={client}>
+      <SessionProvider session={session}>
+        <IntlProvider locale={String(locale)} messages={getMessages(String(locale))}>
+          <ChakraProvider resetCSS theme={theme}>
+            {process.env.NODE_ENV !== 'production' && <ReactQueryDevtools initialIsOpen={false} />}
+            <Component {...pageProps} />
+          </ChakraProvider>
+        </IntlProvider>
+      </SessionProvider>
+    </FlagProvider>
   );
-};
-
-MyApp.getInitialProps = async ({ ctx }) => {
-  return {
-    session: await getSession(ctx),
-  };
 };
 
 export default trpc.withTRPC(MyApp);
