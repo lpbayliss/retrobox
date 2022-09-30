@@ -2,7 +2,7 @@ import { GetServerSidePropsContext } from 'next';
 import { Session, unstable_getServerSession } from 'next-auth';
 import { authOptions } from 'src/pages/api/auth/[...nextauth]';
 
-export type SessionProp = { session: Session | null };
+export type SessionProp = { session?: Session | null };
 
 export const withServerSideSession = (context: GetServerSidePropsContext) => {
   console.log('ugh hello');
