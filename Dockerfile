@@ -1,7 +1,6 @@
 # Install dependencies only when needed
 FROM node:18-alpine3.15 AS deps
 ARG FONTAWESOME_NPM_AUTH_TOKEN
-ARG NODE_ENV
 ENV FONTAWESOME_NPM_AUTH_TOKEN ${FONTAWESOME_NPM_AUTH_TOKEN}
 
 RUN apk add --no-cache libc6-compat
@@ -20,7 +19,6 @@ RUN \
 
 # Rebuild the source code only when needed
 FROM node:18-alpine3.15 AS builder
-ENV NODE_ENV ${NODE_ENV}
 ENV FONTAWESOME_NPM_AUTH_TOKEN ${FONTAWESOME_NPM_AUTH_TOKEN}
 
 WORKDIR /app
@@ -31,6 +29,7 @@ RUN yarn build
 
 # Production image, copy all the files and run next
 FROM node:18-alpine3.15 AS runner
+ARG NODE_ENV
 WORKDIR /app
 
 ENV NODE_ENV ${NODE_ENV}
