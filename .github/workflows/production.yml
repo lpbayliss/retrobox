@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  deploy:
+  deployment:
     name: Deploy App to Production
     runs-on: ubuntu-latest
     env:
