@@ -1,17 +1,58 @@
-import { Box, Button, Heading, Img, LightMode, Stack, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Heading,
+  Img,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  Stack,
+  Text,
+  useDisclosure,
+  VStack,
+} from '@chakra-ui/react';
 import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { useFlag } from '@unleash/proxy-client-react';
-import { withToggles } from '@lib/unleash';
+import { ToggleProp, withToggles } from '@lib/unleash';
+import { FormattedMessage } from 'react-intl';
+import { SessionProp, withServerSideSession } from '@lib/auth';
+import { useRouter } from 'next/router';
+import { SignInForm } from '@components/sign-in-form';
+import { useSession } from 'next-auth/react';
+import { useState } from 'react';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   return {
-    props: await withToggles({}),
+    props: await withToggles(await withServerSideSession(context)({})),
   };
 };
 
 const Index: NextPage = () => {
-  const enabled = useFlag('test-toggle');
+  const router = useRouter();
+  const { data } = useSession();
+  const customSignInEnabled = useFlag('custom-login');
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [signInStatus, setSignStatus] = useState<'SUCCESS' | 'ERROR' | null>(null);
+
+  const handleSignInSuccess = () => setSignStatus('SUCCESS');
+  const handleSignInError = () => setSignStatus('ERROR');
+  const handleSignInOnClick = () => {
+    if (data?.user) {
+      router.push('/app');
+      return;
+    }
+    onOpen();
+  };
+  const handleSignInOnClose = () => {
+    setSignStatus(null);
+    onClose();
+  };
 
   return (
     <Box>
@@ -31,12 +72,10 @@ const Index: NextPage = () => {
               letterSpacing="tight"
               size="3xl"
             >
-              Welcome to {enabled ? 'Retrobox' : 'RETROWHAT'}
+              <FormattedMessage id="HOME_PAGE_TITLE" />
             </Heading>
-            <Text>{process.env.NEXT_PUBLIC_UNLEASH_PROXY_URL}</Text>
             <Text maxW="xl" mt="4" mx="auto" fontSize="xl">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore
+              <FormattedMessage id="HOME_PAGE_SUBTEXT" />
             </Text>
           </Box>
 
@@ -47,22 +86,22 @@ const Index: NextPage = () => {
             mb="20"
             spacing="4"
           >
-            <LightMode>
+            {customSignInEnabled && (
               <Button
                 as="a"
                 px="8"
                 fontSize="md"
                 fontWeight="bold"
                 colorScheme="blue"
-                href="/login"
+                onClick={handleSignInOnClick}
                 size="lg"
               >
-                Get started
+                <FormattedMessage id="HOME_PAGE_SIGN_IN" />
               </Button>
-              <Button as="a" px="8" fontSize="md" fontWeight="bold" href="#" size="lg">
-                Learn more
-              </Button>
-            </LightMode>
+            )}
+            <Button as="a" px="8" fontSize="md" fontWeight="bold" href="#" size="lg">
+              <FormattedMessage id="HOME_PAGE_LEARN_MORE" />
+            </Button>
           </Stack>
           <Box className="group" pos="relative" overflow="hidden" shadow="md" rounded="lg">
             <Img
@@ -72,6 +111,34 @@ const Index: NextPage = () => {
           </Box>
         </Box>
       </Box>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader />
+          <ModalCloseButton />
+          <ModalBody>
+            {!signInStatus && (
+              <SignInForm onSignInSuccess={handleSignInSuccess} onSignInError={handleSignInError} />
+            )}
+            {signInStatus === 'SUCCESS' && (
+              <VStack>
+                <Heading>Confirm your email</Heading>
+                <Text>We have just sent a magic link to your inbox</Text>
+                <Text>Click the link in the email to log in or sign up.</Text>
+                <Button onClick={handleSignInOnClose}>Close</Button>
+              </VStack>
+            )}
+            {signInStatus === 'ERROR' && (
+              <VStack>
+                <Heading>Uh oh</Heading>
+                <Text>Something went wrong. Try again later.</Text>
+                <Button onClick={handleSignInOnClose}>Close</Button>
+              </VStack>
+            )}
+          </ModalBody>
+          <ModalFooter />
+        </ModalContent>
+      </Modal>
     </Box>
   );
 };

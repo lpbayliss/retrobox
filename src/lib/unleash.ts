@@ -12,7 +12,6 @@ export const config: IConfig = {
 export type ToggleProp = { toggles: IToggle[] };
 
 export const getPrefetchClient = () => {
-  console.log(config);
   return new UnleashClient({
     ...config,
     fetch,
@@ -23,7 +22,6 @@ export const getPrefetchClient = () => {
 };
 
 export const getAppClient = (toggles: IToggle[]) => {
-  console.log(config);
   return new UnleashClient({
     ...config,
     ...(typeof window !== 'undefined'
