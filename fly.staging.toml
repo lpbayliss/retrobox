@@ -11,11 +11,11 @@ NEXTAUTH_URL = "https://staging.retrobox.app"
 NODE_ENV = "production"
 EMAIL_FROM = "noreply-staging@retrobox.app"
 LOG_LEVEL="debug"
-NEXT_PUBLIC_UNLEASH_PROXY_URL="https://staging.unleash-proxy.retrobox.app/proxy"
-NEXT_PUBLIC_UNLEASH_CLIENT_KEY="staging-proxy"
-NEXT_PUBLIC_UNLEASH_REFRESH_INTERVAL=15
-NEXT_PUBLIC_UNLEASH_APP_NAME="retrobox-staging"
-NEXT_PUBLIC_UNLEASH_ENVIRONMENT="development"
+UNLEASH_PROXY_URL="https://staging.unleash-proxy.retrobox.app/proxy"
+UNLEASH_CLIENT_KEY="staging-proxy"
+UNLEASH_REFRESH_INTERVAL=15
+UNLEASH_APP_NAME="retrobox-staging"
+UNLEASH_ENVIRONMENT="development"
 
 [build]
 build-target = "runner"

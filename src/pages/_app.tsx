@@ -10,6 +10,7 @@ import { trpc } from '@lib/trpc';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { FlagProvider, IToggle } from '@unleash/proxy-client-react';
 import { getAppClient } from '@lib/unleash';
+import { publicRuntimeConfig } from '@lib/publicRuntimeConfig';
 
 const MyApp = ({
   Component,
@@ -23,7 +24,9 @@ const MyApp = ({
       <SessionProvider session={session}>
         <IntlProvider locale={String(locale)} messages={getMessages(String(locale))}>
           <ChakraProvider resetCSS theme={theme}>
-            {process.env.NODE_ENV !== 'production' && <ReactQueryDevtools initialIsOpen={false} />}
+            {publicRuntimeConfig.NODE_ENV !== 'production' && (
+              <ReactQueryDevtools initialIsOpen={false} />
+            )}
             <Component {...pageProps} />
           </ChakraProvider>
         </IntlProvider>

@@ -1,12 +1,13 @@
 import { IConfig, InMemoryStorageProvider, IToggle, UnleashClient } from 'unleash-proxy-client';
 import { SessionProp } from './auth';
+import { publicRuntimeConfig } from './publicRuntimeConfig';
 
 export const config: IConfig = {
-  url: process.env.NEXT_PUBLIC_UNLEASH_PROXY_URL || '',
-  clientKey: process.env.NEXT_PUBLIC_UNLEASH_CLIENT_KEY || '',
-  refreshInterval: parseInt(process.env.NEXT_PUBLIC_UNLEASH_REFRESH_INTERVAL || '15'),
-  appName: process.env.NEXT_PUBLIC_UNLEASH_APP_NAME || '',
-  environment: process.env.NEXT_PUBLIC_UNLEASH_ENVIRONMENT,
+  url: publicRuntimeConfig.UNLEASH_PROXY_URL,
+  clientKey: publicRuntimeConfig.UNLEASH_CLIENT_KEY,
+  refreshInterval: publicRuntimeConfig.UNLEASH_REFRESH_INTERVAL,
+  appName: publicRuntimeConfig.UNLEASH_APP_NAME,
+  environment: publicRuntimeConfig.UNLEASH_ENVIRONMENT,
 };
 
 export type ToggleProp = { toggles: IToggle[] };

@@ -1,5 +1,8 @@
+import getConfig from 'next/config';
 import { default as pino } from 'pino';
 import pretty from 'pino-pretty';
+import { publicRuntimeConfig } from './publicRuntimeConfig';
+import { serverRuntimeConfig } from './serverRuntimeConfig';
 
 const stream = pretty({
   colorize: true,
@@ -7,9 +10,9 @@ const stream = pretty({
 
 const logger = pino(
   {
-    level: process.env.LOG_LEVEL || 'info',
+    level: serverRuntimeConfig.LOG_LEVEL,
     base: {
-      env: process.env.NODE_ENV,
+      env: publicRuntimeConfig.NODE_ENV,
     },
   },
   stream,

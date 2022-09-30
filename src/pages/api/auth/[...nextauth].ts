@@ -2,6 +2,7 @@ import NextAuth, { NextAuthOptions } from 'next-auth';
 import EmailProvider from 'next-auth/providers/email';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import { PrismaClient } from '@prisma/client';
+import { serverRuntimeConfig } from '@lib/serverRuntimeConfig';
 
 const prisma = new PrismaClient();
 
@@ -9,8 +10,8 @@ const prisma = new PrismaClient();
 export const authOptions: NextAuthOptions = {
   providers: [
     EmailProvider({
-      server: process.env.EMAIL_SERVER,
-      from: process.env.EMAIL_FROM,
+      server: serverRuntimeConfig.EMAIL_SERVER,
+      from: serverRuntimeConfig.EMAIL_FROM,
       maxAge: 10 * 60,
     }),
   ],
