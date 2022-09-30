@@ -27,7 +27,7 @@ jobs:
           PLAYWRIGHT_TEST_BASE_URL: 'https://staging.retrobox.app'
       - name: Upload test results
         if: always()
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: playwright-report
           path: playwright-report
