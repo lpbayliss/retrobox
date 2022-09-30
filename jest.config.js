@@ -21,6 +21,7 @@ const customJestConfig = {
     '<rootDir>/src/pages/**/*.tsx',
     '<rootDir>/src/server/routers/**/*.tsx',
   ],
+  modulePathIgnorePatterns: ["playwright"]
 };
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async

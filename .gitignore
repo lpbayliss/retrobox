@@ -40,3 +40,6 @@ next-env.d.ts
 
 .npmrc
 .swc
+
+# testing
+playwright/test-results
