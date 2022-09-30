@@ -1,7 +1,14 @@
 import { Box, Button, Heading, Img, LightMode, Stack, Text } from '@chakra-ui/react';
-import type { NextPage } from 'next';
+import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { useFlag } from '@unleash/proxy-client-react';
+import { withToggles } from '@lib/unleash';
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return {
+    props: await withToggles({}),
+  };
+};
 
 const Index: NextPage = () => {
   const enabled = useFlag('test-toggle');

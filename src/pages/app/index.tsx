@@ -1,23 +1,18 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { AppLayout } from '@components/layouts/app-layout';
-import { unstable_getServerSession } from 'next-auth/next';
 import { GetServerSideProps, NextPage } from 'next';
-import { authOptions } from '../api/auth/[...nextauth]';
-import { Session } from 'next-auth';
 import { Card } from '@components/card';
 import { CreateBoxForm } from '@components/create-box-form';
+import { withToggles } from '@lib/unleash';
+import { withServerSideSession } from '@lib/auth';
 
-interface PageProps {
-  session: Session | null;
-}
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  return {
+    props: await withToggles(await withServerSideSession(context)({})),
+  };
+};
 
-export const getServerSideProps: GetServerSideProps<PageProps> = async (context) => ({
-  props: {
-    session: await unstable_getServerSession(context.req, context.res, authOptions),
-  },
-});
-
-const AppPage: NextPage<PageProps> = ({ session }) => {
+const AppPage: NextPage = ({ session }: any) => {
   return (
     <AppLayout>
       <Flex as="main" h="100vh">
