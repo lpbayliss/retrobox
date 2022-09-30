@@ -33,7 +33,7 @@
     "@trpc/next": "10.0.0-proxy-beta.10",
     "@trpc/react": "10.0.0-proxy-beta.10",
     "@trpc/server": "10.0.0-proxy-beta.10",
-    "@unleash/proxy-client-react": "^3.3.0",
+    "@unleash/proxy-client-react": "3.3.0",
     "faunadb": "4.7.0",
     "framer-motion": "7.5.0",
     "next": "12.3.1",
@@ -46,8 +46,8 @@
     "react-hook-form": "7.36.1",
     "react-intl": "6.1.2",
     "superjson": "1.10.0",
-    "unleash-proxy-client": "^2.2.1",
-    "unleash-server": "^4.15.4",
+    "unleash-proxy-client": "2.2.1",
+    "unleash-server": "4.15.4",
     "zod": "3.19.1"
   },
   "devDependencies": {
