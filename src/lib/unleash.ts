@@ -11,23 +11,27 @@ export const config: IConfig = {
 
 export type ToggleProp = { toggles: IToggle[] };
 
-export const getPrefetchClient = () =>
-  new UnleashClient({
+export const getPrefetchClient = () => {
+  console.log(config);
+  return new UnleashClient({
     ...config,
     fetch,
     storageProvider: new InMemoryStorageProvider(),
     disableMetrics: true,
     disableRefresh: true,
   });
+};
 
-export const getAppClient = (toggles: IToggle[]) =>
-  new UnleashClient({
+export const getAppClient = (toggles: IToggle[]) => {
+  console.log(config);
+  return new UnleashClient({
     ...config,
     ...(typeof window !== 'undefined'
       ? {}
       : { fetch: fetch, storageProvider: new InMemoryStorageProvider() }),
     bootstrap: toggles,
   });
+};
 
 export const withToggles = async <P extends { [key: string]: any } & SessionProp>(
   props: P,

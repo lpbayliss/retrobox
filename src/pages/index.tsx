@@ -33,6 +33,7 @@ const Index: NextPage = () => {
             >
               Welcome to {enabled ? 'Retrobox' : 'RETROWHAT'}
             </Heading>
+            <Text>{process.env.NEXT_PUBLIC_UNLEASH_PROXY_URL}</Text>
             <Text maxW="xl" mt="4" mx="auto" fontSize="xl">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
               incididunt ut labore
