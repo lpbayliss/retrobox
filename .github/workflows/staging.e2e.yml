@@ -3,9 +3,9 @@ name: Playwright Staging
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: ["Deploy to Staging"]
+    workflows: ['Deploy to Staging']
     branches: [develop]
-    types: 
+    types:
       - completed
 
 jobs:

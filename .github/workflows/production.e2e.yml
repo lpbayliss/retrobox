@@ -3,9 +3,9 @@ name: Playwright Staging
 on:
   workflow_dispatch:
   workflow_run:
-    workflows: ["Deploy to Production"]
+    workflows: ['Deploy to Production']
     branches: [main]
-    types: 
+    types:
       - completed
 
 jobs:
