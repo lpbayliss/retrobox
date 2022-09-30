@@ -1,13 +1,12 @@
 import { IConfig, InMemoryStorageProvider, IToggle, UnleashClient } from 'unleash-proxy-client';
 import { SessionProp } from './auth';
-import { publicRuntimeConfig } from './publicRuntimeConfig';
 
 export const config: IConfig = {
-  url: publicRuntimeConfig.UNLEASH_PROXY_URL,
-  clientKey: publicRuntimeConfig.UNLEASH_CLIENT_KEY,
-  refreshInterval: publicRuntimeConfig.UNLEASH_REFRESH_INTERVAL,
-  appName: publicRuntimeConfig.UNLEASH_APP_NAME,
-  environment: publicRuntimeConfig.UNLEASH_ENVIRONMENT,
+  url: process.env.NEXT_PUBLIC_UNLEASH_PROXY_URL || 'http://localhost:5000/proxy',
+  clientKey: process.env.NEXT_PUBLIC_UNLEASH_CLIENT_KEY || 'development-proxy',
+  refreshInterval: parseInt(process.env.NEXT_PUBLIC_UNLEASH_REFRESH_INTERVAL || '15'),
+  appName: process.env.NEXT_PUBLIC_UNLEASH_APP_NAME || 'retrobox-development',
+  environment: process.env.NEXT_PUBLIC_UNLEASH_ENVIRONMENT || 'development',
 };
 
 export type ToggleProp = { toggles: IToggle[] };
