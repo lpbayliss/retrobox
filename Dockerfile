@@ -27,7 +27,7 @@ RUN echo $APP_ENV
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
-COPY ./env/.env.${APP_ENV} .env
+COPY env/.env.${APP_ENV} .env
 
 RUN yarn build
 
