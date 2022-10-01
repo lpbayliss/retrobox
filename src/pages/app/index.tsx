@@ -7,8 +7,16 @@ import { withToggles } from '@lib/unleash';
 import { withServerSideSession } from '@lib/auth';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  const props = await withToggles(await withServerSideSession(context)({}));
+
+  if (!props.session?.user)
+    return {
+      redirect: '/',
+      props: {},
+    };
+
   return {
-    props: await withToggles(await withServerSideSession(context)({})),
+    props,
   };
 };
 

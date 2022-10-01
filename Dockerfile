@@ -19,20 +19,23 @@ RUN \
 
 # Rebuild the source code only when needed
 FROM node:18-alpine3.15 AS builder
-ENV FONTAWESOME_NPM_AUTH_TOKEN ${FONTAWESOME_NPM_AUTH_TOKEN}
+ARG APP_ENV
+ENV APP_ENV ${APP_ENV}
+
+RUN echo $APP_ENV
 
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+COPY env/.env.${APP_ENV} .env
 
 RUN yarn build
 
 # Production image, copy all the files and run next
 FROM node:18-alpine3.15 AS runner
-ARG NODE_ENV
 WORKDIR /app
 
-ENV NODE_ENV ${NODE_ENV}
+ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
 
 RUN addgroup --system --gid 1001 nodejs
