@@ -5,10 +5,15 @@
   "HOME_PAGE_SUBTEXT": "Start making retrospectives easier. Use Retrobox to jot down and keep track of items and actions!",
   "HOME_PAGE_SIGN_IN": "Sign in",
   "HOME_PAGE_LEARN_MORE": "Learn more",
-  "CREATE_BOX_FORM_NAME_LABEL": "a",
-  "CREATE_BOX_FORM_NAME_PLACEHOLDER": "b",
-  "CREATE_BOX_FORM_NAME_REQUIRED_ERROR": "c",
-  "CREATE_BOX_FORM_NAME_MIN_LENGTH_ERROR": "d",
-  "CREATE_BOX_FORM_HELP_TEXT": "e",
-  "CREATE_BOX_FORM_SUBMIT_BUTTON_LABEL": "f"
+  "CREATE_BOX_FORM_NAME_LABEL": "Create a new box",
+  "CREATE_BOX_FORM_NAME_PLACEHOLDER": "Team Alpha",
+  "CREATE_BOX_FORM_NAME_REQUIRED_ERROR": "A name is required",
+  "CREATE_BOX_FORM_NAME_MIN_LENGTH_ERROR": "That name is too short",
+  "CREATE_BOX_FORM_HELP_TEXT": "Pick a name that suits your project or activity",
+  "CREATE_BOX_FORM_SUBMIT_BUTTON_LABEL": "Create box",
+  "SIGN_IN_FORM_EMAIL_LABEL": "Your email",
+  "SIGN_IN_FORM_EMAIL_PLACEHOLDER": "example@retrobox.com",
+  "SIGN_IN_FORM_EMAIL_REQUIRED_ERROR": "You must provide an email address",
+  "SIGN_IN_FORM_HELP_TEXT": "A magic link will be sent to this address",
+  "SIGN_IN_FORM_SUBMIT_BUTTON_LABEL": "Sign in"
 }
