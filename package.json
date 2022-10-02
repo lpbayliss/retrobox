@@ -30,7 +30,7 @@
     "@prisma/client": "4.4.0",
     "@tanstack/react-query": "4.8.0",
     "@trpc/client": "10.0.0-proxy-beta.12",
-    "@trpc/next": "10.0.0-proxy-beta.11",
+    "@trpc/next": "10.0.0-proxy-beta.12",
     "@trpc/react": "10.0.0-proxy-beta.11",
     "@trpc/server": "10.0.0-proxy-beta.12",
     "@unleash/proxy-client-react": "3.3.0",
