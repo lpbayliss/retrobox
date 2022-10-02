@@ -16,4 +16,4 @@ jobs:
       - uses: actions/checkout@v3
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - name: Build & Deploy
-        run: flyctl deploy --config ./fly.staging.toml --build-arg FONTAWESOME_NPM_AUTH_TOKEN=${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }} --build-arg NODE_ENV="development" --remote-only
+        run: flyctl deploy --config ./fly.staging.toml --build-arg FONTAWESOME_NPM_AUTH_TOKEN=${{ secrets.FONTAWESOME_NPM_AUTH_TOKEN }} --build-arg APP_ENV="staging" --remote-only
