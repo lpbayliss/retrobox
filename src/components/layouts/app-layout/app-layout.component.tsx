@@ -1,27 +1,25 @@
 import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  AccordionPanel,
   Avatar,
   Box,
-  Button,
   Center,
   chakra,
-  Divider,
   Flex,
   Heading,
   HStack,
+  IconButton,
   Spacer,
   Text,
   useBreakpointValue,
+  useColorMode,
   VStack,
 } from '@chakra-ui/react';
 import NextLink from 'next/link';
 import { PropsWithChildren } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faGear, faCalendarLines } from '@fortawesome/pro-duotone-svg-icons';
+import { faHouse, faGear, faBoxTaped, faMoon, faSun } from '@fortawesome/pro-light-svg-icons';
+import { useSession } from 'next-auth/react';
+
+const Icon = chakra(FontAwesomeIcon);
 
 interface SidebarLinkProps {
   label: string;
@@ -31,59 +29,82 @@ interface SidebarLinkProps {
 }
 
 const SidebarLink = ({ label, icon, href, isActive }: SidebarLinkProps) => {
-  const Icon = chakra(FontAwesomeIcon);
   return (
-    <NextLink href={href} passHref>
-      <HStack as="a" alignItems="center" w="full" color={isActive ? 'base' : 'gray.400'}>
-        <Center w="20px">
-          <Icon icon={icon} fontSize="xl" />
+    <NextLink href={href}>
+      <HStack
+        as="a"
+        alignItems="center"
+        w="full"
+        color={isActive ? 'base' : 'gray.400'}
+        _hover={{ textDecoration: 'underline', cursor: 'pointer' }}
+        spacing="4"
+      >
+        <Center w="30px">
+          <Icon icon={icon} fontSize="2xl" />
         </Center>
-        <Button justifyContent="flex-start" w="full" fontWeight="normal" variant="ghost">
-          {label}
-        </Button>
+        <Text fontSize="lg">{label}</Text>
       </HStack>
     </NextLink>
   );
 };
 
-const Sidebar = () => {
+const Navbar = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
+
   return (
-    <Flex
-      flex="1"
-      overflowY="auto"
-      maxW="xs"
-      px="8"
-      py="8"
-      bg="bg-surface"
-      borderColor="gray.200"
-      borderRight="1px"
-    >
-      <VStack alignItems="flex-start" w="full">
-        {/* Main */}
-        <HStack pb="12">
-          <Avatar borderRadius="lg" name="Luke Bayliss" size="md" />
-          <Box>
-            <Text>Retrobox</Text>
-          </Box>
-        </HStack>
-        <SidebarLink icon={faHouse} isActive label="Dashboard" href="/app" />
-        <SidebarLink icon={faCalendarLines} label="Activity" href="/app/activity" />
-        <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
-
-        {/* Teams */}
-        <Divider />
-        <Heading pt="4" size="md">
-          Teams
+    <HStack as="nav" h="75px" px="4" bg="surface">
+      <HStack>
+        <Text fontSize="2xl">📦</Text>
+        <Heading as="h1" size="md">
+          Retrobox
         </Heading>
-        <SidebarLink icon={faHouse} label="Dashboard" href="/app" />
-        <SidebarLink icon={faCalendarLines} label="Activity" href="/app/activity" />
+      </HStack>
+      <HStack spacing="6">
+        <SidebarLink icon={faHouse} isActive label="Home" href="/app" />
+        <SidebarLink icon={faBoxTaped} label="Boxes" href="/app/boxes" />
         <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
+      </HStack>
+      <Spacer />
+      <HStack>
+        <Avatar borderRadius="lg" name="Luke Bayliss" size="sm" />
+        <IconButton
+          aria-label="color-mode-toggle"
+          icon={<Icon icon={colorMode === 'light' ? faMoon : faSun} />}
+          onClick={toggleColorMode}
+          size="sm"
+        />
+      </HStack>
+    </HStack>
+  );
+};
 
-        {/* Recent */}
-        <Divider />
-        <SidebarLink icon={faHouse} label="Dashboard" href="/app" />
-        <SidebarLink icon={faCalendarLines} label="Activity" href="/app/activity" />
-        <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
+const Sidebar = () => {
+  const { data } = useSession();
+  const { colorMode, toggleColorMode } = useColorMode();
+
+  return (
+    <Flex as="nav" minW="xs" maxW="xs" p="6" bg="surface">
+      <VStack alignItems="flex-start" w="full">
+        <HStack mb="10">
+          <Text fontSize="4xl">📦</Text>
+          <Heading as="h1">Retrobox</Heading>
+        </HStack>
+        <VStack spacing="6">
+          <SidebarLink icon={faHouse} isActive label="Home" href="/app" />
+          <SidebarLink icon={faBoxTaped} label="Boxes" href="/app/boxes" />
+          <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
+        </VStack>
+        <Spacer />
+        <HStack w="full">
+          <Avatar borderRadius="lg" name={data?.user.name || undefined} size="md" />
+          <Spacer />
+          <IconButton
+            aria-label="color-mode-toggle"
+            icon={<Icon icon={colorMode === 'light' ? faMoon : faSun} />}
+            onClick={toggleColorMode}
+            size="md"
+          />
+        </HStack>
       </VStack>
     </Flex>
   );
@@ -93,9 +114,11 @@ const AppLayout = ({ children }: PropsWithChildren<{}>) => {
   const isDesktop = useBreakpointValue({ base: false, lg: true });
 
   return (
-    <Flex as="section" direction={{ base: 'column', lg: 'row' }} overflowY="auto" h="100vh">
-      {isDesktop ? <Sidebar /> : <>Navbar</>}
-      {children}
+    <Flex direction={{ base: 'column', lg: 'row' }} w="full" h="100vh">
+      {isDesktop ? <Sidebar /> : <Navbar />}
+      <Box as="main" overflow="auto" w="full" p="8">
+        {children}
+      </Box>
     </Flex>
   );
 };

@@ -5,8 +5,8 @@ const Card: ComponentStyleConfig = {
   baseStyle: (props: any) => ({
     display: 'flex',
     flexDirection: 'column',
-    background: ['none', null, mode('white', 'gray.900')(props)],
-    boxShadow: ['none', null, mode('md', 'none')(props)],
+    background: 'surface',
+    boxShadow: mode('sm', 'none')(props),
     padding: 6,
     borderRadius: 'base',
     minW: 'sm',

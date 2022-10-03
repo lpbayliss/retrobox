@@ -9,7 +9,7 @@ import { Session } from 'next-auth';
 import { trpc } from '@lib/trpc';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { FlagProvider, IToggle } from '@unleash/proxy-client-react';
-import { getAppClient } from '@lib/unleash'; 
+import { getAppClient } from '@lib/unleash';
 
 const MyApp = ({
   Component,
