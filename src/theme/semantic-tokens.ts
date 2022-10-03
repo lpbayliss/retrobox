@@ -5,6 +5,10 @@ const semanticTokens = {
       _dark: 'gray.800',
     },
     surface: { default: 'white', _dark: 'gray.900' },
+    subtext: {
+      default: 'blackAlpha.500',
+      _dark: 'whiteAlpha.500',
+    },
   },
 };
 

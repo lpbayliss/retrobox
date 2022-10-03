@@ -1,4 +1,5 @@
 import { IConfig, InMemoryStorageProvider, IToggle, UnleashClient } from 'unleash-proxy-client';
+
 import { SessionProp } from './auth';
 
 export const config: IConfig = {

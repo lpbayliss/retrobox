@@ -1,24 +1,16 @@
 import {
-  Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
   Center,
-  Circle,
   Flex,
   Heading,
   Spacer,
   Text,
-  Wrap,
-  WrapItem,
 } from '@chakra-ui/react';
 import { AppLayout } from '@components/layouts/app-layout';
-import { GetServerSideProps, NextPage } from 'next';
-import { Card } from '@components/card';
-import { CreateBoxForm } from '@components/create-box-form';
-import { withToggles } from '@lib/unleash';
 import { withServerSideSession } from '@lib/auth';
-import { ChevronRightIcon } from '@chakra-ui/icons';
+import { withToggles } from '@lib/unleash';
+import { GetServerSideProps, NextPage } from 'next';
+import Head from 'next/head';
+import { FormattedMessage } from 'react-intl';
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const props = await withToggles(await withServerSideSession(context)({}));
@@ -37,11 +29,19 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 const AppPage: NextPage = ({ session }: any) => {
   return (
     <AppLayout>
+      <Head>
+        <title>Home</title>
+        <meta name="description" content="Retrobox home" />
+      </Head>
       <Flex w="full" h="full">
         <Spacer />
         <Center flexDir="column" w="full" my="auto">
-          <Heading>Select a page from the left</Heading>
-          <Text color="whiteAlpha.400">There will be more here to see eventually</Text>
+          <Heading as="h2" pb="4">
+            <FormattedMessage id="HOME_PAGE_HEADING" />
+          </Heading>
+          <Text color="subtext">
+            <FormattedMessage id="HOME_PAGE_SUBTEXT" />
+          </Text>
         </Center>
         <Spacer />
       </Flex>

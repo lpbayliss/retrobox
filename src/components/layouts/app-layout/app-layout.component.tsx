@@ -2,7 +2,6 @@ import {
   Avatar,
   Box,
   Center,
-  chakra,
   Flex,
   Heading,
   HStack,
@@ -13,13 +12,11 @@ import {
   useColorMode,
   VStack,
 } from '@chakra-ui/react';
+import { faBoxTaped, faGear, faHouse, faMoon, faSun } from '@fortawesome/pro-light-svg-icons';
+import { Icon } from '@lib/icon';
 import NextLink from 'next/link';
-import { PropsWithChildren } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHouse, faGear, faBoxTaped, faMoon, faSun } from '@fortawesome/pro-light-svg-icons';
 import { useSession } from 'next-auth/react';
-
-const Icon = chakra(FontAwesomeIcon);
+import { PropsWithChildren } from 'react';
 
 interface SidebarLinkProps {
   label: string;

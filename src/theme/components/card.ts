@@ -6,11 +6,21 @@ const Card: ComponentStyleConfig = {
     display: 'flex',
     flexDirection: 'column',
     background: 'surface',
-    boxShadow: mode('sm', 'none')(props),
+    boxShadow: 'sm',
     padding: 6,
     borderRadius: 'base',
     minW: 'sm',
   }),
+  variants: {
+    outline: (props: any) => ({
+      background: 'none',
+      border: '2px',
+      borderStyle: 'dashed',
+      borderColor: mode('blackAlpha.300', 'whiteAlpha.300')(props),
+      color: mode('blackAlpha.300', 'whiteAlpha.300')(props),
+      boxShadow: 'none',
+    }),
+  },
 };
 
 export default Card;
