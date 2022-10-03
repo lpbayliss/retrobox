@@ -1,10 +1,4 @@
-import {
-  Center,
-  Flex,
-  Heading,
-  Spacer,
-  Text,
-} from '@chakra-ui/react';
+import { Center, Flex, Heading, Spacer, Text } from '@chakra-ui/react';
 import { AppLayout } from '@components/layouts/app-layout';
 import { withServerSideSession } from '@lib/auth';
 import { withToggles } from '@lib/unleash';
