@@ -28,6 +28,7 @@ import { Icon } from '@lib/icon';
 import { trpc } from '@lib/trpc';
 import { withToggles } from '@lib/unleash';
 import type { Box as PrismaBox } from '@prisma/client';
+import { useFlag } from '@unleash/proxy-client-react';
 import { GetServerSideProps, NextPage } from 'next';
 import NextLink from 'next/link';
 import { FormattedMessage } from 'react-intl';
@@ -60,8 +61,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const AppPage: NextPage = () => {
+  const createBoxEnabled = useFlag('create-box');
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const { data: boxes } = trpc.box.fetchAll.useQuery();
 
   return (
@@ -96,16 +97,18 @@ const AppPage: NextPage = () => {
           <FormattedMessage id="BOXES_PAGE_HEADING_ALL" />
         </Heading>
         <Wrap py="2" spacing="6">
-          <WrapItem>
-            <Card as={Button} variant="outline" h="full" onClick={onOpen}>
-              <Center flexDir="column">
-                <Icon icon={faPlusCircle} fontSize="25" mb="2" />
-                <Text fontSize="xl">
-                  <FormattedMessage id="BUTTON_CREATE_BOX" />
-                </Text>
-              </Center>
-            </Card>
-          </WrapItem>
+          {createBoxEnabled && (
+            <WrapItem>
+              <Card as={Button} variant="outline" h="full" onClick={onOpen}>
+                <Center flexDir="column">
+                  <Icon icon={faPlusCircle} fontSize="25" mb="2" />
+                  <Text fontSize="xl">
+                    <FormattedMessage id="BUTTON_CREATE_BOX" />
+                  </Text>
+                </Center>
+              </Card>
+            </WrapItem>
+          )}
           {boxes &&
             boxes.map((box) => (
               <WrapItem key={box.id}>
