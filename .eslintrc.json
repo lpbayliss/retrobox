@@ -7,7 +7,7 @@
     "plugin:import/typescript",
     "prettier"
   ],
-  "plugins": ["chakra-ui", "testing-library"],
+  "plugins": ["chakra-ui", "testing-library", "unused-imports", "simple-import-sort"],
   "overrides": [
     // Only uses Testing Library lint rules in test files
     {
@@ -24,6 +24,9 @@
   "rules": {
     "chakra-ui/props-order": "error",
     "chakra-ui/props-shorthand": "error",
-    "chakra-ui/require-specific-component": "error"
+    "chakra-ui/require-specific-component": "error",
+    "unused-imports/no-unused-imports": "error",
+    "simple-import-sort/imports": "error",
+    "simple-import-sort/exports": "error"
   }
 }

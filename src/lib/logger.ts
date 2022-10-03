@@ -1,4 +1,3 @@
-import getConfig from 'next/config';
 import { default as pino } from 'pino';
 import pretty from 'pino-pretty';
 

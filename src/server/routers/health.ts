@@ -1,5 +1,6 @@
 import { TRPCError } from '@trpc/server';
 import { prisma } from 'src/lib/prisma';
+
 import { t } from '../trpc';
 
 const getIsDatabaseHealth = async () => {

@@ -1,6 +1,5 @@
 import {
   Button,
-  Divider,
   FormControl,
   FormErrorMessage,
   FormHelperText,
@@ -9,6 +8,7 @@ import {
   StackProps,
   VStack,
 } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { trpc } from 'src/lib/trpc';
@@ -17,10 +17,10 @@ export type ICreateBoxFormInputs = {
   name: string;
 };
 
-type Props = {} & StackProps;
+type Props = { onClose: () => void } & StackProps;
 
-const CreateBoxForm = (props: Props) => {
-  const addPost = trpc.box.create.useMutation();
+const CreateBoxForm = ({ onClose, ...props }: Props) => {
+  const addPostMutation = trpc.box.create.useMutation();
 
   const intl = useIntl();
 
@@ -31,8 +31,16 @@ const CreateBoxForm = (props: Props) => {
   } = useForm<ICreateBoxFormInputs>();
 
   const handleOnSubmit: SubmitHandler<ICreateBoxFormInputs> = async (data) => {
-    await addPost.mutateAsync({ name: data.name });
+    await addPostMutation.mutateAsync({ name: data.name });
   };
+
+  useEffect(() => {
+    if (addPostMutation.error) return;
+    if (addPostMutation.isSuccess) {
+      onClose();
+      return;
+    }
+  }, [addPostMutation.error, addPostMutation.isSuccess, onClose]);
 
   return (
     <VStack as="form" onSubmit={handleSubmit(handleOnSubmit)} spacing="4" {...props}>
@@ -59,7 +67,6 @@ const CreateBoxForm = (props: Props) => {
         </FormHelperText>
         <FormErrorMessage>{errors.name && errors.name.message}</FormErrorMessage>
       </FormControl>
-      <Divider />
       <Button w="full" isLoading={isSubmitting} type="submit">
         <FormattedMessage id="CREATE_BOX_FORM_SUBMIT_BUTTON_LABEL" />
       </Button>

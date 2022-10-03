@@ -1,8 +1,9 @@
 import * as trpc from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
 import { getSession } from 'next-auth/react';
-import { prisma } from '../lib/prisma';
+
 import logger from '../lib/logger';
+import { prisma } from '../lib/prisma';
 
 /**
  * Creates context for an incoming request

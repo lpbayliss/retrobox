@@ -2,8 +2,9 @@ import { httpBatchLink } from '@trpc/client/links/httpBatchLink';
 import { loggerLink } from '@trpc/client/links/loggerLink';
 import { createTRPCNext } from '@trpc/next';
 import type { inferProcedureOutput } from '@trpc/server';
-import type { AppRouter } from '../server/routers/_app';
 import superjson from 'superjson';
+
+import type { AppRouter } from '../server/routers/_app';
 
 function getBaseUrl() {
   if (typeof window !== 'undefined') return '';
