@@ -5,12 +5,22 @@ const Card: ComponentStyleConfig = {
   baseStyle: (props: any) => ({
     display: 'flex',
     flexDirection: 'column',
-    background: ['none', null, mode('white', 'gray.900')(props)],
-    boxShadow: ['none', null, mode('md', 'none')(props)],
+    background: 'surface',
+    boxShadow: 'sm',
     padding: 6,
     borderRadius: 'base',
     minW: 'sm',
   }),
+  variants: {
+    outline: (props: any) => ({
+      background: 'none',
+      border: '2px',
+      borderStyle: 'dashed',
+      borderColor: mode('blackAlpha.300', 'whiteAlpha.300')(props),
+      color: mode('blackAlpha.300', 'whiteAlpha.300')(props),
+      boxShadow: 'none',
+    }),
+  },
 };
 
 export default Card;

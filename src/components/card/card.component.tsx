@@ -1,8 +1,9 @@
 import { Box, BoxProps, useStyleConfig } from '@chakra-ui/react';
-import * as React from 'react';
 
-type Props = BoxProps;
+type Props = BoxProps & { variant?: 'outline' };
 
-const Card = (props: Props) => <Box __css={useStyleConfig('Card')} {...props} />;
+const Card = ({ variant, ...rest }: Props) => (
+  <Box __css={useStyleConfig('Card', { variant })} {...rest} />
+);
 
 export default Card;

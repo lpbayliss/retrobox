@@ -1,15 +1,15 @@
 import { ChakraProvider } from '@chakra-ui/react';
+import { getMessages } from '@i18n/getMessages';
+import { trpc } from '@lib/trpc';
+import { getAppClient } from '@lib/unleash';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import theme from '@theme/theme';
+import { FlagProvider, IToggle } from '@unleash/proxy-client-react';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
-import { IntlProvider } from 'react-intl';
-import { getMessages } from '@i18n/getMessages';
-import { SessionProvider } from 'next-auth/react';
 import { Session } from 'next-auth';
-import { trpc } from '@lib/trpc';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { FlagProvider, IToggle } from '@unleash/proxy-client-react';
-import { getAppClient } from '@lib/unleash'; 
+import { SessionProvider } from 'next-auth/react';
+import { IntlProvider } from 'react-intl';
 
 const MyApp = ({
   Component,
