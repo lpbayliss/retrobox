@@ -72,10 +72,10 @@ const Index: NextPage = () => {
               letterSpacing="tight"
               size="3xl"
             >
-              <FormattedMessage id="HOME_PAGE_TITLE" />
+              <FormattedMessage id="INDEX_PAGE_TITLE" />
             </Heading>
             <Text maxW="xl" mt="4" mx="auto" fontSize="xl">
-              <FormattedMessage id="HOME_PAGE_SUBTEXT" />
+              <FormattedMessage id="INDEX_PAGE_SUBTEXT" />
             </Text>
           </Box>
 
@@ -96,11 +96,11 @@ const Index: NextPage = () => {
                 onClick={handleSignInOnClick}
                 size="lg"
               >
-                <FormattedMessage id="HOME_PAGE_SIGN_IN" />
+                <FormattedMessage id="INDEX_PAGE_SIGN_IN" />
               </Button>
             )}
             <Button as="a" px="8" fontSize="md" fontWeight="bold" href="#" size="lg">
-              <FormattedMessage id="HOME_PAGE_LEARN_MORE" />
+              <FormattedMessage id="INDEX_PAGE_LEARN_MORE" />
             </Button>
           </Stack>
           <Box className="group" pos="relative" overflow="hidden" shadow="md" rounded="lg">

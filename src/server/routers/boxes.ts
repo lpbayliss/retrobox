@@ -13,6 +13,11 @@ const defaultBoxSelect = Prisma.validator<Prisma.BoxSelect>()({
   items: true,
 });
 
+const boxWhereUserIsOwnerInput = (userId: string) =>
+  Prisma.validator<Prisma.BoxWhereInput>()({
+    userId,
+  });
+
 const getUserOrThrow = (ctx: Context) => {
   const user = ctx.session?.user;
   if (!user) {
@@ -40,4 +45,15 @@ export const boxRouter = t.router({
       });
       return box;
     }),
+  fetchAll: t.procedure.query(async ({ ctx }) => {
+    const user = getUserOrThrow(ctx);
+    const boxes = await ctx.prisma.box.findMany({
+      where: boxWhereUserIsOwnerInput(user.id),
+      select: defaultBoxSelect,
+      orderBy: {
+        updatedAt: 'desc',
+      },
+    });
+    return boxes;
+  }),
 });

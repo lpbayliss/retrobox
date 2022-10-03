@@ -77,6 +77,7 @@ model ItemComment {
 model Item {
   id        String        @id @default(cuid())
   createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
   createdBy User?         @relation(fields: [userId], references: [id])
   content   String
   comments  ItemComment[]
@@ -92,6 +93,7 @@ model Item {
 model Drop {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   createdBy User     @relation(fields: [userId], references: [id])
   items     Item[]
 
@@ -99,10 +101,12 @@ model Drop {
 }
 
 model Box {
-  id        String @id @default(cuid())
+  id        String   @id @default(cuid())
   name      String
-  team      Team?  @relation(fields: [teamId], references: [id])
-  createdBy User   @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  team      Team?    @relation(fields: [teamId], references: [id])
+  createdBy User     @relation(fields: [userId], references: [id])
   items     Item[]
 
   teamId String?
