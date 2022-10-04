@@ -7229,6 +7229,11 @@ depd@^1.1.2, depd@~1.1.0, depd@~1.1.2:
   resolved "https://registry.yarnpkg.com/depd/-/depd-1.1.2.tgz#9bcd52e14c097763e749b274c4346ed2e560b5a9"
   integrity sha512-7emPTl6Dpo6JRXOXjLRxck+FlLRX5847cLKEn00PLAgc3g2hTZZgr+e4c2v6QpSmLeFP3n5yUo7ft6avBK/5jQ==
 
+dequal@^2.0.2:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/dequal/-/dequal-2.0.3.tgz#2644214f1997d39ed0ee0ece72335490a7ac67be"
+  integrity sha512-0je+qPKHEMohvfRTCEo3CrPG6cAzAYgmzKyxRiYSSDkS6eGJdyVJm7WaYA5ECaAD9wLB2T4EEeymA5aFVcYXCA==
+
 des.js@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/des.js/-/des.js-1.0.1.tgz#5382142e1bdc53f85d86d53e5f4aa7deb91e0843"
@@ -8121,6 +8126,11 @@ expect@^29.1.2:
     jest-matcher-utils "^29.1.2"
     jest-message-util "^29.1.2"
     jest-util "^29.1.2"
+
+express-rate-limit@^6.6.0:
+  version "6.6.0"
+  resolved "https://registry.yarnpkg.com/express-rate-limit/-/express-rate-limit-6.6.0.tgz#3bbc2546540d327b1b0bfa9ab5f1b2c49075af98"
+  integrity sha512-HFN2+4ZGdkQOS8Qli4z6knmJFnw6lZed67o6b7RGplWeb1Z0s8VXaj3dUgPIdm9hrhZXTRpCTHXA0/2Eqex0vA==
 
 express-session@^1.17.1:
   version "1.17.3"
@@ -15202,10 +15212,10 @@ unleash-proxy-client@2.2.1:
     tiny-emitter "^2.1.0"
     uuid "^8.3.2"
 
-unleash-server@4.15.4:
-  version "4.15.4"
-  resolved "https://registry.yarnpkg.com/unleash-server/-/unleash-server-4.15.4.tgz#0317a946a444d5537a36c3022952f584300b0e72"
-  integrity sha512-6euyhFVPx/VdtXji69Clm+Pt0s+cV5b/mqhubM7SOvoX9HV53UiJAHKTuAtdziynXV5EDdpEIX1EhgB3qI4L0w==
+unleash-server@4.16.0:
+  version "4.16.0"
+  resolved "https://registry.yarnpkg.com/unleash-server/-/unleash-server-4.16.0.tgz#7a885adb6213df3c6def99fd3636e869450b692f"
+  integrity sha512-tv1W1mC/kdhlXO2PToYm0vl/zwxk/gPanbFVNLRhE1qMGAGfCwwklJ0AGRvD1g0mAtDZp2K6C+QkzhhMIEStIQ==
   dependencies:
     "@unleash/express-openapi" "^0.2.1-beta.0"
     ajv "^8.11.0"
@@ -15224,6 +15234,7 @@ unleash-server@4.15.4:
     deepmerge "^4.2.2"
     errorhandler "^1.5.1"
     express "^4.17.1"
+    express-rate-limit "^6.6.0"
     express-session "^1.17.1"
     fast-json-patch "^3.1.0"
     gravatar-url "^3.1.0"
@@ -15255,6 +15266,7 @@ unleash-server@4.15.4:
     ts-toolbelt "^9.6.0"
     type-is "^1.6.18"
     unleash-client "3.15.0"
+    use-deep-compare-effect "^1.8.1"
     uuid "^8.3.2"
 
 unpipe@1.0.0, unpipe@~1.0.0:
@@ -15333,6 +15345,14 @@ use-callback-ref@^1.3.0:
   integrity sha512-3FT9PRuRdbB9HfXhEq35u4oZkvpJ5kuYbpqhCfmiZyReuRgpnhDlbr2ZEnnuS0RrJAPn6l23xjFg9kpDM+Ms7w==
   dependencies:
     tslib "^2.0.0"
+
+use-deep-compare-effect@^1.8.1:
+  version "1.8.1"
+  resolved "https://registry.yarnpkg.com/use-deep-compare-effect/-/use-deep-compare-effect-1.8.1.tgz#ef0ce3b3271edb801da1ec23bf0754ef4189d0c6"
+  integrity sha512-kbeNVZ9Zkc0RFGpfMN3MNfaKNvcLNyxOAAd9O4CBZ+kCBXXscn9s/4I+8ytUER4RDpEYs5+O6Rs4PqiZ+rHr5Q==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    dequal "^2.0.2"
 
 use-sidecar@^1.1.2:
   version "1.1.2"
