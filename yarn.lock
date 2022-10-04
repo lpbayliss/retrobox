@@ -4729,7 +4729,7 @@
     eslint-scope "^5.1.1"
     eslint-utils "^3.0.0"
 
-"@typescript-eslint/utils@^5.13.0", "@typescript-eslint/utils@^5.38.0":
+"@typescript-eslint/utils@^5.13.0":
   version "5.38.0"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/utils/-/utils-5.38.0.tgz#5b31f4896471818153790700eb02ac869a1543f4"
   integrity sha512-6sdeYaBgk9Fh7N2unEXGz+D+som2QCQGPAf1SxrkEr+Z32gMreQ0rparXTNGRRfYUWk/JzbGdcM8NSSd6oqnTA==
@@ -4738,6 +4738,18 @@
     "@typescript-eslint/scope-manager" "5.38.0"
     "@typescript-eslint/types" "5.38.0"
     "@typescript-eslint/typescript-estree" "5.38.0"
+    eslint-scope "^5.1.1"
+    eslint-utils "^3.0.0"
+
+"@typescript-eslint/utils@^5.39.0":
+  version "5.39.0"
+  resolved "https://registry.yarnpkg.com/@typescript-eslint/utils/-/utils-5.39.0.tgz#b7063cca1dcf08d1d21b0d91db491161ad0be110"
+  integrity sha512-+DnY5jkpOpgj+EBtYPyHRjXampJfC0yUZZzfzLuUWVZvCuKqSdJVC8UhdWipIw7VKNTfwfAPiOWzYkAwuIhiAg==
+  dependencies:
+    "@types/json-schema" "^7.0.9"
+    "@typescript-eslint/scope-manager" "5.39.0"
+    "@typescript-eslint/types" "5.39.0"
+    "@typescript-eslint/typescript-estree" "5.39.0"
     eslint-scope "^5.1.1"
     eslint-utils "^3.0.0"
 
@@ -7761,12 +7773,12 @@ eslint-module-utils@^2.7.3:
   dependencies:
     debug "^3.2.7"
 
-eslint-plugin-chakra-ui@0.7.4:
-  version "0.7.4"
-  resolved "https://registry.yarnpkg.com/eslint-plugin-chakra-ui/-/eslint-plugin-chakra-ui-0.7.4.tgz#d26eced3825304673bfaefe043e6d6f7a59f2fbd"
-  integrity sha512-+TICY3ZtEWQ1KvIWervLmGIg4AYk1C+Vuwbuii8YRfP+AFYfDsuRkshQBji1Bmho6nkTApgu7kOymistOwSPJw==
+eslint-plugin-chakra-ui@0.7.5:
+  version "0.7.5"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-chakra-ui/-/eslint-plugin-chakra-ui-0.7.5.tgz#16cc8957d091c75f3fb5fb108ff47ef6a2b19271"
+  integrity sha512-AlN1nMmaBpDBDEkIY2wU8eT7yU9WMheDDZI+tANVUPyOOGFy6+mhE07LFU1mqN+dxvXqSk75U+uyplRb/uynlw==
   dependencies:
-    "@typescript-eslint/utils" "^5.38.0"
+    "@typescript-eslint/utils" "^5.39.0"
 
 eslint-plugin-import@2.26.0, eslint-plugin-import@^2.26.0:
   version "2.26.0"
