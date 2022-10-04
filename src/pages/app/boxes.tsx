@@ -25,17 +25,20 @@ import { AppLayout } from '@components/layouts/app-layout';
 import { faPlusCircle } from '@fortawesome/pro-light-svg-icons';
 import { withServerSideSession } from '@lib/auth';
 import { Icon } from '@lib/icon';
+import { trpc } from '@lib/trpc';
 import { withToggles } from '@lib/unleash';
+import type { Box as PrismaBox } from '@prisma/client';
+import { useFlag } from '@unleash/proxy-client-react';
 import { GetServerSideProps, NextPage } from 'next';
 import NextLink from 'next/link';
 import { FormattedMessage } from 'react-intl';
 
-const BoxDisplay = () => (
+const BoxDisplay = ({ box }: { box: Partial<PrismaBox> }) => (
   <NextLink href="/boxes/abc" passHref>
     <Card as="a">
       <Center flexDir="column">
         <Heading as="h4" mb="4" size="md">
-          Box Name
+          {box.name}
         </Heading>
         <Text>A description about the box.</Text>
       </Center>
@@ -58,7 +61,9 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 };
 
 const AppPage: NextPage = () => {
+  const createBoxEnabled = useFlag('create-box');
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { data: boxes } = trpc.box.fetchAll.useQuery();
 
   return (
     <AppLayout>
@@ -84,17 +89,7 @@ const AppPage: NextPage = () => {
         <Heading as="h3" mb="4">
           <FormattedMessage id="BOXES_PAGE_HEADING_RECENT" />
         </Heading>
-        <Wrap py="2" spacing="6">
-          <WrapItem>
-            <BoxDisplay />
-          </WrapItem>
-          <WrapItem>
-            <BoxDisplay />
-          </WrapItem>
-          <WrapItem>
-            <BoxDisplay />
-          </WrapItem>
-        </Wrap>
+        <Wrap py="2" spacing="6"></Wrap>
       </Box>
 
       <Box as="section" mb="6">
@@ -102,31 +97,24 @@ const AppPage: NextPage = () => {
           <FormattedMessage id="BOXES_PAGE_HEADING_ALL" />
         </Heading>
         <Wrap py="2" spacing="6">
-          <WrapItem>
-            <Card as={Button} variant="outline" h="full" onClick={onOpen}>
-              <Center flexDir="column">
-                <Icon icon={faPlusCircle} fontSize="25" mb="2" />
-                <Text fontSize="xl">
-                  <FormattedMessage id="BUTTON_CREATE_BOX" />
-                </Text>
-              </Center>
-            </Card>
-          </WrapItem>
-          <WrapItem>
-            <BoxDisplay />
-          </WrapItem>
-          <WrapItem>
-            <BoxDisplay />
-          </WrapItem>
-          <WrapItem>
-            <BoxDisplay />
-          </WrapItem>
-          <WrapItem>
-            <BoxDisplay />
-          </WrapItem>
-          <WrapItem>
-            <BoxDisplay />
-          </WrapItem>
+          {createBoxEnabled && (
+            <WrapItem>
+              <Card as={Button} variant="outline" h="full" onClick={onOpen}>
+                <Center flexDir="column">
+                  <Icon icon={faPlusCircle} fontSize="25" mb="2" />
+                  <Text fontSize="xl">
+                    <FormattedMessage id="BUTTON_CREATE_BOX" />
+                  </Text>
+                </Center>
+              </Card>
+            </WrapItem>
+          )}
+          {boxes &&
+            boxes.map((box) => (
+              <WrapItem key={box.id}>
+                <BoxDisplay box={box} />
+              </WrapItem>
+            ))}
         </Wrap>
       </Box>
 

@@ -8,7 +8,6 @@ import {
   StackProps,
   VStack,
 } from '@chakra-ui/react';
-import { useEffect } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { trpc } from 'src/lib/trpc';
@@ -20,7 +19,14 @@ export type ICreateBoxFormInputs = {
 type Props = { onClose: () => void } & StackProps;
 
 const CreateBoxForm = ({ onClose, ...props }: Props) => {
-  const addPostMutation = trpc.box.create.useMutation();
+  const trpcContext = trpc.useContext();
+
+  const addPostMutation = trpc.box.create.useMutation({
+    onSuccess() {
+      trpcContext.box.fetchAll.invalidate();
+      onClose();
+    },
+  });
 
   const intl = useIntl();
 
@@ -33,14 +39,6 @@ const CreateBoxForm = ({ onClose, ...props }: Props) => {
   const handleOnSubmit: SubmitHandler<ICreateBoxFormInputs> = async (data) => {
     await addPostMutation.mutateAsync({ name: data.name });
   };
-
-  useEffect(() => {
-    if (addPostMutation.error) return;
-    if (addPostMutation.isSuccess) {
-      onClose();
-      return;
-    }
-  }, [addPostMutation.error, addPostMutation.isSuccess, onClose]);
 
   return (
     <VStack as="form" onSubmit={handleSubmit(handleOnSubmit)} spacing="4" {...props}>
