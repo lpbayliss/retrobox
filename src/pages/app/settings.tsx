@@ -6,11 +6,11 @@ import { FormattedMessage } from 'react-intl';
 
 export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: true });
 
-const AppPage: NextPage = () => {
+const AppPage: NextPage<{ hello: string }> = (props) => {
   return (
     <>
       <Head>
-        <title>Retrobox | Home</title>
+        <title>Retrobox | Settings</title>
         <meta name="description" content="Retrobox home" />
       </Head>
       <Flex w="full" h="full">

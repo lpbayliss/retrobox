@@ -21,20 +21,19 @@ import {
 } from '@chakra-ui/react';
 import { Card } from '@components/card';
 import { CreateBoxForm } from '@components/create-box-form';
-import { AppLayout } from '@components/layouts/app-layout';
 import { faPlusCircle } from '@fortawesome/pro-light-svg-icons';
-import { withServerSideSession } from '@lib/auth';
 import { Icon } from '@lib/icon';
+import { withDefaultServerSideProps } from '@lib/props';
 import { trpc } from '@lib/trpc';
-import { withToggles } from '@lib/unleash';
 import type { Box as PrismaBox } from '@prisma/client';
 import { useFlag } from '@unleash/proxy-client-react';
 import { GetServerSideProps, NextPage } from 'next';
+import Head from 'next/head';
 import NextLink from 'next/link';
 import { FormattedMessage } from 'react-intl';
 
 const BoxDisplay = ({ box }: { box: Partial<PrismaBox> }) => (
-  <NextLink href="/boxes/abc" passHref>
+  <NextLink href="/app/boxes/abc" passHref>
     <Card as="a">
       <Center flexDir="column">
         <Heading as="h4" mb="4" size="md">
@@ -46,19 +45,7 @@ const BoxDisplay = ({ box }: { box: Partial<PrismaBox> }) => (
   </NextLink>
 );
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const props = await withToggles(await withServerSideSession(context)({}));
-
-  if (!props.session?.user)
-    return {
-      redirect: '/',
-      props: {},
-    };
-
-  return {
-    props,
-  };
-};
+export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: true });
 
 const AppPage: NextPage = () => {
   const createBoxEnabled = useFlag('create-box');
@@ -66,7 +53,11 @@ const AppPage: NextPage = () => {
   const { data: boxes } = trpc.box.fetchAll.useQuery();
 
   return (
-    <AppLayout>
+    <>
+      <Head>
+        <title>Retrobox | Boxes</title>
+        <meta name="description" content="Retrobox home" />
+      </Head>
       <Box as="section" mb="6">
         <Heading as="h2" mb="2" size="2xl">
           <FormattedMessage id="BOXES_PAGE_TITLE" />
@@ -135,7 +126,7 @@ const AppPage: NextPage = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-    </AppLayout>
+    </>
   );
 };
 

@@ -1,7 +1,5 @@
 import { IConfig, InMemoryStorageProvider, IToggle, UnleashClient } from 'unleash-proxy-client';
 
-import { SessionProp } from './auth';
-
 export const config: IConfig = {
   url: process.env.NEXT_PUBLIC_UNLEASH_PROXY_URL || 'http://localhost:5000/proxy',
   clientKey: process.env.NEXT_PUBLIC_UNLEASH_CLIENT_KEY || 'development-proxy',
@@ -30,17 +28,4 @@ export const getAppClient = (toggles: IToggle[]) => {
       : { fetch: fetch, storageProvider: new InMemoryStorageProvider() }),
     bootstrap: toggles,
   });
-};
-
-export const withToggles = async <P extends { [key: string]: any } & SessionProp>(
-  props: P,
-): Promise<P & ToggleProp> => {
-  const unleash = getPrefetchClient();
-
-  if (props.session) unleash.updateContext({ userId: props.session?.user.id });
-
-  await unleash.start();
-  const toggles = unleash.getAllToggles();
-
-  return { ...props, toggles };
 };

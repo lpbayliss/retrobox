@@ -2,6 +2,8 @@ import {
   Avatar,
   Box,
   Center,
+  Collapse,
+  Divider,
   Flex,
   Heading,
   HStack,
@@ -10,9 +12,18 @@ import {
   Text,
   useBreakpointValue,
   useColorMode,
+  useDisclosure,
   VStack,
 } from '@chakra-ui/react';
-import { faBoxTaped, faGear, faHouse, faMoon, faSun } from '@fortawesome/pro-light-svg-icons';
+import {
+  faBars,
+  faBoxTaped,
+  faGear,
+  faHouse,
+  faMoon,
+  faSun,
+  faXmarkLarge,
+} from '@fortawesome/pro-light-svg-icons';
 import { Icon } from '@lib/icon';
 import NextLink from 'next/link';
 import { useSession } from 'next-auth/react';
@@ -47,31 +58,61 @@ const SidebarLink = ({ label, icon, href, isActive }: SidebarLinkProps) => {
 
 const Navbar = () => {
   const { colorMode, toggleColorMode } = useColorMode();
+  const { isOpen, onToggle } = useDisclosure();
 
   return (
-    <HStack as="nav" h="75px" px="4" bg="surface">
-      <HStack>
-        <Text fontSize="2xl">📦</Text>
-        <Heading as="h1" size="md">
-          Retrobox
-        </Heading>
+    <>
+      <HStack as="nav" h="75px" px="4" bg="surface">
+        <HStack>
+          <Text fontSize="2xl">📦</Text>
+          <Heading as="h1" size="md">
+            Retrobox
+          </Heading>
+        </HStack>
+        <Spacer />
+        <HStack>
+          <Avatar borderRadius="lg" name="Luke Bayliss" size="sm" />
+          <IconButton
+            aria-label="color-mode-toggle"
+            icon={<Icon icon={colorMode === 'light' ? faMoon : faSun} />}
+            onClick={toggleColorMode}
+            size="sm"
+          />
+          <Divider h="15px" orientation="vertical" />
+          <IconButton
+            bg="none"
+            _hover={{
+              bg: 'none',
+            }}
+            aria-label="menu-toggle"
+            icon={<Icon icon={!isOpen ? faBars : faXmarkLarge} />}
+            onClick={onToggle}
+            size="sm"
+            variant="ghost"
+          />
+        </HStack>
       </HStack>
-      <HStack spacing="6">
-        <SidebarLink icon={faHouse} isActive label="Home" href="/app" />
-        <SidebarLink icon={faBoxTaped} label="Boxes" href="/app/boxes" />
-        <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
-      </HStack>
-      <Spacer />
-      <HStack>
-        <Avatar borderRadius="lg" name="Luke Bayliss" size="sm" />
-        <IconButton
-          aria-label="color-mode-toggle"
-          icon={<Icon icon={colorMode === 'light' ? faMoon : faSun} />}
-          onClick={toggleColorMode}
-          size="sm"
-        />
-      </HStack>
-    </HStack>
+
+      <Collapse
+        in={isOpen}
+        style={{
+          zIndex: 10,
+          position: 'absolute',
+          top: '75px',
+          bottom: '0',
+          left: '0',
+          right: '0',
+        }}
+      >
+        <Box w="full" h="full" p="4" bg="surface">
+          <VStack spacing="6">
+            <SidebarLink icon={faHouse} isActive label="Home" href="/app" />
+            <SidebarLink icon={faBoxTaped} label="Boxes" href="/app/boxes" />
+            <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
+          </VStack>
+        </Box>
+      </Collapse>
+    </>
   );
 };
 
@@ -113,7 +154,7 @@ const AppLayout = ({ children }: PropsWithChildren<{}>) => {
   return (
     <Flex direction={{ base: 'column', lg: 'row' }} w="full" h="100vh">
       {isDesktop ? <Sidebar /> : <Navbar />}
-      <Box as="main" overflow="auto" w="full" p="8">
+      <Box as="main" overflow="auto" w="full" p={['4', null, '8']}>
         {children}
       </Box>
     </Flex>
