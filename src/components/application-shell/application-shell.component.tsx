@@ -26,8 +26,9 @@ import {
 } from '@fortawesome/pro-light-svg-icons';
 import { Icon } from '@lib/icon';
 import NextLink from 'next/link';
+import { useRouter } from 'next/router';
 import { useSession } from 'next-auth/react';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, useEffect } from 'react';
 
 interface SidebarLinkProps {
   label: string;
@@ -57,8 +58,13 @@ const SidebarLink = ({ label, icon, href, isActive }: SidebarLinkProps) => {
 };
 
 const Navbar = () => {
+  const router = useRouter();
   const { colorMode, toggleColorMode } = useColorMode();
-  const { isOpen, onToggle } = useDisclosure();
+  const { isOpen, onToggle, onClose } = useDisclosure();
+
+  useEffect(() => {
+    setTimeout(onClose, 100);
+  }, [router.asPath, onClose]);
 
   return (
     <>
@@ -106,9 +112,24 @@ const Navbar = () => {
       >
         <Box w="full" h="full" p="4" bg="surface">
           <VStack spacing="6">
-            <SidebarLink icon={faHouse} isActive label="Home" href="/app" />
-            <SidebarLink icon={faBoxTaped} label="Boxes" href="/app/boxes" />
-            <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
+            <SidebarLink
+              icon={faHouse}
+              isActive={router.asPath === '/app'}
+              label="Home"
+              href="/app"
+            />
+            <SidebarLink
+              icon={faBoxTaped}
+              label="Boxes"
+              isActive={router.asPath === '/app/boxes'}
+              href="/app/boxes"
+            />
+            <SidebarLink
+              icon={faGear}
+              label="Settings"
+              isActive={router.asPath === '/app/settings'}
+              href="/app/settings"
+            />
           </VStack>
         </Box>
       </Collapse>
@@ -117,6 +138,7 @@ const Navbar = () => {
 };
 
 const Sidebar = () => {
+  const router = useRouter();
   const { data } = useSession();
   const { colorMode, toggleColorMode } = useColorMode();
 
@@ -128,9 +150,24 @@ const Sidebar = () => {
           <Heading as="h1">Retrobox</Heading>
         </HStack>
         <VStack spacing="6">
-          <SidebarLink icon={faHouse} isActive label="Home" href="/app" />
-          <SidebarLink icon={faBoxTaped} label="Boxes" href="/app/boxes" />
-          <SidebarLink icon={faGear} label="Settings" href="/app/settings" />
+          <SidebarLink
+            icon={faHouse}
+            isActive={router.asPath === '/app'}
+            label="Home"
+            href="/app"
+          />
+          <SidebarLink
+            icon={faBoxTaped}
+            label="Boxes"
+            isActive={router.asPath === '/app/boxes'}
+            href="/app/boxes"
+          />
+          <SidebarLink
+            icon={faGear}
+            label="Settings"
+            isActive={router.asPath === '/app/settings'}
+            href="/app/settings"
+          />
         </VStack>
         <Spacer />
         <HStack w="full">
