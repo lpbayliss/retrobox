@@ -16,7 +16,7 @@ export type ICreateBoxFormInputs = {
   name: string;
 };
 
-type Props = { onClose: () => void } & StackProps;
+type Props = { onClose: (created?: boolean) => void } & StackProps;
 
 const CreateBoxForm = ({ onClose, ...props }: Props) => {
   const trpcContext = trpc.useContext();
@@ -24,7 +24,7 @@ const CreateBoxForm = ({ onClose, ...props }: Props) => {
   const addPostMutation = trpc.box.create.useMutation({
     onSuccess() {
       trpcContext.box.fetchAll.invalidate();
-      onClose();
+      onClose(true);
     },
   });
 

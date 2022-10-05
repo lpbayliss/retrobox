@@ -187,6 +187,7 @@ const Sidebar = () => {
 
 const AppLayout = ({ children }: PropsWithChildren<{}>) => {
   const isDesktop = useBreakpointValue({ base: false, lg: true });
+  const router = useRouter();
 
   return (
     <Flex direction={{ base: 'column', lg: 'row' }} w="full" h="100vh">

@@ -6,6 +6,8 @@ import {
   BreadcrumbLink,
   Button,
   Center,
+  Grid,
+  GridItem,
   Heading,
   Modal,
   ModalBody,
@@ -14,10 +16,10 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  ScaleFade,
   Text,
   useDisclosure,
   Wrap,
-  WrapItem,
 } from '@chakra-ui/react';
 import { Card } from '@components/card';
 import { CreateBoxForm } from '@components/create-box-form';
@@ -25,25 +27,12 @@ import { faPlusCircle } from '@fortawesome/pro-light-svg-icons';
 import { Icon } from '@lib/icon';
 import { withDefaultServerSideProps } from '@lib/props';
 import { trpc } from '@lib/trpc';
-import type { Box as PrismaBox } from '@prisma/client';
 import { useFlag } from '@unleash/proxy-client-react';
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import NextLink from 'next/link';
+import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-
-const BoxDisplay = ({ box }: { box: Partial<PrismaBox> }) => (
-  <NextLink href="/app/boxes/abc" passHref>
-    <Card as="a">
-      <Center flexDir="column">
-        <Heading as="h4" mb="4" size="md">
-          {box.name}
-        </Heading>
-        <Text>A description about the box.</Text>
-      </Center>
-    </Card>
-  </NextLink>
-);
 
 export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: true });
 
@@ -51,6 +40,19 @@ const AppPage: NextPage = () => {
   const createBoxEnabled = useFlag('create-box');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data: boxes } = trpc.box.fetchAll.useQuery();
+
+  const [recentlyCreated, setRecentlyCreated] = useState<boolean>(false);
+
+  const handleOnClose = (created?: boolean) => {
+    if (created) {
+      setRecentlyCreated(true);
+      setTimeout(() => {
+        setRecentlyCreated(false);
+      }, 5000);
+    }
+
+    onClose();
+  };
 
   return (
     <>
@@ -87,26 +89,45 @@ const AppPage: NextPage = () => {
         <Heading as="h3" mb="4">
           <FormattedMessage id="BOXES_PAGE_HEADING_ALL" />
         </Heading>
-        <Wrap py="2" spacing="6">
+        <Grid gap={3} templateColumns="repeat(auto-fill, minmax(24rem, 1fr))" w="full">
           {createBoxEnabled && (
-            <WrapItem>
-              <Card as={Button} variant="outline" h="full" onClick={onOpen}>
+            <GridItem colSpan={1}>
+              <Card as={Button} variant="outline" h="full" w="full" onClick={onOpen}>
                 <Center flexDir="column">
-                  <Icon icon={faPlusCircle} fontSize="25" mb="2" />
+                  <Icon mb="2" fontSize="25" icon={faPlusCircle} />
                   <Text fontSize="xl">
                     <FormattedMessage id="BUTTON_CREATE_BOX" />
                   </Text>
                 </Center>
               </Card>
-            </WrapItem>
+            </GridItem>
           )}
           {boxes &&
-            boxes.map((box) => (
-              <WrapItem key={box.id}>
-                <BoxDisplay box={box} />
-              </WrapItem>
+            boxes.map((box, index) => (
+              <ScaleFade key={box.id} in={true} initialScale={0.9}>
+                <GridItem colSpan={1}>
+                  <NextLink href="/app/boxes/abc" passHref>
+                    <Card
+                      as="a"
+                      h="full"
+                      borderColor={index === 0 && recentlyCreated ? 'blue.300' : 'transparent'}
+                      transition="border"
+                      transitionDuration="200ms"
+                      borderStyle="solid"
+                      borderWidth="2px"
+                    >
+                      <Center flexDir="column">
+                        <Heading as="h4" mb="4" size="md">
+                          {box.name}
+                        </Heading>
+                        <Text>A description about the box.</Text>
+                      </Center>
+                    </Card>
+                  </NextLink>
+                </GridItem>
+              </ScaleFade>
             ))}
-        </Wrap>
+        </Grid>
       </Box>
 
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -117,7 +138,7 @@ const AppPage: NextPage = () => {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <CreateBoxForm onClose={onClose} />
+            <CreateBoxForm onClose={handleOnClose} />
           </ModalBody>
           <ModalFooter>
             <Button onClick={onClose}>
