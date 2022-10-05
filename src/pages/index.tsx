@@ -27,7 +27,7 @@ import { FormattedMessage } from 'react-intl';
 
 export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: false });
 
-const Index: NextPage = () => {
+const IndexPage: NextPage = () => {
   const router = useRouter();
   const { data } = useSession();
   const customSignInEnabled = useFlag('custom-login');
@@ -138,4 +138,4 @@ const Index: NextPage = () => {
   );
 };
 
-export default Index;
+export default IndexPage;

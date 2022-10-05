@@ -6,7 +6,7 @@ import { FormattedMessage } from 'react-intl';
 
 export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: true });
 
-const AppPage: NextPage = () => {
+const HomePage: NextPage = () => {
   return (
     <>
       <Head>
@@ -36,4 +36,4 @@ const AppPage: NextPage = () => {
   );
 };
 
-export default AppPage;
+export default HomePage;

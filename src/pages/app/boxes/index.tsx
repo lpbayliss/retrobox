@@ -6,8 +6,6 @@ import {
   BreadcrumbLink,
   Button,
   Center,
-  Grid,
-  GridItem,
   Heading,
   Modal,
   ModalBody,
@@ -19,10 +17,10 @@ import {
   ScaleFade,
   Text,
   useDisclosure,
-  Wrap,
 } from '@chakra-ui/react';
 import { Card } from '@components/card';
 import { CreateBoxForm } from '@components/create-box-form';
+import { TileGrid, TileGridItem } from '@components/tile-grid';
 import { faPlusCircle } from '@fortawesome/pro-light-svg-icons';
 import { Icon } from '@lib/icon';
 import { withDefaultServerSideProps } from '@lib/props';
@@ -31,15 +29,34 @@ import { useFlag } from '@unleash/proxy-client-react';
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import { useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+
+type CardLinkProps = { href: string; highlight?: boolean };
+const CardLink = ({ href, highlight, children }: PropsWithChildren<CardLinkProps>) => (
+  <NextLink href={href} passHref>
+    <Card
+      as="a"
+      h="full"
+      borderColor={highlight ? 'blue.300' : 'transparent'}
+      borderStyle="solid"
+      borderWidth="2px"
+      transition="border"
+      transitionDuration="400ms"
+      _hover={{ borderColor: 'whiteAlpha.300' }}
+    >
+      {children}
+    </Card>
+  </NextLink>
+);
 
 export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: true });
 
-const AppPage: NextPage = () => {
+const BoxesPage: NextPage = () => {
   const createBoxEnabled = useFlag('create-box');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data: boxes } = trpc.box.fetchAll.useQuery();
+  const { data: recentBoxes } = trpc.box.fetchRecentlyViewed.useQuery();
 
   const [recentlyCreated, setRecentlyCreated] = useState<boolean>(false);
 
@@ -66,32 +83,54 @@ const AppPage: NextPage = () => {
         </Heading>
         <Breadcrumb separator={<ChevronRightIcon color="gray.500" />} spacing="8px">
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">
-              <FormattedMessage id="HOME_PAGE_TITLE" />
-            </BreadcrumbLink>
+            <NextLink href="/app" passHref>
+              <BreadcrumbLink>
+                <FormattedMessage id="HOME_PAGE_TITLE" />
+              </BreadcrumbLink>
+            </NextLink>
           </BreadcrumbItem>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/boxes">
-              <FormattedMessage id="BOXES_PAGE_TITLE" />
-            </BreadcrumbLink>
+            <NextLink href="/app/boxes" passHref>
+              <BreadcrumbLink>
+                <FormattedMessage id="BOXES_PAGE_TITLE" />
+              </BreadcrumbLink>
+            </NextLink>
           </BreadcrumbItem>
         </Breadcrumb>
       </Box>
 
-      <Box as="section" mb="6">
-        <Heading as="h3" mb="4">
-          <FormattedMessage id="BOXES_PAGE_HEADING_RECENT" />
-        </Heading>
-        <Wrap py="2" spacing="6"></Wrap>
-      </Box>
+      {recentBoxes && (
+        <Box as="section" mb="6">
+          <Heading as="h3" mb="4">
+            <FormattedMessage id="BOXES_PAGE_HEADING_RECENT" />
+          </Heading>
+          <TileGrid>
+            {recentBoxes &&
+              recentBoxes.map((box, index) => (
+                <ScaleFade key={box.id} delay={0.03 * index} in={true} initialScale={0.9}>
+                  <TileGridItem>
+                    <CardLink href={`/app/boxes/${box.id}`}>
+                      <Center flexDir="column">
+                        <Heading as="h4" mb="4" size="md">
+                          {box.name}
+                        </Heading>
+                        <Text>A description about the box.</Text>
+                      </Center>
+                    </CardLink>
+                  </TileGridItem>
+                </ScaleFade>
+              ))}
+          </TileGrid>
+        </Box>
+      )}
 
       <Box as="section" mb="6">
         <Heading as="h3" mb="4">
           <FormattedMessage id="BOXES_PAGE_HEADING_ALL" />
         </Heading>
-        <Grid gap={3} templateColumns="repeat(auto-fill, minmax(24rem, 1fr))" w="full">
+        <TileGrid>
           {createBoxEnabled && (
-            <GridItem colSpan={1}>
+            <TileGridItem>
               <Card as={Button} variant="outline" h="full" w="full" onClick={onOpen}>
                 <Center flexDir="column">
                   <Icon mb="2" fontSize="25" icon={faPlusCircle} />
@@ -100,34 +139,27 @@ const AppPage: NextPage = () => {
                   </Text>
                 </Center>
               </Card>
-            </GridItem>
+            </TileGridItem>
           )}
           {boxes &&
             boxes.map((box, index) => (
-              <ScaleFade key={box.id} in={true} initialScale={0.9}>
-                <GridItem colSpan={1}>
-                  <NextLink href="/app/boxes/abc" passHref>
-                    <Card
-                      as="a"
-                      h="full"
-                      borderColor={index === 0 && recentlyCreated ? 'blue.300' : 'transparent'}
-                      transition="border"
-                      transitionDuration="200ms"
-                      borderStyle="solid"
-                      borderWidth="2px"
-                    >
-                      <Center flexDir="column">
-                        <Heading as="h4" mb="4" size="md">
-                          {box.name}
-                        </Heading>
-                        <Text>A description about the box.</Text>
-                      </Center>
-                    </Card>
-                  </NextLink>
-                </GridItem>
+              <ScaleFade key={box.id} delay={0.03 * index} in={true} initialScale={0.9}>
+                <TileGridItem>
+                  <CardLink
+                    href={`/app/boxes/${box.id}`}
+                    highlight={recentlyCreated && index === 0}
+                  >
+                    <Center flexDir="column">
+                      <Heading as="h4" mb="4" size="md">
+                        {box.name}
+                      </Heading>
+                      <Text>A description about the box.</Text>
+                    </Center>
+                  </CardLink>
+                </TileGridItem>
               </ScaleFade>
             ))}
-        </Grid>
+        </TileGrid>
       </Box>
 
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -151,4 +183,4 @@ const AppPage: NextPage = () => {
   );
 };
 
-export default AppPage;
+export default BoxesPage;

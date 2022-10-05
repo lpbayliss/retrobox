@@ -121,13 +121,13 @@ const Navbar = () => {
             <SidebarLink
               icon={faBoxTaped}
               label="Boxes"
-              isActive={router.asPath === '/app/boxes'}
+              isActive={router.asPath.startsWith('/app/boxes')}
               href="/app/boxes"
             />
             <SidebarLink
               icon={faGear}
               label="Settings"
-              isActive={router.asPath === '/app/settings'}
+              isActive={router.asPath.startsWith('/app/settings')}
               href="/app/settings"
             />
           </VStack>
@@ -159,13 +159,13 @@ const Sidebar = () => {
           <SidebarLink
             icon={faBoxTaped}
             label="Boxes"
-            isActive={router.asPath === '/app/boxes'}
+            isActive={router.asPath.startsWith('/app/boxes')}
             href="/app/boxes"
           />
           <SidebarLink
             icon={faGear}
             label="Settings"
-            isActive={router.asPath === '/app/settings'}
+            isActive={router.asPath.startsWith('/app/settings')}
             href="/app/settings"
           />
         </VStack>

@@ -13,11 +13,12 @@ import {
 import { withDefaultServerSideProps } from '@lib/props';
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
+import NextLink from 'next/link';
 import { FormattedMessage } from 'react-intl';
 
 export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: true });
 
-const AppPage: NextPage = () => {
+const SettingsPage: NextPage = () => {
   return (
     <>
       <Head>
@@ -31,14 +32,18 @@ const AppPage: NextPage = () => {
         </Heading>
         <Breadcrumb separator={<ChevronRightIcon color="gray.500" />} spacing="8px">
           <BreadcrumbItem>
-            <BreadcrumbLink href="/">
-              <FormattedMessage id="HOME_PAGE_TITLE" />
-            </BreadcrumbLink>
+            <NextLink href="/app" passHref>
+              <BreadcrumbLink>
+                <FormattedMessage id="HOME_PAGE_TITLE" />
+              </BreadcrumbLink>
+            </NextLink>
           </BreadcrumbItem>
           <BreadcrumbItem>
-            <BreadcrumbLink href="/boxes">
-              <FormattedMessage id="SETTINGS_PAGE_TITLE" />
-            </BreadcrumbLink>
+            <NextLink href="/app/settings" passHref>
+              <BreadcrumbLink>
+                <FormattedMessage id="SETTINGS_PAGE_TITLE" />
+              </BreadcrumbLink>
+            </NextLink>
           </BreadcrumbItem>
         </Breadcrumb>
       </Box>
@@ -59,4 +64,4 @@ const AppPage: NextPage = () => {
   );
 };
 
-export default AppPage;
+export default SettingsPage;
