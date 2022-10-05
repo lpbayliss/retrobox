@@ -22,6 +22,11 @@ export const authOptions: NextAuthOptions = {
         user: { name: user.name, email: user.email, image: user.image, id: user.id },
       };
     },
+    // async redirect({ url, baseUrl }) {
+    //   logger.debug({ url });
+    //   logger.debug({ baseUrl });
+    //   return url;
+    // },
   },
 };
 
