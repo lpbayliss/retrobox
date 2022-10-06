@@ -9,7 +9,7 @@ const Card: ComponentStyleConfig = {
     boxShadow: 'sm',
     padding: 6,
     borderRadius: 'base',
-    minW: 'sm',
+    minW: 'xs',
   }),
   variants: {
     outline: (props: any) => ({

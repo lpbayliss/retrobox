@@ -22,7 +22,7 @@ const HomePage: NextPage = () => {
 
       <Flex w="full" h="full">
         <Spacer />
-        <Center flexDir="column" w="full" my="auto">
+        <Center flexDir="column" w="full" my="auto" textAlign="center">
           <Heading as="h2" pb="4">
             <FormattedMessage id="HOME_PAGE_HEADING" />
           </Heading>

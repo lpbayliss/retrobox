@@ -68,7 +68,7 @@ const Navbar = () => {
 
   return (
     <>
-      <HStack as="nav" h="75px" px="4" bg="surface">
+      <HStack as="nav" minH="75px" px="4" bg="surface">
         <HStack>
           <Text fontSize="2xl">📦</Text>
           <Heading as="h1" size="md">
@@ -190,11 +190,11 @@ const AppLayout = ({ children }: PropsWithChildren<{}>) => {
   const router = useRouter();
 
   return (
-    <Flex direction={{ base: 'column', lg: 'row' }} w="full" h="100vh">
+    <Flex direction={{ base: 'column', lg: 'row' }} w="full" minW="sm" h="100vh">
       {isDesktop ? <Sidebar /> : <Navbar />}
-      <Box as="main" overflow="auto" w="full" p={['4', null, '8']}>
+      <Flex as="main" direction="column" overflow="auto" w="full" h="full" p={['4', null, '8']}>
         {children}
-      </Box>
+      </Flex>
     </Flex>
   );
 };

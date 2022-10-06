@@ -6,7 +6,7 @@ const TileGrid: ComponentStyleConfig = {
     grid: {
       display: 'grid',
       gap: 3,
-      gridTemplateColumns: 'repeat(auto-fill, minmax(24rem, 1fr))',
+      gridTemplateColumns: 'repeat(auto-fill, minmax(20rem, 1fr))',
       width: 'full',
     },
     item: {

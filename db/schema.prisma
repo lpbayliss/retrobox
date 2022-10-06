@@ -40,14 +40,14 @@ model Session {
 }
 
 model User {
-  id                  String              @id @default(cuid())
+  id                  String        @id @default(cuid())
   name                String?
-  email               String?             @unique
+  email               String?       @unique
   emailVerified       DateTime?
   image               String?
   accounts            Account[]
   sessions            Session[]
-  ownedTeams          Team[]              @relation("TeamOwner")
+  ownedTeams          Team[]        @relation("TeamOwner")
   teams               Team[]
   boxesCreated        Box[]
   itemsCreated        Item[]
@@ -99,6 +99,8 @@ model Drop {
   items     Item[]
 
   userId String
+  Box    Box?    @relation(fields: [boxId], references: [id])
+  boxId  String?
 }
 
 model Box {
@@ -109,9 +111,10 @@ model Box {
   team      Team?    @relation(fields: [teamId], references: [id])
   createdBy User     @relation(fields: [userId], references: [id])
   items     Item[]
+  drops     Drop[]
 
-  teamId           String?
-  userId           String
+  teamId    String?
+  userId    String
   userViews BoxViews[]
 }
 

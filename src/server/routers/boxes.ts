@@ -11,6 +11,7 @@ const defaultBoxSelect = Prisma.validator<Prisma.BoxSelect>()({
   team: true,
   createdBy: true,
   items: true,
+  drops: true,
 });
 
 const boxWhereUserIsOwnerInput = (userId: string) =>

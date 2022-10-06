@@ -19,6 +19,7 @@ import {
   useDisclosure,
 } from '@chakra-ui/react';
 import { Card } from '@components/card';
+import { CardLink } from '@components/card-link';
 import { CreateBoxForm } from '@components/create-box-form';
 import { TileGrid, TileGridItem } from '@components/tile-grid';
 import { faPlusCircle } from '@fortawesome/pro-light-svg-icons';
@@ -29,26 +30,8 @@ import { useFlag } from '@unleash/proxy-client-react';
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import { PropsWithChildren, useState } from 'react';
+import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-
-type CardLinkProps = { href: string; highlight?: boolean };
-const CardLink = ({ href, highlight, children }: PropsWithChildren<CardLinkProps>) => (
-  <NextLink href={href} passHref>
-    <Card
-      as="a"
-      h="full"
-      borderColor={highlight ? 'blue.300' : 'transparent'}
-      borderStyle="solid"
-      borderWidth="2px"
-      transition="border"
-      transitionDuration="400ms"
-      _hover={{ borderColor: 'whiteAlpha.300' }}
-    >
-      {children}
-    </Card>
-  </NextLink>
-);
 
 export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: true });
 
