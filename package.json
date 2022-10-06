@@ -41,7 +41,7 @@
     "next-auth": "4.12.3",
     "nodemailer": "6.8.0",
     "pino": "8.6.1",
-    "pino-pretty": "9.1.0",
+    "pino-pretty": "9.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "7.36.1",
