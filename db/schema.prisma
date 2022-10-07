@@ -69,10 +69,10 @@ model ItemComment {
   createdAt DateTime @default(now())
   createdBy User?    @relation(fields: [userId], references: [id])
   content   String
-  Item      Item?    @relation(fields: [itemId], references: [id])
 
   userId String?
   itemId String?
+  Item   Item?   @relation(fields: [itemId], references: [id])
 }
 
 model Item {
@@ -84,11 +84,10 @@ model Item {
   comments  ItemComment[]
   Drop      Drop?         @relation(fields: [dropId], references: [id])
 
-  userId        String?
-  itemCommentId String
-  dropId        String?
-  Box           Box?    @relation(fields: [boxId], references: [id])
-  boxId         String?
+  userId String?
+  dropId String?
+  Box    Box?    @relation(fields: [boxId], references: [id])
+  boxId  String?
 }
 
 model Drop {

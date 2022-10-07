@@ -21,7 +21,7 @@ type Props = { onClose: (created?: boolean) => void } & StackProps;
 const CreateBoxForm = ({ onClose, ...props }: Props) => {
   const trpcContext = trpc.useContext();
 
-  const addPostMutation = trpc.box.create.useMutation({
+  const createBoxMutation = trpc.box.create.useMutation({
     onSuccess() {
       trpcContext.box.fetchAll.invalidate();
       onClose(true);
@@ -37,7 +37,7 @@ const CreateBoxForm = ({ onClose, ...props }: Props) => {
   } = useForm<ICreateBoxFormInputs>();
 
   const handleOnSubmit: SubmitHandler<ICreateBoxFormInputs> = async (data) => {
-    await addPostMutation.mutateAsync({ name: data.name });
+    await createBoxMutation.mutateAsync({ name: data.name });
   };
 
   return (

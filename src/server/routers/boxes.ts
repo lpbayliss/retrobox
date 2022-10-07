@@ -5,12 +5,17 @@ import { z } from 'zod';
 import { Context } from '../context';
 import { t } from '../trpc';
 
+const defaultItemSelect = Prisma.validator<Prisma.ItemSelect>()({
+  id: true,
+  createdBy: { select: { id: true, name: true } },
+});
+
 const defaultBoxSelect = Prisma.validator<Prisma.BoxSelect>()({
   id: true,
   name: true,
   team: true,
-  createdBy: true,
-  items: true,
+  createdBy: { select: { id: true, name: true, email: true } },
+  items: { select: defaultItemSelect },
   drops: true,
 });
 
@@ -45,6 +50,25 @@ export const boxRouter = t.router({
         select: defaultBoxSelect,
       });
       return box;
+    }),
+  addItem: t.procedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+        content: z.string().min(5),
+        anonymous: z.boolean().optional(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const user = getUserOrThrow(ctx);
+      await ctx.prisma.item.create({
+        data: {
+          content: input.content,
+          boxId: input.id,
+          userId: input.anonymous ? undefined : user.id,
+        },
+      });
+      return true;
     }),
   fetchById: t.procedure
     .input(

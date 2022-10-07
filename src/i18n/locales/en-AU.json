@@ -32,6 +32,12 @@
   "SIGN_IN_FORM_EMAIL_REQUIRED_ERROR": "You must provide an email address",
   "SIGN_IN_FORM_HELP_TEXT": "A magic link will be sent to this address",
   "SIGN_IN_FORM_SUBMIT_BUTTON_LABEL": "Sign in",
+  "CREATE_ITEM_FORM_CONTENT_LABEL": "Content",
+  "CREATE_ITEM_FORM_CONTENT_PLACEHOLDER": "Stand up involves too much standing",
+  "CREATE_ITEM_FORM_CONTENT_REQUIRED_ERROR": "You must include some description",
+  "CREATE_ITEM_FORM_CONTENT_HELP_TEXT": "Enter a brief description for your retro item",
+  "CREATE_ITEM_FORM_ANONYMOUS_LABEL": "Submit anonymously?",
+  "CREATE_ITEM_FORM_SUBMIT_BUTTON_LABEL": "Add item",
   "//f": "Button text",
   "BUTTON_CREATE_BOX": "Create new box"
 }

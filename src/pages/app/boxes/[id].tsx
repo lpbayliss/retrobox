@@ -1,5 +1,6 @@
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import {
+  Avatar,
   Box,
   Breadcrumb,
   BreadcrumbItem,
@@ -12,35 +13,55 @@ import {
   IconButton,
   ScaleFade,
   Spacer,
+  Stack,
   Text,
+  VStack,
 } from '@chakra-ui/react';
 import { Card } from '@components/card';
 import { CardLink } from '@components/card-link';
+import { CreateItemForm } from '@components/create-item-form';
 import { TileGrid, TileGridItem } from '@components/tile-grid';
 import { faEdit, faPlusCircle } from '@fortawesome/pro-light-svg-icons';
 import { Icon } from '@lib/icon';
 import { withDefaultServerSideProps } from '@lib/props';
 import { trpc } from '@lib/trpc';
+import { useFlag } from '@unleash/proxy-client-react';
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
+import { useMemo } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: true });
 
 const BoxesPage: NextPage = () => {
   const router = useRouter();
+  const createItemEnabled = useFlag('create-item');
+  const createDropEnabled = useFlag('create-drop');
+
   const { data: box } = trpc.box.fetchById.useQuery({ id: String(router.query['id']) });
   trpc.box.setViewed.useQuery({ id: String(router.query['id']) });
 
-  const createItemEnabled = true;
-  const createDropEnabled = true;
+  const contributors = useMemo(() => {
+    return box?.items.reduce<any>((record, item) => {
+      const key = item.createdBy
+        ? item.createdBy.name
+          ? item.createdBy.name
+          : 'Unknown'
+        : 'Anonymous';
+
+      if (record[key]) record[key].push(item);
+      else record[key] = [item];
+
+      return record;
+    }, {});
+  }, [box]);
 
   return (
     <>
       <Head>
-        <title>Retrobox | {!!box ? box.name : 'Unknwown'}</title>
+        <title>Retrobox | {box?.name || 'Unknown'}</title>
         <meta name="description" content="Retrobox home" />
       </Head>
       {box && (
@@ -91,32 +112,28 @@ const BoxesPage: NextPage = () => {
             <Heading as="h3" mb="4">
               Items
             </Heading>
-            <TileGrid>
+            <Stack direction={['column', null, 'row']}>
+              <Card flex="1" maxH="2xs">
+                <Text mb="4" fontSize="lg">
+                  This box currently contains {box.items.length} item(s)
+                </Text>
+                <VStack alignItems="flex-start" gap="2" overflowY="auto" h="full" ml="2">
+                  {Object.keys(contributors).map((key) => (
+                    <HStack key={key}>
+                      <Avatar name={key} size="xs" />
+                      <Text>
+                        {key} has contributed {contributors[key].length} item(s)
+                      </Text>
+                    </HStack>
+                  ))}
+                </VStack>
+              </Card>
               {createItemEnabled && (
-                <TileGridItem>
-                  <Card as={Button} variant="outline" h="full" w="full">
-                    <Center flexDir="column">
-                      <Icon mb="2" fontSize="25" icon={faPlusCircle} />
-                      <Text fontSize="xl">Add item</Text>
-                    </Center>
-                  </Card>
-                </TileGridItem>
+                <Card flex="1" maxH="2xs">
+                  <CreateItemForm boxId={box.id} />
+                </Card>
               )}
-              {box.drops.map((drop, index) => (
-                <ScaleFade key={box.id} delay={0.03 * index} in={true} initialScale={0.9}>
-                  <TileGridItem>
-                    <CardLink href={`/app/boxes/${box.id}/drop/${drop.id}`}>
-                      <Center flexDir="column">
-                        <Heading as="h4" mb="4" size="md">
-                          This is an item
-                        </Heading>
-                        <Text>A description about the item.</Text>
-                      </Center>
-                    </CardLink>
-                  </TileGridItem>
-                </ScaleFade>
-              ))}
-            </TileGrid>
+            </Stack>
           </Box>
 
           {/* Drops */}
