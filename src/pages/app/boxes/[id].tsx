@@ -36,12 +36,18 @@ import { FormattedMessage } from 'react-intl';
 export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: true });
 
 const BoxesPage: NextPage = () => {
+  const trpcContext = trpc.useContext();
   const router = useRouter();
   const createItemEnabled = useFlag('create-item');
   const createDropEnabled = useFlag('create-drop');
 
   const { data: box } = trpc.box.fetchById.useQuery({ id: String(router.query['id']) });
   trpc.box.setViewed.useQuery({ id: String(router.query['id']) });
+  const createDropMutation = trpc.box.createDrop.useMutation({
+    onSuccess() {
+      trpcContext.box.fetchById.invalidate();
+    },
+  });
 
   const contributors = useMemo(() => {
     return box?.items.reduce<any>((record, item) => {
@@ -57,6 +63,10 @@ const BoxesPage: NextPage = () => {
       return record;
     }, {});
   }, [box]);
+
+  const handleCreateBox = () => {
+    if (box) createDropMutation.mutateAsync({ id: box.id });
+  };
 
   return (
     <>
@@ -102,7 +112,9 @@ const BoxesPage: NextPage = () => {
               <IconButton aria-label="edit-name" icon={<Icon icon={faEdit} />} size="sm" />
             </HStack>
             {box.team && (
-              <Text color="subtext">Created by {box.createdBy.name || box.createdBy.email}</Text>
+              <Text color="subtext">
+                <FormattedMessage id="BOX_PAGE_CREATED_BY_TEXT" />
+              </Text>
             )}
             <Text color="subtext">{box.team?.name || 'Personal'}</Text>
           </Box>
@@ -110,19 +122,28 @@ const BoxesPage: NextPage = () => {
           {/* Items (Add an item) */}
           <Box as="section" mb="6">
             <Heading as="h3" mb="4">
-              Items
+              <FormattedMessage id="BOX_PAGE_ITEM_SECTION_HEADER" />
             </Heading>
             <Stack direction={['column', null, 'row']}>
               <Card flex="1" maxH="2xs">
                 <Text mb="4" fontSize="lg">
-                  This box currently contains {box.items.length} item(s)
+                  <FormattedMessage
+                    id="BOX_PAGE_ITEM_COUNT"
+                    values={{
+                      itemCount: box.items.length || 0,
+                      contributorCount: Object.keys(contributors).length || 0,
+                    }}
+                  />
                 </Text>
                 <VStack alignItems="flex-start" gap="2" overflowY="auto" h="full" ml="2">
                   {Object.keys(contributors).map((key) => (
                     <HStack key={key}>
                       <Avatar name={key} size="xs" />
                       <Text>
-                        {key} has contributed {contributors[key].length} item(s)
+                        <FormattedMessage
+                          id="BOX_PAGE_CONTRIBUTOR_DETAIL"
+                          values={{ name: key, items: contributors[key].length || 0 }}
+                        />
                       </Text>
                     </HStack>
                   ))}
@@ -144,7 +165,7 @@ const BoxesPage: NextPage = () => {
             <TileGrid>
               {createDropEnabled && (
                 <TileGridItem>
-                  <Card as={Button} variant="outline" h="full" w="full">
+                  <Card as={Button} variant="outline" h="full" w="full" onClick={handleCreateBox}>
                     <Center flexDir="column">
                       <Icon mb="2" fontSize="25" icon={faPlusCircle} />
                       <Text fontSize="xl">Create drop</Text>

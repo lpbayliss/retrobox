@@ -15,7 +15,7 @@ const defaultBoxSelect = Prisma.validator<Prisma.BoxSelect>()({
   name: true,
   team: true,
   createdBy: { select: { id: true, name: true, email: true } },
-  items: { select: defaultItemSelect },
+  items: { select: defaultItemSelect, where: { drop: { is: null } } },
   drops: true,
 });
 
@@ -50,6 +50,30 @@ export const boxRouter = t.router({
         select: defaultBoxSelect,
       });
       return box;
+    }),
+  createDrop: t.procedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const user = getUserOrThrow(ctx);
+
+      const items = await ctx.prisma.item.findMany({
+        where: { boxId: input.id },
+        select: { id: true },
+      });
+
+      await ctx.prisma.drop.create({
+        data: {
+          boxId: input.id,
+          userId: user.id,
+          items: { connect: items.map((item) => ({ id: item.id })) },
+        },
+      });
+
+      return true;
     }),
   addItem: t.procedure
     .input(
