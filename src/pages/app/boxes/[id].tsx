@@ -31,7 +31,7 @@ import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedDate, FormattedMessage } from 'react-intl';
 
 export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: true });
 
@@ -179,9 +179,9 @@ const BoxesPage: NextPage = () => {
                     <CardLink href={`/app/boxes/${box.id}/drop/${drop.id}`}>
                       <Center flexDir="column">
                         <Heading as="h4" mb="4" size="md">
-                          This is a drop
+                          <FormattedDate value={new Date()} />
                         </Heading>
-                        <Text>A description about the drop.</Text>
+                        <Text>Contains {drop.items.length} item(s)</Text>
                       </Center>
                     </CardLink>
                   </TileGridItem>

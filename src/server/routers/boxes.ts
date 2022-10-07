@@ -16,7 +16,7 @@ const defaultBoxSelect = Prisma.validator<Prisma.BoxSelect>()({
   team: true,
   createdBy: { select: { id: true, name: true, email: true } },
   items: { select: defaultItemSelect, where: { drop: { is: null } } },
-  drops: true,
+  drops: { select: { id: true, createdAt: true, items: true }, orderBy: { createdAt: 'desc' } },
 });
 
 const boxWhereUserIsOwnerInput = (userId: string) =>
@@ -61,7 +61,7 @@ export const boxRouter = t.router({
       const user = getUserOrThrow(ctx);
 
       const items = await ctx.prisma.item.findMany({
-        where: { boxId: input.id },
+        where: { boxId: input.id, drop: { is: null } },
         select: { id: true },
       });
 
