@@ -1,6 +1,7 @@
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import {
   Avatar,
+  AvatarGroup,
   Box,
   Breadcrumb,
   BreadcrumbItem,
@@ -21,7 +22,7 @@ import { Card } from '@components/card';
 import { CardLink } from '@components/card-link';
 import { CreateItemForm } from '@components/create-item-form';
 import { TileGrid, TileGridItem } from '@components/tile-grid';
-import { faEdit, faPlusCircle } from '@fortawesome/pro-light-svg-icons';
+import { faEdit, faEllipsisV, faPlus, faPlusCircle } from '@fortawesome/pro-light-svg-icons';
 import { Icon } from '@lib/icon';
 import { withDefaultServerSideProps } from '@lib/props';
 import { trpc } from '@lib/trpc';
@@ -111,12 +112,27 @@ const BoxesPage: NextPage = () => {
               <Heading mr="2">{box.name}</Heading>
               <IconButton aria-label="edit-name" icon={<Icon icon={faEdit} />} size="sm" />
             </HStack>
-            {box.team && (
-              <Text color="subtext">
-                <FormattedMessage id="BOX_PAGE_CREATED_BY_TEXT" />
+            <Text color="subtext" fontSize="sm">
+              {box.team?.name || 'Personal'}
+            </Text>
+            {box.createdBy && (
+              <Text color="subtext" fontSize="sm">
+                <FormattedMessage
+                  id="BOX_PAGE_CREATED_BY_TEXT"
+                  values={{ name: box.createdBy.name || 'Unknown' }}
+                />
               </Text>
             )}
-            <Text color="subtext">{box.team?.name || 'Personal'}</Text>
+            <HStack>
+              <Text color="subtext" fontSize="sm">
+                Contributors:
+              </Text>
+              <AvatarGroup size="xs">
+                <Avatar name="Luke Bayliss" />
+                <Avatar name="Matt Mercer" />
+                <Avatar name="Jane Doe" />
+              </AvatarGroup>
+            </HStack>
           </Box>
 
           {/* Items (Add an item) */}
@@ -159,20 +175,18 @@ const BoxesPage: NextPage = () => {
 
           {/* Drops */}
           <Box as="section" mb="6">
-            <Heading as="h3" mb="4">
-              Drops
-            </Heading>
-            <TileGrid>
+            <HStack mb="4">
+              <Heading as="h3">Drops</Heading>
+              <Spacer />
               {createDropEnabled && (
-                <TileGridItem>
-                  <Card as={Button} variant="outline" h="full" w="full" onClick={handleCreateBox}>
-                    <Center flexDir="column">
-                      <Icon mb="2" fontSize="25" icon={faPlusCircle} />
-                      <Text fontSize="xl">Create drop</Text>
-                    </Center>
-                  </Card>
-                </TileGridItem>
+                <Button gap={2} aria-label="create new drop" onClick={handleCreateBox}>
+                  <Icon icon={faPlus} />
+                  <Text>Create drop</Text>
+                </Button>
               )}
+              <IconButton aria-label="more options" icon={<Icon icon={faEllipsisV} />} />
+            </HStack>
+            <TileGrid>
               {box.drops.map((drop, index) => (
                 <ScaleFade key={box.id} delay={0.03 * index} in={true} initialScale={0.9}>
                   <TileGridItem>
