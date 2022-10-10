@@ -143,4 +143,23 @@ export const boxRouter = t.router({
     });
     return views.map((view) => view.box);
   }),
+  fetchContributors: t.procedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      getUserOrThrow(ctx);
+      const box = await ctx.prisma.box.findUnique({
+        where: { id: input.id },
+        select: { items: { select: { createdBy: { select: { name: true, id: true } } } } },
+      });
+      if (!box) throw new TRPCError({ code: 'NOT_FOUND' });
+      return box.items
+        .map((item) => item.createdBy)
+        .filter((user, index, self) =>
+          !user ? false : self.findIndex((t) => (!t ? false : t.id === user.id)) === index,
+        );
+    }),
 });

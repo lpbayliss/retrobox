@@ -7,6 +7,8 @@ import {
   Button,
   Center,
   Heading,
+  HStack,
+  IconButton,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -15,14 +17,14 @@ import {
   ModalHeader,
   ModalOverlay,
   ScaleFade,
+  Spacer,
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { Card } from '@components/card';
 import { CardLink } from '@components/card-link';
 import { CreateBoxForm } from '@components/create-box-form';
 import { TileGrid, TileGridItem } from '@components/tile-grid';
-import { faPlusCircle } from '@fortawesome/pro-light-svg-icons';
+import { faEllipsisV, faPlus } from '@fortawesome/pro-light-svg-icons';
 import { Icon } from '@lib/icon';
 import { withDefaultServerSideProps } from '@lib/props';
 import { trpc } from '@lib/trpc';
@@ -54,13 +56,16 @@ const BoxesPage: NextPage = () => {
     onClose();
   };
 
+  const showRecentList = recentBoxes && !!recentBoxes.length;
+  const showAllList = boxes && !!boxes.length;
+
   return (
     <>
       <Head>
         <title>Retrobox | Boxes</title>
         <meta name="description" content="Retrobox home" />
       </Head>
-      <Box as="section" mb="6">
+      <Box as="section" mb="12">
         <Heading as="h2" mb="2" size="2xl">
           <FormattedMessage id="BOXES_PAGE_TITLE" />
         </Heading>
@@ -82,50 +87,52 @@ const BoxesPage: NextPage = () => {
         </Breadcrumb>
       </Box>
 
-      {recentBoxes && (
-        <Box as="section" mb="6">
-          <Heading as="h3" mb="4">
-            <FormattedMessage id="BOXES_PAGE_HEADING_RECENT" />
-          </Heading>
-          <TileGrid>
-            {recentBoxes &&
-              recentBoxes.map((box, index) => (
-                <ScaleFade key={box.id} delay={0.03 * index} in={true} initialScale={0.9}>
-                  <TileGridItem>
-                    <CardLink href={`/app/boxes/${box.id}`}>
-                      <Center flexDir="column">
-                        <Heading as="h4" mb="4" size="md">
-                          {box.name}
-                        </Heading>
-                        <Text>A description about the box.</Text>
-                      </Center>
-                    </CardLink>
-                  </TileGridItem>
-                </ScaleFade>
-              ))}
-          </TileGrid>
-        </Box>
-      )}
-
-      <Box as="section" mb="6">
+      <Box as="section" mb="12">
         <Heading as="h3" mb="4">
-          <FormattedMessage id="BOXES_PAGE_HEADING_ALL" />
+          <FormattedMessage id="BOXES_PAGE_HEADING_RECENT" />
         </Heading>
-        <TileGrid>
+        {showRecentList && (
+          <TileGrid>
+            {recentBoxes.map((box, index) => (
+              <ScaleFade key={box.id} delay={0.03 * index} in={true} initialScale={0.9}>
+                <TileGridItem>
+                  <CardLink href={`/app/boxes/${box.id}`}>
+                    <Center flexDir="column">
+                      <Heading as="h4" mb="4" size="md">
+                        {box.name}
+                      </Heading>
+                      <Text>A description about the box.</Text>
+                    </Center>
+                  </CardLink>
+                </TileGridItem>
+              </ScaleFade>
+            ))}
+          </TileGrid>
+        )}
+        {!showRecentList && (
+          <Text color="subtext" fontStyle="italic">
+            Recently viewed boxes will appear here
+          </Text>
+        )}
+      </Box>
+
+      <Box as="section" mb="12">
+        <HStack mb="4">
+          <Heading as="h3">
+            <FormattedMessage id="BOXES_PAGE_HEADING_ALL" />
+          </Heading>
+          <Spacer />
           {createBoxEnabled && (
-            <TileGridItem>
-              <Card as={Button} variant="outline" h="full" w="full" onClick={onOpen}>
-                <Center flexDir="column">
-                  <Icon mb="2" fontSize="25" icon={faPlusCircle} />
-                  <Text fontSize="xl">
-                    <FormattedMessage id="BUTTON_CREATE_BOX" />
-                  </Text>
-                </Center>
-              </Card>
-            </TileGridItem>
+            <Button gap={2} aria-label="create new box" onClick={onOpen}>
+              <Icon icon={faPlus} />
+              <Text>Create box</Text>
+            </Button>
           )}
-          {boxes &&
-            boxes.map((box, index) => (
+          <IconButton aria-label="more options" icon={<Icon icon={faEllipsisV} />} />
+        </HStack>
+        {showAllList && (
+          <TileGrid>
+            {boxes.map((box, index) => (
               <ScaleFade key={box.id} delay={0.03 * index} in={true} initialScale={0.9}>
                 <TileGridItem>
                   <CardLink
@@ -142,7 +149,13 @@ const BoxesPage: NextPage = () => {
                 </TileGridItem>
               </ScaleFade>
             ))}
-        </TileGrid>
+          </TileGrid>
+        )}
+        {!showAllList && (
+          <Text color="subtext" fontStyle="italic">
+            Your boxes will appear here
+          </Text>
+        )}
       </Box>
 
       <Modal isOpen={isOpen} onClose={onClose}>
