@@ -19,11 +19,12 @@ export type ICreateItemFormInputs = {
   content: string;
 };
 
-type Props = {
+interface Props {
   boxId: string;
-} & StackProps;
+  onSubmit?: () => void;
+}
 
-const CreateBoxForm = ({ boxId, ...props }: Props) => {
+const CreateBoxForm = ({ boxId, onSubmit, ...props }: Props & StackProps) => {
   const trpcContext = trpc.useContext();
   const intl = useIntl();
 
@@ -38,6 +39,7 @@ const CreateBoxForm = ({ boxId, ...props }: Props) => {
     onSuccess() {
       trpcContext.box.fetchById.invalidate();
       reset();
+      if (onSubmit) onSubmit();
     },
   });
 

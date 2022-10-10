@@ -1,13 +1,13 @@
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import {
   Avatar,
-  AvatarGroup,
   Box,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
   Button,
   Center,
+  Checkbox,
   Flex,
   Heading,
   HStack,
@@ -40,7 +40,7 @@ import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { FormattedDate, FormattedMessage, useIntl } from 'react-intl';
 
 export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: true });
@@ -62,15 +62,12 @@ const BoxesPage: NextPage = () => {
     onClose: onDropModalClose,
   } = useDisclosure();
 
-  const { data: box } = trpc.box.fetchById.useQuery({ id: String(router.query['id']) });
-  trpc.box.setViewed.useQuery({ id: String(router.query['id']) });
+  const { data: box } = trpc.box.fetchById.useQuery({ id: String(router.query['boxId']) });
+  trpc.box.setViewed.useQuery({ id: String(router.query['boxId']) });
   const createDropMutation = trpc.box.createDrop.useMutation({
     onSuccess() {
       trpcContext.box.fetchById.invalidate();
     },
-  });
-  const { data: boxContributors } = trpc.box.fetchContributors.useQuery({
-    id: String(router.query['id']),
   });
 
   const contributors = useMemo(() => {
@@ -88,8 +85,20 @@ const BoxesPage: NextPage = () => {
     }, {});
   }, [box]);
 
+  const [confirmCreateDrop, setConfirmCreateDrop] = useState<boolean>(false);
+
   const handleCreateBox = () => {
-    if (box) createDropMutation.mutateAsync({ id: box.id });
+    if (!box) {
+      onDropModalClose();
+      return;
+    }
+    createDropMutation.mutateAsync({ id: box.id });
+    onDropModalClose();
+    setConfirmCreateDrop(false);
+  };
+
+  const handleCheckboxOnChange = () => {
+    setConfirmCreateDrop(!confirmCreateDrop);
   };
 
   return (
@@ -121,7 +130,7 @@ const BoxesPage: NextPage = () => {
               </NextLink>
             </BreadcrumbItem>
             <BreadcrumbItem>
-              <NextLink href={'/app/boxes/[id]'} as={`/app/boxes/${box.id}`} passHref>
+              <NextLink href={'/app/boxes/[boxId]'} as={`/app/boxes/${box.id}`} passHref>
                 <BreadcrumbLink>{box.name}</BreadcrumbLink>
               </NextLink>
             </BreadcrumbItem>
@@ -149,19 +158,6 @@ const BoxesPage: NextPage = () => {
                 />
               </Text>
             )}
-            <HStack>
-              <Text color="subtext" fontSize="sm">
-                Contributors:
-              </Text>
-              <AvatarGroup size="xs">
-                {boxContributors &&
-                  boxContributors.map((contributor) =>
-                    contributor ? (
-                      <Avatar key={contributor.id} name={contributor.name || 'Unknown'} />
-                    ) : null,
-                  )}
-              </AvatarGroup>
-            </HStack>
           </Box>
 
           {/* Items (Add an item) */}
@@ -185,31 +181,50 @@ const BoxesPage: NextPage = () => {
           >
             <Stack direction={['column', null, null, null, 'row']}>
               <Card flex="1" maxH="2xs">
-                <Text mb="4" fontSize="lg">
-                  <FormattedMessage
-                    id="BOX_PAGE_ITEM_COUNT"
-                    values={{
-                      itemCount: box.items.length || 0,
-                      contributorCount: Object.keys(contributors).length || 0,
-                    }}
-                  />
-                </Text>
-                <VStack alignItems="flex-start" gap="2" overflowY="auto" h="full" ml="2">
-                  {Object.keys(contributors).map((key) => (
-                    <HStack key={key}>
-                      <Avatar name={key} size="xs" />
-                      <Text>
-                        <FormattedMessage
-                          id="BOX_PAGE_CONTRIBUTOR_DETAIL"
-                          values={{ name: key, items: contributors[key].length || 0 }}
-                        />
-                      </Text>
-                    </HStack>
-                  ))}
+                <VStack gap="2">
+                  <Text fontSize="lg">
+                    <FormattedMessage id="BOX_PAGE_ITEM_COUNT_CONTAINS" />
+                  </Text>
+                  <Text fontSize="4xl" fontWeight="bold">
+                    <FormattedMessage
+                      id="BOX_PAGE_ITEM_COUNT"
+                      values={{
+                        itemCount: box.items.length || 0,
+                      }}
+                    />
+                  </Text>
+                  <Text fontSize="lg">
+                    <FormattedMessage
+                      id="BOX_PAGE_ITEM_COUNT_FROM"
+                      values={{
+                        contributorCount: Object.keys(contributors).length || 0,
+                      }}
+                    />
+                  </Text>
                 </VStack>
               </Card>
-              <Card flex="1">Box details</Card>
-              <Card flex="1">Box history?</Card>
+              <Card flex="1" maxH="2xs">
+                {!!Object.keys(contributors).length && (
+                  <VStack alignItems="flex-start" gap="2" overflowY="auto" h="full" ml="2">
+                    {Object.keys(contributors).map((key) => (
+                      <HStack key={key}>
+                        <Avatar name={key} size="xs" />
+                        <Text>
+                          <FormattedMessage
+                            id="BOX_PAGE_CONTRIBUTOR_DETAIL"
+                            values={{ name: key, items: contributors[key].length || 0 }}
+                          />
+                        </Text>
+                      </HStack>
+                    ))}
+                  </VStack>
+                )}
+                {!Object.keys(contributors).length && (
+                  <Text m="auto" color="subtext" fontStyle="italic">
+                    Add items to see your contribution to the next drop
+                  </Text>
+                )}
+              </Card>
             </Stack>
           </PageSection>
 
@@ -221,6 +236,7 @@ const BoxesPage: NextPage = () => {
                 <Button
                   gap={2}
                   aria-label={intl.formatMessage({ id: 'BUTTON_CREATE_DROP' })}
+                  disabled={!box.items.length}
                   onClick={onDropModalOpen}
                 >
                   <Icon icon={faPlus} />
@@ -277,7 +293,9 @@ const BoxesPage: NextPage = () => {
             <FormattedMessage id="MODAL_HEADER_CREATE_BOX" />
           </ModalHeader>
           <ModalCloseButton />
-          <ModalBody>{box && <CreateItemForm boxId={box.id} />}</ModalBody>
+          <ModalBody>
+            {box && <CreateItemForm boxId={box.id} onSubmit={onItemModalClose} />}
+          </ModalBody>
           <ModalFooter>
             <Button onClick={onItemModalClose}>
               <FormattedMessage id="GENERAL_CANCEL" />
@@ -290,15 +308,23 @@ const BoxesPage: NextPage = () => {
       <Modal isOpen={isDropModalOpen} onClose={onDropModalClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>
-            <FormattedMessage id="MODAL_HEADER_CREATE_BOX" />
-          </ModalHeader>
+          <ModalHeader>Create drop</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>Drop form</ModalBody>
+          <ModalBody>
+            <Text>
+              Creating a drop will empty all of the current items from this box and cannot be
+              undone. Are you sure you want to empty the box right now?
+            </Text>
+          </ModalBody>
           <ModalFooter>
-            <Button onClick={onDropModalClose}>
-              <FormattedMessage id="GENERAL_CANCEL" />
-            </Button>
+            <HStack>
+              <Checkbox isChecked={confirmCreateDrop} onChange={handleCheckboxOnChange}>
+                I am sure
+              </Checkbox>
+              <Button disabled={!confirmCreateDrop} onClick={handleCreateBox}>
+                Create
+              </Button>
+            </HStack>
           </ModalFooter>
         </ModalContent>
       </Modal>
