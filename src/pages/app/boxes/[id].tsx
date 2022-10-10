@@ -12,17 +12,26 @@ import {
   Heading,
   HStack,
   IconButton,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   ScaleFade,
   Spacer,
   Stack,
   Text,
+  useDisclosure,
   VStack,
 } from '@chakra-ui/react';
 import { Card } from '@components/card';
 import { CardLink } from '@components/card-link';
 import { CreateItemForm } from '@components/create-item-form';
+import { PageSection } from '@components/page-section';
 import { TileGrid, TileGridItem } from '@components/tile-grid';
-import { faEdit, faEllipsisV, faPlus, faPlusCircle } from '@fortawesome/pro-light-svg-icons';
+import { faEdit, faPlus } from '@fortawesome/pro-light-svg-icons';
 import { Icon } from '@lib/icon';
 import { withDefaultServerSideProps } from '@lib/props';
 import { trpc } from '@lib/trpc';
@@ -32,15 +41,26 @@ import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { useMemo } from 'react';
-import { FormattedDate, FormattedMessage } from 'react-intl';
+import { FormattedDate, FormattedMessage, useIntl } from 'react-intl';
 
 export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: true });
 
 const BoxesPage: NextPage = () => {
+  const intl = useIntl();
   const trpcContext = trpc.useContext();
   const router = useRouter();
   const createItemEnabled = useFlag('create-item');
   const createDropEnabled = useFlag('create-drop');
+  const {
+    isOpen: isItemModalOpen,
+    onOpen: onItemModalOpen,
+    onClose: onItemModalClose,
+  } = useDisclosure();
+  const {
+    isOpen: isDropModalOpen,
+    onOpen: onDropModalOpen,
+    onClose: onDropModalClose,
+  } = useDisclosure();
 
   const { data: box } = trpc.box.fetchById.useQuery({ id: String(router.query['id']) });
   trpc.box.setViewed.useQuery({ id: String(router.query['id']) });
@@ -48,6 +68,9 @@ const BoxesPage: NextPage = () => {
     onSuccess() {
       trpcContext.box.fetchById.invalidate();
     },
+  });
+  const { data: boxContributors } = trpc.box.fetchContributors.useQuery({
+    id: String(router.query['id']),
   });
 
   const contributors = useMemo(() => {
@@ -75,6 +98,8 @@ const BoxesPage: NextPage = () => {
         <title>Retrobox | {box?.name || 'Unknown'}</title>
         <meta name="description" content="Retrobox home" />
       </Head>
+
+      {/* BREADCRUMBS */}
       {box && (
         <Box as="section" mb="6">
           <Heading as="h2" mb="2" size="2xl">
@@ -104,6 +129,7 @@ const BoxesPage: NextPage = () => {
         </Box>
       )}
 
+      {/*  DEFAULT VIEW */}
       {box && (
         <Flex as="section" direction="column" w="full" h="full">
           {/* Heading / Title */}
@@ -128,19 +154,36 @@ const BoxesPage: NextPage = () => {
                 Contributors:
               </Text>
               <AvatarGroup size="xs">
-                <Avatar name="Luke Bayliss" />
-                <Avatar name="Matt Mercer" />
-                <Avatar name="Jane Doe" />
+                {boxContributors &&
+                  boxContributors.map((contributor) =>
+                    contributor ? (
+                      <Avatar key={contributor.id} name={contributor.name || 'Unknown'} />
+                    ) : null,
+                  )}
               </AvatarGroup>
             </HStack>
           </Box>
 
           {/* Items (Add an item) */}
-          <Box as="section" mb="6">
-            <Heading as="h3" mb="4">
-              <FormattedMessage id="BOX_PAGE_ITEM_SECTION_HEADER" />
-            </Heading>
-            <Stack direction={['column', null, 'row']}>
+          <PageSection
+            heading={intl.formatMessage({ id: 'BOX_PAGE_ITEM_SECTION_HEADER' })}
+            quickAction={
+              createItemEnabled ? (
+                <Button
+                  gap={2}
+                  aria-label={intl.formatMessage({ id: 'BUTTON_ADD_ITEM' })}
+                  onClick={onItemModalOpen}
+                >
+                  <Icon icon={faPlus} />
+                  <Text>
+                    <FormattedMessage id="BUTTON_ADD_ITEM" />
+                  </Text>
+                </Button>
+              ) : undefined
+            }
+            moreOptions
+          >
+            <Stack direction={['column', null, null, null, 'row']}>
               <Card flex="1" maxH="2xs">
                 <Text mb="4" fontSize="lg">
                   <FormattedMessage
@@ -165,27 +208,30 @@ const BoxesPage: NextPage = () => {
                   ))}
                 </VStack>
               </Card>
-              {createItemEnabled && (
-                <Card flex="1" maxH="2xs">
-                  <CreateItemForm boxId={box.id} />
-                </Card>
-              )}
+              <Card flex="1">Box details</Card>
+              <Card flex="1">Box history?</Card>
             </Stack>
-          </Box>
+          </PageSection>
 
           {/* Drops */}
-          <Box as="section" mb="6">
-            <HStack mb="4">
-              <Heading as="h3">Drops</Heading>
-              <Spacer />
-              {createDropEnabled && (
-                <Button gap={2} aria-label="create new drop" onClick={handleCreateBox}>
+          <PageSection
+            heading="Drops"
+            quickAction={
+              createDropEnabled ? (
+                <Button
+                  gap={2}
+                  aria-label={intl.formatMessage({ id: 'BUTTON_CREATE_DROP' })}
+                  onClick={onDropModalOpen}
+                >
                   <Icon icon={faPlus} />
-                  <Text>Create drop</Text>
+                  <Text>
+                    <FormattedMessage id="BUTTON_CREATE_DROP" />
+                  </Text>
                 </Button>
-              )}
-              <IconButton aria-label="more options" icon={<Icon icon={faEllipsisV} />} />
-            </HStack>
+              ) : undefined
+            }
+            moreOptions
+          >
             <TileGrid>
               {box.drops.map((drop, index) => (
                 <ScaleFade key={box.id} delay={0.03 * index} in={true} initialScale={0.9}>
@@ -202,10 +248,11 @@ const BoxesPage: NextPage = () => {
                 </ScaleFade>
               ))}
             </TileGrid>
-          </Box>
+          </PageSection>
         </Flex>
       )}
 
+      {/*  BOX NOT FOUND VIEW */}
       {!box && (
         <Flex as="section" w="full" h="full">
           <Spacer />
@@ -220,6 +267,41 @@ const BoxesPage: NextPage = () => {
           <Spacer />
         </Flex>
       )}
+
+      {/* MODALS */}
+      {/* CREATE ITEM MODAL */}
+      <Modal isOpen={isItemModalOpen} onClose={onItemModalClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <FormattedMessage id="MODAL_HEADER_CREATE_BOX" />
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>{box && <CreateItemForm boxId={box.id} />}</ModalBody>
+          <ModalFooter>
+            <Button onClick={onItemModalClose}>
+              <FormattedMessage id="GENERAL_CANCEL" />
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+
+      {/* CREATE DROP MODAL */}
+      <Modal isOpen={isDropModalOpen} onClose={onDropModalClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            <FormattedMessage id="MODAL_HEADER_CREATE_BOX" />
+          </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>Drop form</ModalBody>
+          <ModalFooter>
+            <Button onClick={onDropModalClose}>
+              <FormattedMessage id="GENERAL_CANCEL" />
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

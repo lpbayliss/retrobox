@@ -4,6 +4,7 @@
   "APP_DESCRIPTION": "Retrobox is a virtual suggestion box. Create a box for you or your team to put items into, then at your next retrospective you can drop the items out to review them.",
   "//b": "General Text",
   "GENERAL_CANCEL": "Cancel",
+  "MORE_OPTIONS": "More options",
   "//c": "Modal Text",
   "MODAL_HEADER_CREATE_BOX": "Create new box",
   "//d": "Page Specific Text",
@@ -43,5 +44,7 @@
   "CREATE_ITEM_FORM_ANONYMOUS_LABEL": "Submit anonymously?",
   "CREATE_ITEM_FORM_SUBMIT_BUTTON_LABEL": "Add item",
   "//f": "Button text",
-  "BUTTON_CREATE_BOX": "Create new box"
+  "BUTTON_CREATE_BOX": "Create new box",
+  "BUTTON_ADD_ITEM": "Add item",
+  "BUTTON_CREATE_DROP": "Create drop"
 }
