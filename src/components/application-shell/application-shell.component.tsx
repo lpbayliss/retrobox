@@ -77,7 +77,9 @@ const Navbar = () => {
         </HStack>
         <Spacer />
         <HStack>
-          <Avatar borderRadius="lg" name="Luke Bayliss" size="sm" />
+          <NextLink href="/app/profile" passHref>
+            <Avatar borderRadius="lg" name="Luke Bayliss" size="sm" />
+          </NextLink>
           <IconButton
             aria-label="color-mode-toggle"
             icon={<Icon icon={colorMode === 'light' ? faMoon : faSun} />}
@@ -171,7 +173,9 @@ const Sidebar = () => {
         </VStack>
         <Spacer />
         <HStack w="full">
-          <Avatar borderRadius="lg" name={data?.user.name || undefined} size="md" />
+          <NextLink href="/app/profile" passHref>
+            <Avatar as="a" borderRadius="lg" name={data?.user.name || undefined} size="md" />
+          </NextLink>
           <Spacer />
           <IconButton
             aria-label="color-mode-toggle"
