@@ -1,14 +1,7 @@
 import { ChevronRightIcon } from '@chakra-ui/icons';
-import {
-  Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  Center,
-  Flex,
-  Heading,
-} from '@chakra-ui/react';
+import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Flex, Heading } from '@chakra-ui/react';
 import { Card } from '@components/card';
+import { PageSection } from '@components/page-section';
 import { UpdateProfileForm } from '@components/update-profile-form';
 import { withDefaultServerSideProps } from '@lib/props';
 import { GetServerSideProps, NextPage } from 'next';
@@ -28,7 +21,7 @@ const ProfilePage: NextPage = () => {
 
       <Box as="section" mb="12">
         <Heading as="h2" mb="2" size="2xl">
-          <FormattedMessage id="BOXES_PAGE_TITLE" />
+          Profile
         </Heading>
         <Breadcrumb separator={<ChevronRightIcon color="gray.500" />} spacing="8px">
           <BreadcrumbItem>
@@ -46,13 +39,13 @@ const ProfilePage: NextPage = () => {
         </Breadcrumb>
       </Box>
 
-      <Flex w="full" h="full">
-        <Center flexDir="column" w="full" my="auto" textAlign="center">
+      <PageSection heading="Update details">
+        <Flex w="full">
           <Card>
             <UpdateProfileForm />
           </Card>
-        </Center>
-      </Flex>
+        </Flex>
+      </PageSection>
     </>
   );
 };

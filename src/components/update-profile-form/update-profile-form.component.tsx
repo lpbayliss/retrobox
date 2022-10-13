@@ -8,6 +8,7 @@ import {
   StackProps,
   VStack,
 } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { trpc } from 'src/lib/trpc';
 
@@ -18,7 +19,12 @@ export type IUpdateProfileFormInputs = {
 type Props = {} & StackProps;
 
 const UpdateProfileForm = (props: Props) => {
-  const updateUserMutation = trpc.user.update.useMutation();
+  const { reload } = useRouter();
+  const updateUserMutation = trpc.user.update.useMutation({
+    onSuccess() {
+      reload();
+    },
+  });
 
   const {
     register,
