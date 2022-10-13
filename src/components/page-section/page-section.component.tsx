@@ -5,7 +5,7 @@ import { PropsWithChildren, ReactNode } from 'react';
 import { useIntl } from 'react-intl';
 
 interface Props {
-  heading: string;
+  heading?: string;
   quickAction?: ReactNode;
   moreOptions?: ReactNode;
 }
@@ -16,7 +16,7 @@ const PageSection = ({ heading, children, quickAction, moreOptions }: PropsWithC
   return (
     <Box as="section" mb="6">
       <HStack mb="4">
-        <Heading as="h3">{heading}</Heading>
+        {heading && <Heading as="h3">{heading}</Heading>}
         <Spacer />
         {quickAction && quickAction}
         {moreOptions && (
