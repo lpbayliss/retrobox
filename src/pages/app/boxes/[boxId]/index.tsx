@@ -24,6 +24,7 @@ import {
   Stack,
   Text,
   useDisclosure,
+  useToast,
   VStack,
 } from '@chakra-ui/react';
 import { Card } from '@components/card';
@@ -31,7 +32,7 @@ import { CardLink } from '@components/card-link';
 import { CreateItemForm } from '@components/create-item-form';
 import { PageSection } from '@components/page-section';
 import { TileGrid, TileGridItem } from '@components/tile-grid';
-import { faEdit, faPlus } from '@fortawesome/pro-light-svg-icons';
+import { faPlus, faShareSquare } from '@fortawesome/pro-light-svg-icons';
 import { Icon } from '@lib/icon';
 import { withDefaultServerSideProps } from '@lib/props';
 import { trpc } from '@lib/trpc';
@@ -40,12 +41,14 @@ import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 import { useMemo, useState } from 'react';
 import { FormattedDate, FormattedMessage, useIntl } from 'react-intl';
 
-export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: true });
+export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: false });
 
 const BoxesPage: NextPage = () => {
+  const { data } = useSession();
   const intl = useIntl();
   const trpcContext = trpc.useContext();
   const router = useRouter();
@@ -61,9 +64,9 @@ const BoxesPage: NextPage = () => {
     onOpen: onDropModalOpen,
     onClose: onDropModalClose,
   } = useDisclosure();
+  const toast = useToast();
 
   const { data: box } = trpc.box.fetchById.useQuery({ id: String(router.query['boxId']) });
-  trpc.box.setViewed.useQuery({ id: String(router.query['boxId']) });
   const createDropMutation = trpc.box.createDrop.useMutation({
     onSuccess() {
       trpcContext.box.fetchById.invalidate();
@@ -101,6 +104,18 @@ const BoxesPage: NextPage = () => {
     setConfirmCreateDrop(!confirmCreateDrop);
   };
 
+  const handleShareLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    toast({
+      title: 'Link copied',
+      description: "We've copied the box link to your clipboard",
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+      position: 'top-right',
+    });
+  };
+
   return (
     <>
       <Head>
@@ -109,7 +124,7 @@ const BoxesPage: NextPage = () => {
       </Head>
 
       {/* BREADCRUMBS */}
-      {box && (
+      {data?.user && box && (
         <Box as="section" mb="6">
           <Heading as="h2" mb="2" size="2xl">
             <FormattedMessage id="BOXES_PAGE_TITLE" />
@@ -145,12 +160,28 @@ const BoxesPage: NextPage = () => {
           <Box as="section" mb="6">
             <HStack>
               <Heading mr="2">{box.name}</Heading>
-              <IconButton aria-label="edit-name" icon={<Icon icon={faEdit} />} size="sm" />
+              {box.isPublic && (
+                <IconButton
+                  aria-label="edit-name"
+                  icon={<Icon icon={faShareSquare} />}
+                  onClick={handleShareLink}
+                  size="sm"
+                />
+              )}
             </HStack>
+            {box.isPublic && (
+              <Text color="subtext" fontSize="sm">
+                Public Box
+              </Text>
+            )}
             <Text color="subtext" fontSize="sm">
               {box.team?.name || 'Personal'}
             </Text>
-            {box.createdBy && (
+            {box.createdBy.id === data?.user.id ? (
+              <Text color="subtext" fontSize="sm">
+                Created by you
+              </Text>
+            ) : (
               <Text color="subtext" fontSize="sm">
                 <FormattedMessage
                   id="BOX_PAGE_CREATED_BY_TEXT"
@@ -177,7 +208,6 @@ const BoxesPage: NextPage = () => {
                 </Button>
               ) : undefined
             }
-            moreOptions
           >
             <Stack direction={['column', null, null, null, 'row']}>
               <Card flex="1" maxH="2xs">
@@ -236,7 +266,7 @@ const BoxesPage: NextPage = () => {
                 <Button
                   gap={2}
                   aria-label={intl.formatMessage({ id: 'BUTTON_CREATE_DROP' })}
-                  disabled={!box.items.length}
+                  disabled={!box.items.length || !data?.user}
                   onClick={onDropModalOpen}
                 >
                   <Icon icon={faPlus} />
@@ -246,7 +276,6 @@ const BoxesPage: NextPage = () => {
                 </Button>
               ) : undefined
             }
-            moreOptions
           >
             <TileGrid>
               {box.drops.map((drop, index) => (

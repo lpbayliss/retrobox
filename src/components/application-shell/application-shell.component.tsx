@@ -27,6 +27,7 @@ import {
 import { Icon } from '@lib/icon';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
+import { Session } from 'next-auth';
 import { useSession } from 'next-auth/react';
 import { PropsWithChildren, useEffect } from 'react';
 
@@ -57,9 +58,8 @@ const SidebarLink = ({ label, icon, href, isActive }: SidebarLinkProps) => {
   );
 };
 
-const Navbar = () => {
+const Navbar = ({ data }: { data: Session | null }) => {
   const router = useRouter();
-  const { data } = useSession();
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onToggle, onClose } = useDisclosure();
 
@@ -78,27 +78,33 @@ const Navbar = () => {
         </HStack>
         <Spacer />
         <HStack>
-          <NextLink href="/app/profile" passHref>
-            <Avatar borderRadius="lg" name={data?.user.name || undefined} size="sm" />
-          </NextLink>
+          {data?.user && (
+            <NextLink href="/app/profile" passHref>
+              <Avatar borderRadius="lg" name={data?.user.name || undefined} size="sm" />
+            </NextLink>
+          )}
           <IconButton
             aria-label="color-mode-toggle"
             icon={<Icon icon={colorMode === 'light' ? faMoon : faSun} />}
             onClick={toggleColorMode}
             size="sm"
           />
-          <Divider h="15px" orientation="vertical" />
-          <IconButton
-            bg="none"
-            _hover={{
-              bg: 'none',
-            }}
-            aria-label="menu-toggle"
-            icon={<Icon icon={!isOpen ? faBars : faXmarkLarge} />}
-            onClick={onToggle}
-            size="sm"
-            variant="ghost"
-          />
+          {data?.user && (
+            <>
+              <Divider h="15px" orientation="vertical" />
+              <IconButton
+                bg="none"
+                _hover={{
+                  bg: 'none',
+                }}
+                aria-label="menu-toggle"
+                icon={<Icon icon={!isOpen ? faBars : faXmarkLarge} />}
+                onClick={onToggle}
+                size="sm"
+                variant="ghost"
+              />
+            </>
+          )}
         </HStack>
       </HStack>
 
@@ -140,9 +146,8 @@ const Navbar = () => {
   );
 };
 
-const Sidebar = () => {
+const Sidebar = ({ data }: { data: Session | null }) => {
   const router = useRouter();
-  const { data } = useSession();
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
@@ -152,31 +157,35 @@ const Sidebar = () => {
           <Text fontSize="4xl">📦</Text>
           <Heading as="h1">Retrobox</Heading>
         </HStack>
-        <VStack spacing="6">
-          <SidebarLink
-            icon={faHouse}
-            isActive={router.asPath === '/app'}
-            label="Home"
-            href="/app"
-          />
-          <SidebarLink
-            icon={faBoxTaped}
-            label="Boxes"
-            isActive={router.asPath.startsWith('/app/boxes')}
-            href="/app/boxes"
-          />
-          <SidebarLink
-            icon={faGear}
-            label="Settings"
-            isActive={router.asPath.startsWith('/app/settings')}
-            href="/app/settings"
-          />
-        </VStack>
+        {data?.user && (
+          <VStack spacing="6">
+            <SidebarLink
+              icon={faHouse}
+              isActive={router.asPath === '/app'}
+              label="Home"
+              href="/app"
+            />
+            <SidebarLink
+              icon={faBoxTaped}
+              label="Boxes"
+              isActive={router.asPath.startsWith('/app/boxes')}
+              href="/app/boxes"
+            />
+            <SidebarLink
+              icon={faGear}
+              label="Settings"
+              isActive={router.asPath.startsWith('/app/settings')}
+              href="/app/settings"
+            />
+          </VStack>
+        )}
         <Spacer />
         <HStack w="full">
-          <NextLink href="/app/profile" passHref>
-            <Avatar as="a" borderRadius="lg" name={data?.user.name || undefined} size="md" />
-          </NextLink>
+          {data?.user && (
+            <NextLink href="/app/profile" passHref>
+              <Avatar as="a" borderRadius="lg" name={data?.user.name || undefined} size="md" />
+            </NextLink>
+          )}
           <Spacer />
           <IconButton
             aria-label="color-mode-toggle"
@@ -191,12 +200,12 @@ const Sidebar = () => {
 };
 
 const AppLayout = ({ children }: PropsWithChildren<{}>) => {
+  const { data } = useSession();
   const isDesktop = useBreakpointValue({ base: false, lg: true });
-  const router = useRouter();
 
   return (
     <Flex direction={{ base: 'column', lg: 'row' }} w="full" minW="sm" h="100vh">
-      {isDesktop ? <Sidebar /> : <Navbar />}
+      {isDesktop ? <Sidebar data={data} /> : <Navbar data={data} />}
       <Flex as="main" direction="column" overflow="auto" w="full" h="full" p={['4', null, '8']}>
         {children}
       </Flex>

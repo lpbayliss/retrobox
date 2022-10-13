@@ -1,5 +1,6 @@
 import {
   Button,
+  Checkbox,
   FormControl,
   FormErrorMessage,
   FormHelperText,
@@ -14,6 +15,7 @@ import { trpc } from 'src/lib/trpc';
 
 export type ICreateBoxFormInputs = {
   name: string;
+  isPublic: boolean;
 };
 
 type Props = { onClose: (created?: boolean) => void } & StackProps;
@@ -37,7 +39,7 @@ const CreateBoxForm = ({ onClose, ...props }: Props) => {
   } = useForm<ICreateBoxFormInputs>();
 
   const handleOnSubmit: SubmitHandler<ICreateBoxFormInputs> = async (data) => {
-    await createBoxMutation.mutateAsync({ name: data.name });
+    await createBoxMutation.mutateAsync({ name: data.name, isPublic: data.isPublic });
   };
 
   return (
@@ -64,6 +66,11 @@ const CreateBoxForm = ({ onClose, ...props }: Props) => {
           <FormattedMessage id="CREATE_BOX_FORM_HELP_TEXT" />
         </FormHelperText>
         <FormErrorMessage>{errors.name && errors.name.message}</FormErrorMessage>
+      </FormControl>
+      <FormControl>
+        <FormLabel>Access</FormLabel>
+        <Checkbox {...register('isPublic')}>Public</Checkbox>
+        <FormHelperText>Check if you want this box to be accessible by others</FormHelperText>
       </FormControl>
       <Button w="full" isLoading={isSubmitting} type="submit">
         <FormattedMessage id="CREATE_BOX_FORM_SUBMIT_BUTTON_LABEL" />

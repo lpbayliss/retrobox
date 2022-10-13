@@ -1,19 +1,23 @@
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import {
+  Avatar,
   Box,
   Breadcrumb,
   BreadcrumbItem,
   BreadcrumbLink,
+  Divider,
   Flex,
   Heading,
   HStack,
   IconButton,
   ScaleFade,
+  Text,
+  useToast,
 } from '@chakra-ui/react';
 import { Card } from '@components/card';
 import { PageSection } from '@components/page-section';
-import { TileGrid } from '@components/tile-grid';
-import { faEdit } from '@fortawesome/pro-light-svg-icons';
+import { TileGrid, TileGridItem } from '@components/tile-grid';
+import { faShareSquare } from '@fortawesome/pro-light-svg-icons';
 import { Icon } from '@lib/icon';
 import { withDefaultServerSideProps } from '@lib/props';
 import { trpc } from '@lib/trpc';
@@ -21,16 +25,29 @@ import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useSession } from 'next-auth/react';
+import { FormattedMessage } from 'react-intl';
 
-export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: true });
+export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: false });
 
 const BoxesPage: NextPage = () => {
-  const intl = useIntl();
-  const trpcContext = trpc.useContext();
+  const { data } = useSession();
   const router = useRouter();
+  const toast = useToast();
 
-  const { data: box } = trpc.box.fetchById.useQuery({ id: String(router.query['boxId']) });
+  const { data: drop } = trpc.drop.fetchById.useQuery({ id: String(router.query['dropId']) });
+
+  const handleShareLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    toast({
+      title: 'Link copied',
+      description: "We've copied the drop link to your clipboard",
+      status: 'success',
+      duration: 5000,
+      isClosable: true,
+      position: 'top-right',
+    });
+  };
 
   return (
     <>
@@ -40,7 +57,7 @@ const BoxesPage: NextPage = () => {
       </Head>
 
       {/* BREADCRUMBS */}
-      {box && (
+      {data?.user && drop && (
         <Box as="section" mb="6">
           <Heading as="h2" mb="2" size="2xl">
             <FormattedMessage id="BOXES_PAGE_TITLE" />
@@ -61,14 +78,14 @@ const BoxesPage: NextPage = () => {
               </NextLink>
             </BreadcrumbItem>
             <BreadcrumbItem>
-              <NextLink href={'/app/boxes/[boxId]'} as={`/app/boxes/${box.id}`} passHref>
-                <BreadcrumbLink>{box.name}</BreadcrumbLink>
+              <NextLink href={'/app/boxes/[boxId]'} as={`/app/boxes/${drop.box.id}`} passHref>
+                <BreadcrumbLink>{drop.box.name}</BreadcrumbLink>
               </NextLink>
             </BreadcrumbItem>
             <BreadcrumbItem>
               <NextLink
                 href={'/app/boxes/[boxId]/drop/[dropId]'}
-                as={`/app/boxes/${box.id}/drop/${null}`}
+                as={`/app/boxes/${drop.box.id}/drop/${null}`}
                 passHref
               >
                 <BreadcrumbLink>Drop</BreadcrumbLink>
@@ -79,31 +96,55 @@ const BoxesPage: NextPage = () => {
       )}
 
       {/*  DEFAULT VIEW */}
-      {box && (
+      {drop && (
         <Flex as="section" direction="column" w="full" h="full">
           {/* Heading / Title */}
           <Box as="section" mb="6">
             <HStack>
               <Heading mr="2">Drop</Heading>
-              <IconButton aria-label="edit-name" icon={<Icon icon={faEdit} />} size="sm" />
+              {drop.isPublic && (
+                <IconButton
+                  aria-label="edit-name"
+                  icon={<Icon icon={faShareSquare} />}
+                  onClick={handleShareLink}
+                  size="sm"
+                />
+              )}
             </HStack>
           </Box>
 
           {/* Items */}
-          <PageSection heading="Items" moreOptions>
+          <PageSection heading="Items">
             <TileGrid>
-              <ScaleFade delay={0.03 * 0} in={true} initialScale={0.9}>
-                <Card>This is an item</Card>
-              </ScaleFade>
-              <ScaleFade delay={0.03 * 1} in={true} initialScale={0.9}>
-                <Card>This is an item</Card>
-              </ScaleFade>
-              <ScaleFade delay={0.03 * 2} in={true} initialScale={0.9}>
-                <Card>This is an item</Card>
-              </ScaleFade>
-              <ScaleFade delay={0.03 * 3} in={true} initialScale={0.9}>
-                <Card>This is an item</Card>
-              </ScaleFade>
+              {drop.items.map((item, index) => (
+                <ScaleFade key={item.id} delay={0.03 * index} in={true} initialScale={0.9}>
+                  <TileGridItem>
+                    <Card gap={2}>
+                      <Text>&quot;{item.content}&quot;</Text>
+                      <Divider />
+                      <HStack>
+                        <Avatar
+                          name={
+                            item.createdBy
+                              ? item.createdBy.name
+                                ? item.createdBy.name
+                                : 'Unknown'
+                              : undefined
+                          }
+                          size="xs"
+                        />
+                        <Text fontSize="sm">
+                          {item.createdBy
+                            ? item.createdBy.name
+                              ? item.createdBy.name
+                              : 'Unknown'
+                            : 'Anonymous'}
+                        </Text>
+                      </HStack>
+                    </Card>
+                  </TileGridItem>
+                </ScaleFade>
+              ))}
             </TileGrid>
           </PageSection>
         </Flex>

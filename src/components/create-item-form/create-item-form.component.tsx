@@ -11,6 +11,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { trpc } from '@lib/trpc';
+import { useSession } from 'next-auth/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { FormattedMessage, useIntl } from 'react-intl';
 
@@ -25,6 +26,7 @@ interface Props {
 }
 
 const CreateBoxForm = ({ boxId, onSubmit, ...props }: Props & StackProps) => {
+  const { data } = useSession();
   const trpcContext = trpc.useContext();
   const intl = useIntl();
 
@@ -72,7 +74,11 @@ const CreateBoxForm = ({ boxId, onSubmit, ...props }: Props & StackProps) => {
       </FormControl>
       <Divider />
       <FormControl>
-        <Checkbox {...register('anonymous')}>
+        <Checkbox
+          {...register('anonymous')}
+          disabled={!data?.user}
+          isChecked={!data?.user ? true : undefined}
+        >
           <FormattedMessage id="CREATE_ITEM_FORM_ANONYMOUS_LABEL" />
         </Checkbox>
       </FormControl>

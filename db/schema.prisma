@@ -96,10 +96,12 @@ model Drop {
   updatedAt DateTime @updatedAt
   createdBy User     @relation(fields: [userId], references: [id])
   items     Item[]
+  isPublic  Boolean
+
 
   userId String
-  box    Box?    @relation(fields: [boxId], references: [id])
-  boxId  String?
+  box    Box    @relation(fields: [boxId], references: [id])
+  boxId  String
 }
 
 model Box {
@@ -111,6 +113,7 @@ model Box {
   createdBy User     @relation(fields: [userId], references: [id])
   items     Item[]
   drops     Drop[]
+  isPublic  Boolean
 
   teamId    String?
   userId    String

@@ -17,6 +17,7 @@ const defaultBoxSelect = Prisma.validator<Prisma.BoxSelect>()({
   createdBy: { select: { id: true, name: true, email: true } },
   items: { select: defaultItemSelect, where: { drop: { is: null } } },
   drops: { select: { id: true, createdAt: true, items: true }, orderBy: { createdAt: 'desc' } },
+  isPublic: true,
 });
 
 const boxWhereUserIsOwnerInput = (userId: string) =>
@@ -38,6 +39,7 @@ export const boxRouter = t.router({
       z.object({
         name: z.string().min(1),
         teamId: z.string().cuid().optional(),
+        isPublic: z.boolean().optional().default(false),
       }),
     )
     .mutation(async ({ input, ctx }) => {
@@ -60,16 +62,25 @@ export const boxRouter = t.router({
     .mutation(async ({ input, ctx }) => {
       const user = getUserOrThrow(ctx);
 
-      const items = await ctx.prisma.item.findMany({
-        where: { boxId: input.id, drop: { is: null } },
-        select: { id: true },
+      const box = await ctx.prisma.box.findUnique({
+        where: { id: input.id },
+        select: {
+          isPublic: true,
+          items: { where: { drop: { is: null } } },
+          createdBy: { select: { id: true } },
+        },
       });
+
+      if (!box) throw new TRPCError({ code: 'NOT_FOUND' });
+
+      if (!box.isPublic && box.createdBy.id !== user.id) throw new TRPCError({ code: 'FORBIDDEN' });
 
       await ctx.prisma.drop.create({
         data: {
-          boxId: input.id,
-          userId: user.id,
-          items: { connect: items.map((item) => ({ id: item.id })) },
+          box: { connect: { id: input.id } },
+          isPublic: box.isPublic,
+          createdBy: { connect: { id: user.id } },
+          items: { connect: box.items.map((item) => ({ id: item.id })) },
         },
       });
 
@@ -84,14 +95,16 @@ export const boxRouter = t.router({
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      const user = getUserOrThrow(ctx);
+      const user = ctx.session?.user;
+
       await ctx.prisma.item.create({
         data: {
           content: input.content,
           boxId: input.id,
-          userId: input.anonymous ? undefined : user.id,
+          userId: input.anonymous ? undefined : user?.id,
         },
       });
+
       return true;
     }),
   fetchById: t.procedure
@@ -101,28 +114,27 @@ export const boxRouter = t.router({
       }),
     )
     .query(async ({ input, ctx }) => {
-      const user = getUserOrThrow(ctx);
+      const user = ctx.session?.user;
+
       const box = await ctx.prisma.box.findUnique({
         where: { id: input.id },
         select: defaultBoxSelect,
       });
-      if (box?.createdBy.id !== user.id) throw new TRPCError({ code: 'FORBIDDEN' });
+
+      if (!box) throw new TRPCError({ code: 'NOT_FOUND' });
+
+      if (!box.isPublic && box.createdBy.id !== user?.id)
+        throw new TRPCError({ code: 'FORBIDDEN' });
+
+      if (user) {
+        await ctx.prisma.boxViews.upsert({
+          where: { userId_boxId: { boxId: input.id, userId: user.id } },
+          create: { viewedAt: new Date(), boxId: input.id, userId: user.id },
+          update: { viewedAt: new Date() },
+        });
+      }
+
       return box;
-    }),
-  setViewed: t.procedure
-    .input(
-      z.object({
-        id: z.string().cuid(),
-      }),
-    )
-    .query(async ({ input, ctx }) => {
-      const user = getUserOrThrow(ctx);
-      await ctx.prisma.boxViews.upsert({
-        where: { userId_boxId: { boxId: input.id, userId: user.id } },
-        create: { viewedAt: new Date(), boxId: input.id, userId: user.id },
-        update: { viewedAt: new Date() },
-      });
-      return true;
     }),
   fetchAll: t.procedure.query(async ({ ctx }) => {
     const user = getUserOrThrow(ctx);
