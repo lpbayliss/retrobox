@@ -124,11 +124,11 @@ const BoxesPage: NextPage = () => {
       </Head>
 
       {/* BREADCRUMBS */}
-      {data?.user && box && (
-        <Box as="section" mb="6">
-          <Heading as="h2" mb="2" size="2xl">
-            <FormattedMessage id="BOXES_PAGE_TITLE" />
-          </Heading>
+      <Box as="section" mb="6">
+        <Heading as="h2" mb="2" size="2xl">
+          View Box
+        </Heading>
+        {data?.user && box && (
           <Breadcrumb separator={<ChevronRightIcon color="gray.500" />} spacing="8px">
             <BreadcrumbItem>
               <NextLink href="/app" passHref>
@@ -150,8 +150,8 @@ const BoxesPage: NextPage = () => {
               </NextLink>
             </BreadcrumbItem>
           </Breadcrumb>
-        </Box>
-      )}
+        )}
+      </Box>
 
       {/*  DEFAULT VIEW */}
       {box && (
@@ -318,9 +318,7 @@ const BoxesPage: NextPage = () => {
       <Modal isOpen={isItemModalOpen} onClose={onItemModalClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>
-            <FormattedMessage id="MODAL_HEADER_CREATE_BOX" />
-          </ModalHeader>
+          <ModalHeader>Add item</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             {box && <CreateItemForm boxId={box.id} onSubmit={onItemModalClose} />}

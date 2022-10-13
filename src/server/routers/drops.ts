@@ -16,6 +16,7 @@ export const dropRouter = t.router({
       const drop = await ctx.prisma.drop.findUnique({
         where: { id: input.id },
         select: {
+          id: true,
           box: { select: { name: true, id: true } },
           isPublic: true,
           createdBy: { select: { id: true } },

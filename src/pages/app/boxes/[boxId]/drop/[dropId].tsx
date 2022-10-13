@@ -10,6 +10,7 @@ import {
   Heading,
   HStack,
   IconButton,
+  Link,
   ScaleFade,
   Text,
   useToast,
@@ -57,41 +58,48 @@ const BoxesPage: NextPage = () => {
       </Head>
 
       {/* BREADCRUMBS */}
-      {data?.user && drop && (
+      {drop && (
         <Box as="section" mb="6">
           <Heading as="h2" mb="2" size="2xl">
-            <FormattedMessage id="BOXES_PAGE_TITLE" />
+            View Drop
           </Heading>
-          <Breadcrumb separator={<ChevronRightIcon color="gray.500" />} spacing="8px">
-            <BreadcrumbItem>
-              <NextLink href="/app" passHref>
-                <BreadcrumbLink>
-                  <FormattedMessage id="HOME_PAGE_TITLE" />
-                </BreadcrumbLink>
-              </NextLink>
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-              <NextLink href="/app/boxes" passHref>
-                <BreadcrumbLink>
-                  <FormattedMessage id="BOXES_PAGE_TITLE" />
-                </BreadcrumbLink>
-              </NextLink>
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-              <NextLink href={'/app/boxes/[boxId]'} as={`/app/boxes/${drop.box.id}`} passHref>
-                <BreadcrumbLink>{drop.box.name}</BreadcrumbLink>
-              </NextLink>
-            </BreadcrumbItem>
-            <BreadcrumbItem>
-              <NextLink
-                href={'/app/boxes/[boxId]/drop/[dropId]'}
-                as={`/app/boxes/${drop.box.id}/drop/${null}`}
-                passHref
-              >
-                <BreadcrumbLink>Drop</BreadcrumbLink>
-              </NextLink>
-            </BreadcrumbItem>
-          </Breadcrumb>
+          {data?.user && (
+            <Breadcrumb separator={<ChevronRightIcon color="gray.500" />} spacing="8px">
+              <BreadcrumbItem>
+                <NextLink href="/app" passHref>
+                  <BreadcrumbLink>
+                    <FormattedMessage id="HOME_PAGE_TITLE" />
+                  </BreadcrumbLink>
+                </NextLink>
+              </BreadcrumbItem>
+              <BreadcrumbItem>
+                <NextLink href="/app/boxes" passHref>
+                  <BreadcrumbLink>
+                    <FormattedMessage id="BOXES_PAGE_TITLE" />
+                  </BreadcrumbLink>
+                </NextLink>
+              </BreadcrumbItem>
+              <BreadcrumbItem>
+                <NextLink href={'/app/boxes/[boxId]'} as={`/app/boxes/${drop.box.id}`} passHref>
+                  <BreadcrumbLink>{drop.box.name}</BreadcrumbLink>
+                </NextLink>
+              </BreadcrumbItem>
+              <BreadcrumbItem>
+                <NextLink
+                  href={'/app/boxes/[boxId]/drop/[dropId]'}
+                  as={`/app/boxes/${drop.box.id}/drop/${drop.id}`}
+                  passHref
+                >
+                  <BreadcrumbLink>View Drop</BreadcrumbLink>
+                </NextLink>
+              </BreadcrumbItem>
+            </Breadcrumb>
+          )}
+          {!data?.user && (
+            <NextLink href={'/app/boxes/[boxId]'} as={`/app/boxes/${drop.box.id}`} passHref>
+              <Link>Return to {drop.box.name}</Link>
+            </NextLink>
+          )}
         </Box>
       )}
 
