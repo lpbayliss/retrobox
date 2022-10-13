@@ -59,6 +59,7 @@ const SidebarLink = ({ label, icon, href, isActive }: SidebarLinkProps) => {
 
 const Navbar = () => {
   const router = useRouter();
+  const { data } = useSession();
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onToggle, onClose } = useDisclosure();
 
@@ -78,7 +79,7 @@ const Navbar = () => {
         <Spacer />
         <HStack>
           <NextLink href="/app/profile" passHref>
-            <Avatar borderRadius="lg" name="Luke Bayliss" size="sm" />
+            <Avatar borderRadius="lg" name={data?.user.name || undefined} size="sm" />
           </NextLink>
           <IconButton
             aria-label="color-mode-toggle"
