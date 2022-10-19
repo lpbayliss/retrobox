@@ -4222,15 +4222,15 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"
   integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
 
-"@trpc/client@10.0.0-proxy-beta.21":
-  version "10.0.0-proxy-beta.21"
-  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.0.0-proxy-beta.21.tgz#a1a0b274a74be4ede3223e293907af5f57bd8d60"
-  integrity sha512-vjNetqOEhr/aLLEFr4c/QLOTPQH8xFQ3SPG7p7s9PKuv4QFzyHL7C49XNzEh2rp+A5f5D01pM0LXGl6Lf0whZA==
+"@trpc/client@10.0.0-proxy-beta.23":
+  version "10.0.0-proxy-beta.23"
+  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.0.0-proxy-beta.23.tgz#fc2998f1565609ac9354c52bd6ca5f321d82d750"
+  integrity sha512-rOySl64LESEN/sk4T8TMIAMDhqnb0O5rH/FwQuzFqZIOBQ+TtD41u6CfBynx5V1lXmhaETWdT0EaiUDAd5E1PA==
 
-"@trpc/next@10.0.0-proxy-beta.21":
-  version "10.0.0-proxy-beta.21"
-  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-10.0.0-proxy-beta.21.tgz#d39e8f1a14a2dfec7463ff641555034bc3e75396"
-  integrity sha512-H00lTKJ5VqgtnMWcM7sN/K2jiTONjzpvDk8KQgaPq/OgAEi+xI7TcKPX1jRW/rfxdXAGY4RQ/w5k9joWxD2QfA==
+"@trpc/next@10.0.0-proxy-beta.23":
+  version "10.0.0-proxy-beta.23"
+  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-10.0.0-proxy-beta.23.tgz#886221d52dfa0682467eb46cc36ec95ecd0e91cf"
+  integrity sha512-RCQuOvdJUJDA46DPUjDczpVpMWaFTzfGyX6W9/rVZLDGuVGqixNEy88kQ9QdcgPmswb8ZOvTZcAKqT0If64U7w==
   dependencies:
     react-ssr-prepass "^1.5.0"
 
@@ -4239,10 +4239,10 @@
   resolved "https://registry.yarnpkg.com/@trpc/react/-/react-10.0.0-proxy-beta.20.tgz#985422b5a5b5ad2c280fa23ccb1714379f29538c"
   integrity sha512-axuy3Nf71j6vVQFhc7ATSOW4gMTL92RSMTA0p93dNoNQpKqADGjjB1bFUqAmCeAjy441s+h9tqhj3g14sQ/NmA==
 
-"@trpc/server@10.0.0-proxy-beta.21":
-  version "10.0.0-proxy-beta.21"
-  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-10.0.0-proxy-beta.21.tgz#f722d1557cd30bb9467bc915f3878b937e9d4ac4"
-  integrity sha512-FLkBn8K4tFeuhjcljehzak5b4ZGRCTUn1SJq3tecCBVUsDXiQ8ex/PG/a2W1V9Ji/st6uIK7U2D/EUgsE7ZzcQ==
+"@trpc/server@10.0.0-proxy-beta.23":
+  version "10.0.0-proxy-beta.23"
+  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-10.0.0-proxy-beta.23.tgz#3c7630ec8d72956e3b90b3ef44fc84528d6df76c"
+  integrity sha512-WsUGhR80X40QlXyAEWVghkF3XhLm/si0apPjn7ydW/+WxKjoeKCM7zTHCGY+9qwLPiPNb2uRYV1sw8wucxRKEQ==
 
 "@types/aria-query@^4.2.0":
   version "4.2.2"
