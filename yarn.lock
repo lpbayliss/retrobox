@@ -4257,15 +4257,15 @@
   resolved "https://registry.yarnpkg.com/@tootallnate/once/-/once-2.0.0.tgz#f544a148d3ab35801c1f633a7441fd87c2e484bf"
   integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
 
-"@trpc/client@10.0.0-rc.2":
-  version "10.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.0.0-rc.2.tgz#b85a6e66fee7e446ba72f8767df6b49cd012f4e1"
-  integrity sha512-8GIehvg7QAdD9cSv++PrBnLQYXngTW0dIayNJPCYoaaUVAGew9/bJppYYXd17UQBNyVY+fAK0Q55E6HUYnYz2w==
+"@trpc/client@10.0.0-rc.3":
+  version "10.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.0.0-rc.3.tgz#22cea038dd5e38ce0e39ff4a339793bb5808ab18"
+  integrity sha512-gZYVfZra1YB2DluDY+GcIrL7KqPXCI9y0mF4utXYAUAl+jrxfLyG63pCv30USRRYlwwSKaoLJNpjQB9k05aYaw==
 
-"@trpc/next@10.0.0-rc.2":
-  version "10.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-10.0.0-rc.2.tgz#d701c75516f1a725e861b4ea792abab11e4529b0"
-  integrity sha512-X8qeT3sbhir35aFoCiYKSBiiYZU7Ycrg99AoxCua6gcTQegKZp8+TZz/eOzlgKloV6yRZbz1fPDgPw0dvtrlRg==
+"@trpc/next@10.0.0-rc.3":
+  version "10.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-10.0.0-rc.3.tgz#2585aa271c2916afb2f7291583c9299c324f799d"
+  integrity sha512-L9sHV93dPA4lZ/I8opfn3BJONnlnnJzJERggv7srt8H3aEhKVlNWIqxciNLHGXSq9q0C9i3Q6ND4F5kpRSQ5YA==
   dependencies:
     react-ssr-prepass "^1.5.0"
 
@@ -4274,10 +4274,10 @@
   resolved "https://registry.yarnpkg.com/@trpc/react/-/react-10.0.0-proxy-beta.20.tgz#985422b5a5b5ad2c280fa23ccb1714379f29538c"
   integrity sha512-axuy3Nf71j6vVQFhc7ATSOW4gMTL92RSMTA0p93dNoNQpKqADGjjB1bFUqAmCeAjy441s+h9tqhj3g14sQ/NmA==
 
-"@trpc/server@10.0.0-rc.2":
-  version "10.0.0-rc.2"
-  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-10.0.0-rc.2.tgz#e4a054582604cf30e4d532a2046d7cc454dd4c62"
-  integrity sha512-qxtEoqXnF/eACW9c9/B/UJ+RkMz3QobKzwoYBamXxDf2LEENjdfWmj7cdHRC637LUAS6YS6WmD3Lol8SD8RiGg==
+"@trpc/server@10.0.0-rc.3":
+  version "10.0.0-rc.3"
+  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-10.0.0-rc.3.tgz#4ddc4410305b17a47248b3bfa881df3b52202e60"
+  integrity sha512-aSs3uDQ5wumwVjtxj855WLDjlDC+v50QoqHzvuptI33NhJZV7meu0pU2EJkrSZXFt27CSNfP9o2ZPfoReoPUuw==
 
 "@types/aria-query@^4.2.0":
   version "4.2.2"
