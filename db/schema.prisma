@@ -40,19 +40,20 @@ model Session {
 }
 
 model User {
-  id            String        @id @default(cuid())
-  name          String?
-  email         String?       @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  ownedTeams    Team[]        @relation("TeamOwner")
-  teams         Team[]
-  boxesCreated  Box[]
-  itemsCreated  Item[]
-  dropsCreated  Drop[]
-  ItemComment   ItemComment[]
+  id                  String        @id @default(cuid())
+  name                String?
+  email               String?       @unique
+  emailVerified       DateTime?
+  image               String?
+  accounts            Account[]
+  sessions            Session[]
+  ownedTeams          Team[]        @relation("TeamOwner")
+  teams               Team[]
+  boxesCreated        Box[]
+  itemsCreated        Item[]
+  dropsCreated        Drop[]
+  ItemComment         ItemComment[]
+  recentlyViewedBoxes BoxViews[]
 }
 
 model VerificationToken {
@@ -68,10 +69,10 @@ model ItemComment {
   createdAt DateTime @default(now())
   createdBy User?    @relation(fields: [userId], references: [id])
   content   String
-  Item      Item?    @relation(fields: [itemId], references: [id])
 
   userId String?
   itemId String?
+  Item   Item?   @relation(fields: [itemId], references: [id])
 }
 
 model Item {
@@ -81,13 +82,12 @@ model Item {
   createdBy User?         @relation(fields: [userId], references: [id])
   content   String
   comments  ItemComment[]
-  Drop      Drop?         @relation(fields: [dropId], references: [id])
+  drop      Drop?         @relation(fields: [dropId], references: [id])
 
-  userId        String?
-  itemCommentId String
-  dropId        String?
-  Box           Box?    @relation(fields: [boxId], references: [id])
-  boxId         String?
+  userId String?
+  dropId String?
+  box    Box?    @relation(fields: [boxId], references: [id])
+  boxId  String?
 }
 
 model Drop {
@@ -96,8 +96,12 @@ model Drop {
   updatedAt DateTime @updatedAt
   createdBy User     @relation(fields: [userId], references: [id])
   items     Item[]
+  isPublic  Boolean
+
 
   userId String
+  box    Box    @relation(fields: [boxId], references: [id])
+  boxId  String
 }
 
 model Box {
@@ -108,9 +112,23 @@ model Box {
   team      Team?    @relation(fields: [teamId], references: [id])
   createdBy User     @relation(fields: [userId], references: [id])
   items     Item[]
+  drops     Drop[]
+  isPublic  Boolean
 
-  teamId String?
+  teamId    String?
+  userId    String
+  userViews BoxViews[]
+}
+
+model BoxViews {
+  user     User     @relation(fields: [userId], references: [id])
+  box      Box      @relation(fields: [boxId], references: [id])
+  viewedAt DateTime
+
   userId String
+  boxId  String
+
+  @@unique([userId, boxId])
 }
 
 model Team {

@@ -1,0 +1,5 @@
+-- AlterTable
+ALTER TABLE "Drop" ADD COLUMN     "boxId" TEXT;
+
+-- AddForeignKey
+ALTER TABLE "Drop" ADD CONSTRAINT "Drop_boxId_fkey" FOREIGN KEY ("boxId") REFERENCES "Box"("id") ON DELETE SET NULL ON UPDATE CASCADE;

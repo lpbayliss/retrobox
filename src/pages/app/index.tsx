@@ -1,35 +1,28 @@
-import { Center, Flex, Heading, Spacer, Text } from '@chakra-ui/react';
-import { AppLayout } from '@components/layouts/app-layout';
-import { withServerSideSession } from '@lib/auth';
-import { withToggles } from '@lib/unleash';
+import { Box, Center, Flex, Heading, Spacer, Text } from '@chakra-ui/react';
+import { withDefaultServerSideProps } from '@lib/props';
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { FormattedMessage } from 'react-intl';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  const props = await withToggles(await withServerSideSession(context)({}));
+export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: true });
 
-  if (!props.session?.user)
-    return {
-      redirect: '/',
-      props: {},
-    };
-
-  return {
-    props,
-  };
-};
-
-const AppPage: NextPage = ({ session }: any) => {
+const HomePage: NextPage = () => {
   return (
-    <AppLayout>
+    <>
       <Head>
-        <title>Home</title>
+        <title>Retrobox | Home</title>
         <meta name="description" content="Retrobox home" />
       </Head>
+
+      <Box as="section" mb="6">
+        <Heading as="h2" mb="2" size="2xl">
+          <FormattedMessage id="HOME_PAGE_TITLE" />
+        </Heading>
+      </Box>
+
       <Flex w="full" h="full">
         <Spacer />
-        <Center flexDir="column" w="full" my="auto">
+        <Center flexDir="column" w="full" my="auto" textAlign="center">
           <Heading as="h2" pb="4">
             <FormattedMessage id="HOME_PAGE_HEADING" />
           </Heading>
@@ -39,8 +32,8 @@ const AppPage: NextPage = ({ session }: any) => {
         </Center>
         <Spacer />
       </Flex>
-    </AppLayout>
+    </>
   );
 };
 
-export default AppPage;
+export default HomePage;

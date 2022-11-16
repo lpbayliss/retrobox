@@ -16,8 +16,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { SignInForm } from '@components/sign-in-form';
-import { withServerSideSession } from '@lib/auth';
-import { withToggles } from '@lib/unleash';
+import { withDefaultServerSideProps } from '@lib/props';
 import { useFlag } from '@unleash/proxy-client-react';
 import type { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
@@ -26,13 +25,9 @@ import { useSession } from 'next-auth/react';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
-  return {
-    props: await withToggles(await withServerSideSession(context)({})),
-  };
-};
+export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: false });
 
-const Index: NextPage = () => {
+const IndexPage: NextPage = () => {
   const router = useRouter();
   const { data } = useSession();
   const customSignInEnabled = useFlag('custom-login');
@@ -57,7 +52,7 @@ const Index: NextPage = () => {
   return (
     <Box>
       <Head>
-        <title>Welcome to Retrobox</title>
+        <title>Retrobox | Welcome</title>
         <meta name="description" content="Welcome" />
       </Head>
       <Box as="section" py="7.5rem">
@@ -143,4 +138,4 @@ const Index: NextPage = () => {
   );
 };
 
-export default Index;
+export default IndexPage;

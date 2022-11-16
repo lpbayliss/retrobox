@@ -10,6 +10,7 @@ class MyDocument extends Document {
         <Head>
           <meta name="description" content="Retrobox | A small tool for collecting retro items" />
           <link rel="icon" href="/favicon.ico" />
+          {/* <meta property="og:image" content={imgURL} /> */}
         </Head>
         <body>
           <ColorModeScript initialColorMode={theme.config.initialColorMode} />

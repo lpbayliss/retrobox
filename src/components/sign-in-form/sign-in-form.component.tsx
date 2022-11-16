@@ -32,18 +32,13 @@ const CreateBoxForm = ({ onSignInSuccess, onSignInError, ...props }: Props) => {
   } = useForm<ICreateBoxFormInputs>();
 
   const handleOnSubmit: SubmitHandler<ICreateBoxFormInputs> = async ({ email }) => {
-    if (!onSignInSuccess || !onSignInError) {
-      signIn('email', {
-        email,
-      });
-      return;
-    }
-
     const data = await signIn('email', {
       email,
       redirect: false,
-      callbackUrl: window.location.href + '/app',
+      callbackUrl: window.location.href + 'app',
     });
+
+    if (!onSignInSuccess || !onSignInError) return;
 
     if (!data) {
       onSignInError(new Error('Unexpected Error'));
