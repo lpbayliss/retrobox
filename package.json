@@ -33,7 +33,7 @@
     "@trpc/next": "10.0.0-rc.8",
     "@trpc/react": "10.0.0-proxy-beta.20",
     "@trpc/server": "10.0.0-rc.8",
-    "@unleash/proxy-client-react": "3.4.0",
+    "@unleash/proxy-client-react": "3.4.1",
     "deepmerge": "4.2.2",
     "faunadb": "4.7.1",
     "framer-motion": "7.6.7",
