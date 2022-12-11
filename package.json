@@ -53,7 +53,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.19.3",
-    "@chakra-ui/storybook-addon": "4.0.12",
+    "@chakra-ui/storybook-addon": "4.0.14",
     "@playwright/test": "1.27.1",
     "@storybook/addon-actions": "6.5.12",
     "@storybook/addon-essentials": "6.5.12",
