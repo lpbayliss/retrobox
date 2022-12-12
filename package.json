@@ -49,7 +49,7 @@
     "superjson": "1.12.0",
     "unleash-proxy-client": "2.2.1",
     "unleash-server": "4.18.7",
-    "zod": "3.19.1"
+    "zod": "3.20.0"
   },
   "devDependencies": {
     "@babel/core": "7.20.5",
