@@ -48,7 +48,7 @@
     "react-intl": "6.2.5",
     "superjson": "1.12.0",
     "unleash-proxy-client": "2.2.1",
-    "unleash-server": "4.18.8",
+    "unleash-server": "4.18.9",
     "zod": "3.20.2"
   },
   "devDependencies": {
