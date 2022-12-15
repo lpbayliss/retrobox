@@ -15531,10 +15531,10 @@ unleash-client@3.16.0:
     murmurhash3js "^3.0.1"
     semver "^7.3.5"
 
-unleash-proxy-client@2.2.1:
-  version "2.2.1"
-  resolved "https://registry.yarnpkg.com/unleash-proxy-client/-/unleash-proxy-client-2.2.1.tgz#e6fdb3bb9511b90dd7fe3b09d5de623d5feda53d"
-  integrity sha512-r4rtDRs3p/cnhCiYT/x4FhRYeTZuiy4Wi0W9gcsRaz8Ev6ILZkMcSShgPAdWro2jp2f/yGKQ8swivqKdeHuz9A==
+unleash-proxy-client@2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/unleash-proxy-client/-/unleash-proxy-client-2.4.0.tgz#3b97061bb79ef78f8fe98f3be40dfcb1e1343ac4"
+  integrity sha512-+kvO50Q/hFzrUIecIno9SLaDaKEadX6lOL4cd7kzLG54YqGHii97zEhkqJa1443DJ7oXsj7HjRWXlPycQjpNaQ==
   dependencies:
     tiny-emitter "^2.1.0"
     uuid "^8.3.2"
