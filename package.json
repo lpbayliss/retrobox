@@ -36,7 +36,7 @@
     "@unleash/proxy-client-react": "3.5.0",
     "deepmerge": "4.2.2",
     "faunadb": "4.7.0",
-    "framer-motion": "7.10.3",
+    "framer-motion": "8.0.1",
     "next": "12.3.1",
     "next-auth": "4.18.6",
     "nodemailer": "6.8.0",
