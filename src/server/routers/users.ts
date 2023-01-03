@@ -3,7 +3,7 @@ import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
 import { Context } from '../context';
-import { t } from '../trpc';
+import { publicProcedure, router } from '../trpc';
 
 const defaultUserSelect = Prisma.validator<Prisma.UserSelect>()({
   id: true,
@@ -19,8 +19,8 @@ const getUserOrThrow = (ctx: Context) => {
   return user;
 };
 
-export const userRouter = t.router({
-  update: t.procedure
+export const userRouter = router({
+  update: publicProcedure
     .input(
       z.object({
         name: z.string(),

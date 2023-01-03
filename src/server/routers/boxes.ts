@@ -3,7 +3,7 @@ import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
 import { Context } from '../context';
-import { t } from '../trpc';
+import { publicProcedure, router } from '../trpc';
 
 const defaultItemSelect = Prisma.validator<Prisma.ItemSelect>()({
   id: true,
@@ -33,8 +33,8 @@ const getUserOrThrow = (ctx: Context) => {
   return user;
 };
 
-export const boxRouter = t.router({
-  create: t.procedure
+export const boxRouter = router({
+  create: publicProcedure
     .input(
       z.object({
         name: z.string().min(1),
@@ -53,7 +53,7 @@ export const boxRouter = t.router({
       });
       return box;
     }),
-  createDrop: t.procedure
+  createDrop: publicProcedure
     .input(
       z.object({
         id: z.string().cuid(),
@@ -86,7 +86,7 @@ export const boxRouter = t.router({
 
       return true;
     }),
-  addItem: t.procedure
+  addItem: publicProcedure
     .input(
       z.object({
         id: z.string().cuid(),
@@ -107,7 +107,7 @@ export const boxRouter = t.router({
 
       return true;
     }),
-  fetchById: t.procedure
+  fetchById: publicProcedure
     .input(
       z.object({
         id: z.string().cuid(),
@@ -136,7 +136,7 @@ export const boxRouter = t.router({
 
       return box;
     }),
-  fetchAll: t.procedure.query(async ({ ctx }) => {
+  fetchAll: publicProcedure.query(async ({ ctx }) => {
     const user = getUserOrThrow(ctx);
     const boxes = await ctx.prisma.box.findMany({
       where: boxWhereUserIsOwnerInput(user.id),
@@ -145,7 +145,7 @@ export const boxRouter = t.router({
     });
     return boxes;
   }),
-  fetchRecentlyViewed: t.procedure.query(async ({ ctx }) => {
+  fetchRecentlyViewed: publicProcedure.query(async ({ ctx }) => {
     const user = getUserOrThrow(ctx);
     const views = await ctx.prisma.boxViews.findMany({
       where: boxWhereUserIsOwnerInput(user.id),
@@ -155,7 +155,7 @@ export const boxRouter = t.router({
     });
     return views.map((view) => view.box);
   }),
-  fetchContributors: t.procedure
+  fetchContributors: publicProcedure
     .input(
       z.object({
         id: z.string().cuid(),
