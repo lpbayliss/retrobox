@@ -15,6 +15,7 @@ import { IntlProvider } from 'react-intl';
 
 const WithApplicationShell = ({ children }: PropsWithChildren<{}>) => {
   const { pathname } = useRouter();
+  if (pathname.startsWith('/app/v2')) return <>{children}</>;
   return pathname.startsWith('/app') ? <ApplicationShell {...{ children }} /> : <>{children}</>;
 };
 
