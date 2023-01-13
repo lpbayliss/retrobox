@@ -33,9 +33,9 @@ const usePalette = ({ color }: Props) => {
     complimentaryColor2,
   ]);
 
-  const randomColor = () => colorChoices[~~random(0, colorChoices.length)].replace('#', '0x');
+  const getColor = () => colorChoices[~~random(0, colorChoices.length)].replace('#', '0x');
 
-  return { randomColor };
+  return { getColor };
 };
 
 export default usePalette;
