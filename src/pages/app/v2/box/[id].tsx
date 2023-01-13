@@ -20,6 +20,7 @@ import {
   MenuList,
   Spacer,
   Text,
+  useToken,
   VStack,
 } from '@chakra-ui/react';
 import { faChevronRight, faChevronUp } from '@fortawesome/pro-light-svg-icons';
@@ -28,13 +29,13 @@ import { withDefaultServerSideProps } from '@lib/props';
 import { KawaseBlurFilter } from '@pixi/filter-kawase-blur';
 // import { KawaseBlurFilter } from '@pixi/filter-kawase-blur';
 import debounce from 'debounce';
-import hsl from 'hsl-to-hex';
 // import hsl from 'hsl-to-hex';
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import * as PIXI from 'pixi.js';
 import { useEffect, useRef, useState } from 'react';
 import { createNoise2D } from 'simplex-noise';
+import usePalette from 'src/hooks/use-palette.hook';
 
 // return a random number within a range
 function random(min: number, max: number) {
@@ -44,45 +45,6 @@ function random(min: number, max: number) {
 // map a number from 1 range to another
 function map(n: number, start1: number, end1: number, start2: number, end2: number) {
   return ((n - start1) / (end1 - start1)) * (end2 - start2) + start2;
-}
-
-class ColorPalette {
-  constructor() {
-    this.setColors();
-    this.setCustomProperties();
-  }
-
-  setColors() {
-    // pick a random hue somewhere between 220 and 360
-    this.hue = ~~random(220, 360);
-    this.complimentaryHue1 = this.hue + 30;
-    this.complimentaryHue2 = this.hue + 60;
-    // define a fixed saturation and lightness
-    this.saturation = 95;
-    this.lightness = 50;
-
-    // define a base color
-    this.baseColor = hsl(this.hue, this.saturation, this.lightness);
-    // define a complimentary color, 30 degress away from the base
-    this.complimentaryColor1 = hsl(this.complimentaryHue1, this.saturation, this.lightness);
-    // define a second complimentary color, 60 degrees away from the base
-    this.complimentaryColor2 = hsl(this.complimentaryHue2, this.saturation, this.lightness);
-
-    // store the color choices in an array so that a random one can be picked later
-    this.colorChoices = [this.baseColor, this.complimentaryColor1, this.complimentaryColor2];
-  }
-
-  randomColor() {
-    // pick a random color
-    return this.colorChoices[~~random(0, this.colorChoices.length)].replace('#', '0x');
-  }
-
-  setCustomProperties() {
-    // set CSS custom properties so that the colors defined here can be used throughout the UI
-    document.documentElement.style.setProperty('--hue', this.hue);
-    document.documentElement.style.setProperty('--hue-complimentary1', this.complimentaryHue1);
-    document.documentElement.style.setProperty('--hue-complimentary2', this.complimentaryHue2);
-  }
 }
 
 // Orb class
@@ -182,6 +144,8 @@ class Orb {
 const Lava = () => {
   const canvasRef = useRef<HTMLDivElement>(null);
   const [pixiApp, setPixiApp] = useState<PIXI.Application | null>(null);
+  const [pink200] = useToken('colors', ['pink.200']);
+  const { randomColor } = usePalette({ color: pink200 });
 
   useEffect(() => {
     if (pixiApp) return;
@@ -194,11 +158,10 @@ const Lava = () => {
     canvasRef.current?.appendChild(app.view as any);
 
     const orbs = [];
-    const colorPalette = new ColorPalette();
 
     for (let i = 0; i < 10; i++) {
       // each orb will be black, just for now
-      const orb = new Orb(colorPalette.randomColor());
+      const orb = new Orb(randomColor());
       app.stage.addChild(orb.graphics);
 
       orbs.push(orb);
@@ -224,7 +187,7 @@ const Lava = () => {
     app.stage.filters = [new KawaseBlurFilter(30, 10, true)];
 
     setPixiApp(app);
-  }, [pixiApp]);
+  }, [randomColor, pixiApp]);
 
   return <Box ref={canvasRef} pos="absolute" />;
 };
