@@ -47,7 +47,7 @@
     "react-hook-form": "7.42.1",
     "react-intl": "6.2.5",
     "superjson": "1.12.2",
-    "unleash-proxy-client": "2.4.0",
+    "unleash-proxy-client": "2.4.1",
     "unleash-server": "4.19.4",
     "zod": "^3.20.2"
   },
