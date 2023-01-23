@@ -3,7 +3,7 @@ import { z } from 'zod';
 
 import { publicProcedure, router } from '../trpc';
 
-export const dropRouter = router({
+export const cycleRouter = router({
   fetchById: publicProcedure
     .input(
       z.object({
@@ -13,11 +13,11 @@ export const dropRouter = router({
     .query(async ({ input, ctx }) => {
       const user = ctx.session?.user;
 
-      const drop = await ctx.prisma.drop.findUnique({
+      const cycle = await ctx.prisma.cycle.findUnique({
         where: { id: input.id },
         select: {
           id: true,
-          box: { select: { name: true, id: true } },
+          project: { select: { name: true, id: true } },
           isPublic: true,
           createdBy: { select: { id: true } },
           items: {
@@ -26,11 +26,11 @@ export const dropRouter = router({
         },
       });
 
-      if (!drop) throw new TRPCError({ code: 'NOT_FOUND' });
+      if (!cycle) throw new TRPCError({ code: 'NOT_FOUND' });
 
-      if (!drop.isPublic && drop.createdBy.id !== user?.id)
+      if (!cycle.isPublic && cycle.createdBy.id !== user?.id)
         throw new TRPCError({ code: 'FORBIDDEN' });
 
-      return drop;
+      return cycle;
     }),
 });

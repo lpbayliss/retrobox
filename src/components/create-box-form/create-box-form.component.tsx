@@ -23,9 +23,9 @@ type Props = { onClose: (created?: boolean) => void } & StackProps;
 const CreateBoxForm = ({ onClose, ...props }: Props) => {
   const trpcContext = trpc.useContext();
 
-  const createBoxMutation = trpc.box.create.useMutation({
+  const createBoxMutation = trpc.project.create.useMutation({
     onSuccess() {
-      trpcContext.box.fetchAll.invalidate();
+      trpcContext.project.fetchAll.invalidate();
       onClose(true);
     },
   });

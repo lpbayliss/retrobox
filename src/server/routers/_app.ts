@@ -2,16 +2,16 @@
  * This file contains the root router of your tRPC-backend
  */
 import { router } from '../trpc';
-import { boxRouter } from './boxes';
-import { dropRouter } from './drops';
+import { cycleRouter } from './cycles';
 import { healthRouter } from './health';
+import { projectRouter } from './projects';
 import { userRouter } from './users';
 
 export const appRouter = router({
   health: healthRouter,
-  box: boxRouter,
+  project: projectRouter,
   user: userRouter,
-  drop: dropRouter,
+  cycle: cycleRouter,
 });
 
 export type AppRouter = typeof appRouter;

@@ -40,20 +40,18 @@ model Session {
 }
 
 model User {
-  id                  String        @id @default(cuid())
-  name                String?
-  email               String?       @unique
-  emailVerified       DateTime?
-  image               String?
-  accounts            Account[]
-  sessions            Session[]
-  ownedTeams          Team[]        @relation("TeamOwner")
-  teams               Team[]
-  boxesCreated        Box[]
-  itemsCreated        Item[]
-  dropsCreated        Drop[]
-  ItemComment         ItemComment[]
-  recentlyViewedBoxes BoxViews[]
+  id            String         @id @default(cuid())
+  name          String?
+  email         String?        @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  projectsCreated  Project[]      @relation(name: "projectCreatedByUserId")
+  itemsCreated  Item[]         @relation(name: "itemCreatedByUserId")
+  itemReactions ItemReaction[] @relation(name: "itemReactionByUserId")
+  itemComments  ItemComment[]  @relation(name: "itemCommentByUserId")
+  cyclesCreated Cycle[]        @relation(name: "cycleCreatedByUserId")
 }
 
 model VerificationToken {
@@ -64,81 +62,74 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+enum Reaction {
+  LIKE
+  DISLIKE
+}
+
+model ItemReaction {
+  id           String   @id @default(cuid())
+  reactionType Reaction
+  item         Item?    @relation(fields: [itemId], references: [id])
+  user         User?    @relation(name: "itemReactionByUserId", fields: [userId], references: [id])
+
+  itemId String?
+  userId String?
+}
+
 model ItemComment {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-  createdBy User?    @relation(fields: [userId], references: [id])
+  createdBy User?    @relation(name: "itemCommentByUserId", fields: [userId], references: [id])
+  Item      Item?    @relation(fields: [itemId], references: [id])
   content   String
 
   userId String?
   itemId String?
-  Item   Item?   @relation(fields: [itemId], references: [id])
 }
 
 model Item {
-  id        String        @id @default(cuid())
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-  createdBy User?         @relation(fields: [userId], references: [id])
-  content   String
-  comments  ItemComment[]
-  drop      Drop?         @relation(fields: [dropId], references: [id])
+  id           String         @id @default(cuid())
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  createdBy    User?          @relation(name: "itemCreatedByUserId", fields: [userId], references: [id])
+  content      String
+  comments     ItemComment[]
+  itemReaction ItemReaction[]
+  cycle        Cycle?         @relation(fields: [cycleId], references: [id])
 
-  userId String?
-  dropId String?
-  box    Box?    @relation(fields: [boxId], references: [id])
-  boxId  String?
+  userId  String?
+  cycleId String?
 }
 
-model Drop {
+enum CycleStatus {
+  CLOSED
+  OPEN
+}
+
+model Cycle {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  createdBy User     @relation(fields: [userId], references: [id])
+  createdBy User     @relation(name: "cycleCreatedByUserId", fields: [userId], references: [id])
+  startDate DateTime
+  endDate   DateTime
+  project   Project  @relation(fields: [projectId], references: [id])
   items     Item[]
   isPublic  Boolean
 
-
-  userId String
-  box    Box    @relation(fields: [boxId], references: [id])
-  boxId  String
-}
-
-model Box {
-  id        String   @id @default(cuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  team      Team?    @relation(fields: [teamId], references: [id])
-  createdBy User     @relation(fields: [userId], references: [id])
-  items     Item[]
-  drops     Drop[]
-  isPublic  Boolean
-
-  teamId    String?
   userId    String
-  userViews BoxViews[]
+  projectId String
 }
 
-model BoxViews {
-  user     User     @relation(fields: [userId], references: [id])
-  box      Box      @relation(fields: [boxId], references: [id])
-  viewedAt DateTime
-
-  userId String
-  boxId  String
-
-  @@unique([userId, boxId])
-}
-
-model Team {
+model Project {
   id        String   @id @default(cuid())
+  name      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  name      String
-  owner     User     @relation("TeamOwner", fields: [ownerId], references: [id])
-  members   User[]
-  Box       Box[]
+  createdBy User     @relation(name: "projectCreatedByUserId", fields: [userId], references: [id])
+  isPublic  Boolean
 
-  ownerId String
+  userId String
+  cycle  Cycle[]
 }

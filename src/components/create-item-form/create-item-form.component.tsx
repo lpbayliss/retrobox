@@ -37,9 +37,9 @@ const CreateBoxForm = ({ boxId, onSubmit, ...props }: Props & StackProps) => {
     reset,
   } = useForm<ICreateItemFormInputs>();
 
-  const addItemMutation = trpc.box.addItem.useMutation({
+  const addItemMutation = trpc.project.addItem.useMutation({
     onSuccess() {
-      trpcContext.box.fetchById.invalidate();
+      trpcContext.project.fetchById.invalidate();
       reset();
       if (onSubmit) onSubmit();
     },

@@ -5,6 +5,7 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Button,
+  Card,
   Center,
   Heading,
   HStack,
@@ -31,17 +32,16 @@ import { trpc } from '@lib/trpc';
 import { useFlag } from '@unleash/proxy-client-react';
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
-import NextLink from 'next/link';
+import { default as NextLink } from 'next/link';
 import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: true });
 
-const BoxesPage: NextPage = () => {
+const ProjectsPage: NextPage = () => {
   const createBoxEnabled = useFlag('create-box');
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { data: boxes } = trpc.box.fetchAll.useQuery();
-  const { data: recentBoxes } = trpc.box.fetchRecentlyViewed.useQuery();
+  const { data: boxes } = trpc.project.fetchAll.useQuery();
 
   const [recentlyCreated, setRecentlyCreated] = useState<boolean>(false);
 
@@ -56,7 +56,6 @@ const BoxesPage: NextPage = () => {
     onClose();
   };
 
-  const showRecentList = recentBoxes && !!recentBoxes.length;
   const showAllList = boxes && !!boxes.length;
 
   return (
@@ -72,14 +71,14 @@ const BoxesPage: NextPage = () => {
         <Breadcrumb separator={<ChevronRightIcon color="gray.500" />} spacing="8px">
           <BreadcrumbItem>
             <NextLink href="/app" passHref>
-              <BreadcrumbLink>
+              <BreadcrumbLink as="span">
                 <FormattedMessage id="HOME_PAGE_TITLE" />
               </BreadcrumbLink>
             </NextLink>
           </BreadcrumbItem>
           <BreadcrumbItem>
             <NextLink href="/app/boxes" passHref>
-              <BreadcrumbLink>
+              <BreadcrumbLink as="span">
                 <FormattedMessage id="BOXES_PAGE_TITLE" />
               </BreadcrumbLink>
             </NextLink>
@@ -87,36 +86,14 @@ const BoxesPage: NextPage = () => {
         </Breadcrumb>
       </Box>
 
-      <Box as="section" mb="12">
-        <Heading as="h3" mb="4">
-          <FormattedMessage id="BOXES_PAGE_HEADING_RECENT" />
-        </Heading>
-        {showRecentList && (
-          <TileGrid>
-            {recentBoxes.map((box, index) => (
-              <ScaleFade key={box.id} delay={0.03 * index} in={true} initialScale={0.9}>
-                <TileGridItem>
-                  <CardLink href={`/app/boxes/${box.id}`}>
-                    <Center flexDir="column">
-                      <Heading as="h4" mb="4" size="md">
-                        {box.name}
-                      </Heading>
-                      <Text>A description about the box.</Text>
-                    </Center>
-                  </CardLink>
-                </TileGridItem>
-              </ScaleFade>
-            ))}
-          </TileGrid>
-        )}
-        {!showRecentList && (
-          <Text color="subtext" fontStyle="italic">
-            Recently viewed boxes will appear here
-          </Text>
-        )}
-      </Box>
-
-      <Box as="section" mb="12">
+      <Card
+        as="section"
+        w="full"
+        mb="12"
+        p="6"
+        bg="rgba(255,255,255,0.5)"
+        backdropFilter="blur(5px)"
+      >
         <HStack mb="4">
           <Heading as="h3">
             <FormattedMessage id="BOXES_PAGE_HEADING_ALL" />
@@ -156,7 +133,7 @@ const BoxesPage: NextPage = () => {
             Your boxes will appear here
           </Text>
         )}
-      </Box>
+      </Card>
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -179,4 +156,4 @@ const BoxesPage: NextPage = () => {
   );
 };
 
-export default BoxesPage;
+export default ProjectsPage;
