@@ -335,17 +335,17 @@ const BoxesPage: NextPage = () => {
         <VStack alignItems="left" mb={8} spacing={6}>
           <Breadcrumb separator={<Icon icon={faChevronRight} width="2" />}>
             <BreadcrumbItem>
-              <NextLink href="/app" passHref>
+              <NextLink href="/" passHref>
                 <BreadcrumbLink as="span">Home</BreadcrumbLink>
               </NextLink>
             </BreadcrumbItem>
             <BreadcrumbItem>
-              <NextLink href="/app/projects" passHref>
+              <NextLink href="/app" passHref>
                 <BreadcrumbLink as="span">Projects</BreadcrumbLink>
               </NextLink>
             </BreadcrumbItem>
             <BreadcrumbItem isCurrentPage>
-              <NextLink href="/app/projects/123" passHref>
+              <NextLink href="/app/123" passHref>
                 <BreadcrumbLink as="span">Design Box</BreadcrumbLink>
               </NextLink>
             </BreadcrumbItem>

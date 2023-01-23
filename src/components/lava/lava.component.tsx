@@ -9,11 +9,11 @@ const Lava = () => {
   const canvasRef = useRef<HTMLDivElement>(null);
 
   const [pixiApp, setPixiApp] = useState<PIXI.Application | null>(null);
-  const [orbCount, setOrbCount] = useState<number>(10);
+  const [orbCount, setOrbCount] = useState<number>(25);
   const [orbs, setOrbs] = useState<Orb[]>([]);
 
-  const [pink200] = useToken('colors', ['blue.200']);
-  const { getColor } = usePalette({ color: pink200 });
+  const [blue200] = useToken('colors', ['blue.200']);
+  const { getColor } = usePalette({ color: blue200 });
 
   // Init PIXI Application
   useEffect(() => {
