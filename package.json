@@ -34,7 +34,7 @@
     "@trpc/react-query": "^10.7.0",
     "@trpc/server": "^10.7.0",
     "@unleash/proxy-client-react": "3.5.1",
-    "deepmerge": "4.2.2",
+    "deepmerge": "4.3.0",
     "faunadb": "4.7.0",
     "framer-motion": "8.5.4",
     "next": "13.1.6",
