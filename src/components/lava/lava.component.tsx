@@ -12,7 +12,7 @@ const Lava = () => {
   const [orbCount, setOrbCount] = useState<number>(25);
   const [orbs, setOrbs] = useState<Orb[]>([]);
 
-  const [blue200] = useToken('colors', ['blue.200']);
+  const [blue200] = useToken('colors', ['yellow.300']);
   const { getColor } = usePalette({ color: blue200 });
 
   // Init PIXI Application

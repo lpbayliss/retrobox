@@ -14,6 +14,7 @@ export const withDefaultServerSideProps =
     func?: GetServerSideProps<P>,
   ): GetServerSideProps =>
   async (context) => {
+    debugger;
     // Fetch session
     const session = await unstable_getServerSession(context.req, context.res, authOptions);
 

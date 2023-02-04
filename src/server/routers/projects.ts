@@ -122,6 +122,7 @@ export const projectRouter = router({
       return box;
     }),
   fetchAll: publicProcedure.query(async ({ ctx }) => {
+    debugger;
     const user = getUserOrThrow(ctx);
     const boxes = await ctx.prisma.project.findMany({
       where: boxWhereUserIsOwnerInput(user.id),
