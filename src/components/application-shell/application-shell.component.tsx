@@ -13,7 +13,6 @@ import {
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
-import { Lava } from '@components/lava';
 import { SignInForm } from '@components/sign-in-form';
 import { PropsWithChildren, useState } from 'react';
 
@@ -35,7 +34,6 @@ const ApplicationShell = ({ children, withLava }: PropsWithChildren<{ withLava?:
 
   return (
     <Flex direction={{ base: 'column', lg: 'row' }} w="full" minW="sm" h="100vh">
-      <Lava />
       <Flex as="main" direction="column" overflow="auto" w="full" h="full" p={['4', null, '8']}>
         {children}
       </Flex>

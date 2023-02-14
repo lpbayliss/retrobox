@@ -13,14 +13,14 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { trpc } from 'src/lib/trpc';
 
-export type ICreateBoxFormInputs = {
+export type ICreateProjectFormInputs = {
   name: string;
   isPublic: boolean;
 };
 
 type Props = { onClose: (created?: boolean) => void } & StackProps;
 
-const CreateBoxForm = ({ onClose, ...props }: Props) => {
+const CreateProjectForm = ({ onClose, ...props }: Props) => {
   const trpcContext = trpc.useContext();
 
   const createBoxMutation = trpc.project.create.useMutation({
@@ -36,9 +36,9 @@ const CreateBoxForm = ({ onClose, ...props }: Props) => {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<ICreateBoxFormInputs>();
+  } = useForm<ICreateProjectFormInputs>();
 
-  const handleOnSubmit: SubmitHandler<ICreateBoxFormInputs> = async (data) => {
+  const handleOnSubmit: SubmitHandler<ICreateProjectFormInputs> = async (data) => {
     await createBoxMutation.mutateAsync({ name: data.name, isPublic: data.isPublic });
   };
 
@@ -79,4 +79,4 @@ const CreateBoxForm = ({ onClose, ...props }: Props) => {
   );
 };
 
-export default CreateBoxForm;
+export default CreateProjectForm;

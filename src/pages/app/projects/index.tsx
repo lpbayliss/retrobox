@@ -7,6 +7,7 @@ import {
   Button,
   Card,
   Collapse,
+  Divider,
   Heading,
   HStack,
   ScaleFade,
@@ -14,7 +15,9 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { CreateBoxForm } from '@components/create-box-form';
+import { CreateProjectForm } from '@components/create-project-form';
+import { faChevronRight } from '@fortawesome/pro-light-svg-icons';
+import { Icon } from '@lib/icon';
 import { withDefaultServerSideProps } from '@lib/props';
 import { trpc } from '@lib/trpc';
 import { useFlag } from '@unleash/proxy-client-react';
@@ -58,9 +61,10 @@ const ProjectsPage: NextPage = () => {
         <title>Retrobox | Projects</title>
         <meta name="description" content="Retrobox home" />
       </Head>
+
       {/* Page Heading */}
-      <Box as="section" mb="12">
-        <Breadcrumb separator={<ChevronRightIcon color="gray.500" />} spacing="8px">
+      <Box as="section" mb="6">
+        <Breadcrumb mb={4} separator={<ChevronRightIcon color="gray.500" />} spacing="8px">
           <BreadcrumbItem>
             <NextLink href="/app" passHref>
               <BreadcrumbLink as="span">
@@ -70,9 +74,7 @@ const ProjectsPage: NextPage = () => {
           </BreadcrumbItem>
           <BreadcrumbItem>
             <NextLink href="/app/boxes" passHref>
-              <BreadcrumbLink as="span">
-                <FormattedMessage id="BOXES_PAGE_TITLE" />
-              </BreadcrumbLink>
+              <BreadcrumbLink as="span">Projects</BreadcrumbLink>
             </NextLink>
           </BreadcrumbItem>
         </Breadcrumb>
@@ -86,9 +88,10 @@ const ProjectsPage: NextPage = () => {
         as="section"
         w="full"
         mb="6"
-        p="6"
-        bg="rgba(255,255,255,0.5)"
-        backdropFilter="blur(5px)"
+        px="6"
+        py="3"
+        // bg="rgba(255,255,255,0.5)"
+        // backdropFilter="blur(5px)"
       >
         <HStack alignContent="center">
           <Spacer />
@@ -100,7 +103,8 @@ const ProjectsPage: NextPage = () => {
           )}
         </HStack>
         <Collapse animateOpacity in={isOpen}>
-          <CreateBoxForm onClose={handleOnClose} />
+          <Divider my={4} />
+          <CreateProjectForm onClose={handleOnClose} />
         </Collapse>
       </Card>
 
@@ -108,27 +112,40 @@ const ProjectsPage: NextPage = () => {
       {projects &&
         projects.map((project, index) => (
           <ScaleFade key={project.id} delay={0.03 * index} in={true} initialScale={0.9}>
-            <Card
-              as="section"
-              w="full"
-              mb="6"
-              p="6"
-              bg="rgba(255,255,255,0.5)"
-              backdropFilter="blur(5px)"
-            >
-              {project.name}
-            </Card>
+            <NextLink href={`/app/projects/${project.id}`}>
+              <Card
+                as="section"
+                w="full"
+                mb="6"
+                px="6"
+                py="3"
+                // bg="rgba(255,255,255,0.5)"
+                // backdropFilter="blur(5px)"
+                borderWidth="2px"
+                borderStyle="solid"
+                borderColor={recentlyCreated && index === 0 ? 'blue.300' : 'transparent'}
+                transition="border"
+                transitionDuration="400ms"
+              >
+                <HStack>
+                  <Heading size="lg">{project.name}</Heading>
+                  <Spacer />
+                  <Icon icon={faChevronRight} height="6" />
+                </HStack>
+              </Card>
+            </NextLink>
           </ScaleFade>
         ))}
 
+      {/* No Projects Display */}
       {!projects && (
         <Card
           as="section"
           w="full"
           mb="6"
           p="6"
-          bg="rgba(255,255,255,0.5)"
-          backdropFilter="blur(5px)"
+          // bg="rgba(255,255,255,0.5)"
+          // backdropFilter="blur(5px)"
         >
           <Text color="subtext" fontStyle="italic">
             Create a project to get started

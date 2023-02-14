@@ -40,18 +40,18 @@ model Session {
 }
 
 model User {
-  id            String         @id @default(cuid())
-  name          String?
-  email         String?        @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  projectsCreated  Project[]      @relation(name: "projectCreatedByUserId")
-  itemsCreated  Item[]         @relation(name: "itemCreatedByUserId")
-  itemReactions ItemReaction[] @relation(name: "itemReactionByUserId")
-  itemComments  ItemComment[]  @relation(name: "itemCommentByUserId")
-  cyclesCreated Cycle[]        @relation(name: "cycleCreatedByUserId")
+  id              String         @id @default(cuid())
+  name            String?
+  email           String?        @unique
+  emailVerified   DateTime?
+  image           String?
+  accounts        Account[]
+  sessions        Session[]
+  projectsCreated Project[]      @relation(name: "projectCreatedByUserId")
+  itemsCreated    Item[]         @relation(name: "itemCreatedByUserId")
+  itemReactions   ItemReaction[] @relation(name: "itemReactionByUserId")
+  itemComments    ItemComment[]  @relation(name: "itemCommentByUserId")
+  cyclesCreated   Cycle[]        @relation(name: "cycleCreatedByUserId")
 }
 
 model VerificationToken {
@@ -103,20 +103,22 @@ model Item {
 }
 
 enum CycleStatus {
-  CLOSED
+  PENDING
   OPEN
+  CLOSED
 }
 
 model Cycle {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  createdBy User     @relation(name: "cycleCreatedByUserId", fields: [userId], references: [id])
+  id        String      @id @default(cuid())
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  createdBy User        @relation(name: "cycleCreatedByUserId", fields: [userId], references: [id])
   startDate DateTime
-  endDate   DateTime
-  project   Project  @relation(fields: [projectId], references: [id])
+  endDate   DateTime?
+  project   Project     @relation(fields: [projectId], references: [id])
   items     Item[]
   isPublic  Boolean
+  status    CycleStatus @default(PENDING)
 
   userId    String
   projectId String
@@ -131,5 +133,5 @@ model Project {
   isPublic  Boolean
 
   userId String
-  cycle  Cycle[]
+  cycles Cycle[]
 }
