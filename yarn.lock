@@ -9094,10 +9094,10 @@ fastq@^1.6.0:
   dependencies:
     reusify "^1.0.4"
 
-faunadb@4.7.0:
-  version "4.7.0"
-  resolved "https://registry.yarnpkg.com/faunadb/-/faunadb-4.7.0.tgz#54c6011f6f22615dab6e8457ecb1dadd6b41a922"
-  integrity sha512-bX5c2n+lEOrdu1PbkSFpDUdE/PLQ2x6jZptY4fAwOF9hCw6DIvmfk1ZjLipWUswOvydvlku2/7O3imqXa557iw==
+faunadb@4.8.0:
+  version "4.8.0"
+  resolved "https://registry.yarnpkg.com/faunadb/-/faunadb-4.8.0.tgz#7adc5312dd5a508942ba1ad567c869e4f874b177"
+  integrity sha512-pjl5WUYQ8GqM4ESk3mv0RXfxtQMHWb92XWkxjf3nWiAkf2HVtsENfTbyGPunzw4zDbdhn9aQSSxbwahaLLDR7Q==
   dependencies:
     base64-js "^1.2.0"
     boxen "^5.0.1"
