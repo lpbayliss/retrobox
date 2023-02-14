@@ -29,7 +29,6 @@ export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps
 const ProjectsPage: NextPage = () => {
   const createBoxEnabled = useFlag('create-box');
   const { isOpen, onOpen, onClose } = useDisclosure();
-  debugger;
   const { data: projects } = trpc.project.fetchAll.useQuery();
 
   const [recentlyCreated, setRecentlyCreated] = useState<boolean>(false);
