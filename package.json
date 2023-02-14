@@ -35,7 +35,7 @@
     "@trpc/server": "^10.7.0",
     "@unleash/proxy-client-react": "3.5.1",
     "deepmerge": "4.3.0",
-    "faunadb": "4.7.0",
+    "faunadb": "4.8.0",
     "framer-motion": "9.0.2",
     "next": "13.1.6",
     "next-auth": "4.19.2",
