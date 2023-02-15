@@ -103,7 +103,7 @@ export const cycleRouter = router({
 
       await ctx.prisma.cycle.update({
         where: { id: input.id },
-        data: { status: CycleStatus.CLOSED },
+        data: { status: CycleStatus.CLOSED, endDate: new Date() },
       });
 
       return true;

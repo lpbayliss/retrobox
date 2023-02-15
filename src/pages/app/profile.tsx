@@ -32,11 +32,9 @@ const ProfilePage: NextPage = () => {
         <meta name="description" content="Retrobox home" />
       </Head>
 
-      <Box as="section" mb="12">
-        <Heading as="h2" mb="2" size="2xl">
-          Profile
-        </Heading>
-        <Breadcrumb separator={<ChevronRightIcon color="gray.500" />} spacing="8px">
+      {/* Page Heading */}
+      <Box as="section" mb="6">
+        <Breadcrumb mb={4} separator={<ChevronRightIcon color="gray.500" />} spacing="8px">
           <BreadcrumbItem>
             <NextLink href="/app" passHref>
               <BreadcrumbLink as="span">
@@ -50,6 +48,9 @@ const ProfilePage: NextPage = () => {
             </NextLink>
           </BreadcrumbItem>
         </Breadcrumb>
+        <Heading as="h2" mb="2" size="2xl">
+          Your Profile
+        </Heading>
       </Box>
 
       <PageSection>

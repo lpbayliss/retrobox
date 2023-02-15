@@ -1,7 +1,5 @@
 import { ChevronRightIcon, HamburgerIcon } from '@chakra-ui/icons';
 import {
-  Avatar,
-  AvatarGroup,
   Badge,
   Box,
   Breadcrumb,
@@ -9,6 +7,7 @@ import {
   BreadcrumbLink,
   Button,
   Card,
+  Center,
   Circle,
   Heading,
   HStack,
@@ -22,26 +21,40 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
-import { faChevronUp } from '@fortawesome/pro-light-svg-icons';
-import { Icon } from '@lib/icon';
 import { withDefaultServerSideProps } from '@lib/props';
 import { trpc } from '@lib/trpc';
 import { CycleStatus } from '@prisma/client';
+import { useFlag } from '@unleash/proxy-client-react';
+import { format } from 'date-fns';
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { default as NextLink } from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
+const getStatusColor = (status: CycleStatus) => {
+  if (status === CycleStatus.PENDING) return 'green';
+  if (status === CycleStatus.OPEN) return 'blue';
+  if (status === CycleStatus.CLOSED) return 'red';
+  return 'grey';
+};
+
+const getStatusText = (status: CycleStatus) => {
+  if (status === CycleStatus.PENDING) return 'OPEN';
+  if (status === CycleStatus.OPEN) return 'UNDER REVIEW';
+  if (status === CycleStatus.CLOSED) return 'CLOSED';
+  return 'Unknown Status';
+};
+
 export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: false });
 
-const BoxesPage: NextPage = () => {
+const ProjectPage: NextPage = () => {
   // const { data } = useSession();
   // const intl = useIntl();
   const trpcContext = trpc.useContext();
   const router = useRouter();
   // const createItemEnabled = useFlag('create-item');
-  // const createDropEnabled = useFlag('create-drop');
+  const createDropEnabled = useFlag('create-drop');
   // const {
   //   isOpen: isItemModalOpen,
   //   onOpen: onItemModalOpen,
@@ -87,6 +100,8 @@ const BoxesPage: NextPage = () => {
   const closeCycleMutation = trpc.cycle.close.useMutation({
     onSuccess() {
       trpcContext.project.fetchById.invalidate();
+      if (!project) return;
+      createCycleMutation.mutateAsync({ id: project.id });
     },
   });
 
@@ -115,7 +130,7 @@ const BoxesPage: NextPage = () => {
       </Head>
 
       {/* Page Heading */}
-      <Box as="section" mb="6">
+      <Box as="section" mb="3">
         <Breadcrumb mb={4} separator={<ChevronRightIcon color="gray.500" />} spacing="8px">
           <BreadcrumbItem>
             <NextLink href="/app" passHref>
@@ -128,7 +143,7 @@ const BoxesPage: NextPage = () => {
             </NextLink>
           </BreadcrumbItem>
           <BreadcrumbItem isCurrentPage>
-            <NextLink href="/app/123" passHref>
+            <NextLink href={`/app/projects/${project?.id || null}`} passHref>
               <BreadcrumbLink as="span">Design Box</BreadcrumbLink>
             </NextLink>
           </BreadcrumbItem>
@@ -147,7 +162,7 @@ const BoxesPage: NextPage = () => {
       </VStack>
 
       {/*  Controls */}
-      <Card
+      {/* <Card
         as="section"
         w="full"
         mb="6"
@@ -167,7 +182,7 @@ const BoxesPage: NextPage = () => {
             Create Cycle
           </Button>
         </HStack>
-      </Card>
+      </Card> */}
 
       {project?.cycles.map((cycle, index) => (
         <ScaleFade key={cycle.id} delay={0.03 * index} in={true} initialScale={0.9}>
@@ -182,38 +197,28 @@ const BoxesPage: NextPage = () => {
             transitionDuration="400ms"
           >
             <HStack>
-              <Icon icon={faChevronUp} width="3" />
-              <Heading size="lg">This Week</Heading>
-              <HStack fontWeight="semibold">
-                {cycle.status === CycleStatus.PENDING && (
-                  <>
-                    <Circle bg="blue.300" size="2" />
-                    <Text color="blue.300">PENDING</Text>
-                  </>
-                )}
-                {cycle.status === CycleStatus.OPEN && (
-                  <>
-                    <Circle bg="green.300" size="2" />
-                    <Text color="green.300">OPEN</Text>
-                  </>
-                )}
-                {cycle.status === CycleStatus.CLOSED && (
-                  <>
-                    <Circle bg="red.300" size="2" />
-                    <Text color="red.300">CLOSED</Text>
-                  </>
-                )}
+              {/* <Icon icon={faChevronUp} width="3" /> */}
+              <HStack fontWeight="semibold" spacing={4}>
+                <Heading size="lg">{`${format(cycle.startDate, 'PP')} ${
+                  cycle.endDate ? ' - ' + format(cycle.endDate, 'PP') : ''
+                }`}</Heading>
+                <HStack>
+                  <Circle bg={`${getStatusColor(cycle.status)}.300`} size="3" />
+                  <Text color={`${getStatusColor(cycle.status)}.300`}>
+                    {getStatusText(cycle.status)}
+                  </Text>
+                </HStack>
               </HStack>
               <Spacer />
-              <AvatarGroup max={2} size="sm">
+              {/* <AvatarGroup max={2} size="sm">
                 <Avatar name="Ryan Florence" src="https://bit.ly/ryan-florence" />
                 <Avatar name="Segun Adebayo" src="https://bit.ly/sage-adebayo" />
                 <Avatar name="Kent Dodds" src="https://bit.ly/kent-c-dodds" />
                 <Avatar name="Prosper Otemuyiwa" src="https://bit.ly/prosper-baba" />
                 <Avatar name="Christian Nwamba" src="https://bit.ly/code-beast" />
-              </AvatarGroup>
+              </AvatarGroup> */}
               <Button color="red" variant="solid">
-                3 Items
+                {cycle.items.length} Items
               </Button>
               <Menu>
                 <MenuButton
@@ -228,7 +233,7 @@ const BoxesPage: NextPage = () => {
                       disabled={cycle.status !== CycleStatus.PENDING}
                       onClick={handleRevealCycle(cycle.id)}
                     >
-                      Reveal
+                      Review
                     </MenuItemOption>
                   )}
                   {cycle.status === CycleStatus.OPEN && (
@@ -239,6 +244,7 @@ const BoxesPage: NextPage = () => {
                       Close
                     </MenuItemOption>
                   )}
+                  <MenuItemOption>Rename</MenuItemOption>
                 </MenuList>
               </Menu>
             </HStack>
@@ -248,21 +254,26 @@ const BoxesPage: NextPage = () => {
 
       {/* No Cycles Display */}
       {!project?.cycles.length && (
-        <Card
-          as="section"
-          w="full"
-          mb="6"
-          p="6"
-          // bg="rgba(255,255,255,0.5)"
-          // backdropFilter="blur(5px)"
-        >
-          <Text color="subtext" fontStyle="italic">
-            Create your first cycle for this project
-          </Text>
-        </Card>
+        <Center>
+          <Card w="full" p="6">
+            <VStack spacing={4}>
+              <Text>
+                There doesn&apos;t appear to be much going on here just yet. You can get started by
+                making creating your first cycle!
+              </Text>
+              <Text>
+                After your first cycle a new one will be created each time you close out an active
+                cycle.
+              </Text>
+              <Button colorScheme="blue" disabled={!createDropEnabled} onClick={handleCreateCycle}>
+                Create cycle
+              </Button>
+            </VStack>
+          </Card>
+        </Center>
       )}
     </>
   );
 };
 
-export default BoxesPage;
+export default ProjectPage;
