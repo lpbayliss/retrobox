@@ -33,7 +33,7 @@
   "CREATE_BOX_FORM_NAME_REQUIRED_ERROR": "A name is required",
   "CREATE_BOX_FORM_NAME_MIN_LENGTH_ERROR": "That name is too short",
   "CREATE_BOX_FORM_HELP_TEXT": "Pick a name that suits your project or activity",
-  "CREATE_BOX_FORM_SUBMIT_BUTTON_LABEL": "Create box",
+  "CREATE_BOX_FORM_SUBMIT_BUTTON_LABEL": "Create project",
   "SIGN_IN_FORM_EMAIL_LABEL": "Your email",
   "SIGN_IN_FORM_EMAIL_PLACEHOLDER": "example@retrobox.com",
   "SIGN_IN_FORM_EMAIL_REQUIRED_ERROR": "You must provide an email address",

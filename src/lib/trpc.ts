@@ -18,6 +18,11 @@ function getBaseUrl() {
  */
 export const trpc = createTRPCNext<AppRouter>({
   config({ ctx }) {
+    // https://github.com/KATT/unidici-fetch-reserved-header-crap/pull/1
+    // Node 18 doesn't like all headers and gets mad.
+    let headers = ctx?.req?.headers;
+    delete headers?.connection;
+
     return {
       links: [
         loggerLink({

@@ -10,13 +10,7 @@ import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { Session } from 'next-auth';
 import { SessionProvider } from 'next-auth/react';
-import { PropsWithChildren } from 'react';
 import { IntlProvider } from 'react-intl';
-
-const WithApplicationShell = ({ children }: PropsWithChildren<{}>) => {
-  const { pathname } = useRouter();
-  return pathname.startsWith('/app') ? <ApplicationShell {...{ children }} /> : <>{children}</>;
-};
 
 const MyApp = ({
   Component,
@@ -31,9 +25,9 @@ const MyApp = ({
         <IntlProvider locale={String(locale)} messages={getMessages(String(locale))}>
           <ChakraProvider resetCSS theme={theme}>
             {process.env.NODE_ENV !== 'production' && <ReactQueryDevtools initialIsOpen={false} />}
-            <WithApplicationShell>
+            <ApplicationShell>
               <Component {...pageProps} />
-            </WithApplicationShell>
+            </ApplicationShell>
           </ChakraProvider>
         </IntlProvider>
       </SessionProvider>

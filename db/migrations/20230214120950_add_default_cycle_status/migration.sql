@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "Cycle" ALTER COLUMN "status" SET DEFAULT 'PENDING';

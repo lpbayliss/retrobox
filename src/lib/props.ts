@@ -1,6 +1,7 @@
 import { default as merge } from 'deepmerge';
 import { GetServerSideProps, GetServerSidePropsResult } from 'next';
-import { Session, unstable_getServerSession } from 'next-auth';
+import { Session } from 'next-auth';
+import { getServerSession } from 'next-auth/next';
 import { authOptions } from 'src/pages/api/auth/[...nextauth]';
 import { IToggle } from 'unleash-proxy-client';
 
@@ -15,7 +16,7 @@ export const withDefaultServerSideProps =
   ): GetServerSideProps =>
   async (context) => {
     // Fetch session
-    const session = await unstable_getServerSession(context.req, context.res, authOptions);
+    const session = await getServerSession(context.req, context.res, authOptions);
 
     // Fetch unleash toggles // Feature Flags
     const unleash = getPrefetchClient();
