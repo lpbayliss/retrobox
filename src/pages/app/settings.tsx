@@ -27,25 +27,25 @@ const SettingsPage: NextPage = () => {
       </Head>
 
       <Box as="section" mb="6">
-        <Heading as="h2" mb="2" size="2xl">
-          <FormattedMessage id="SETTINGS_PAGE_TITLE" />
-        </Heading>
         <Breadcrumb separator={<ChevronRightIcon color="gray.500" />} spacing="8px">
           <BreadcrumbItem>
             <NextLink href="/app" passHref>
-              <BreadcrumbLink>
+              <BreadcrumbLink as="span">
                 <FormattedMessage id="HOME_PAGE_TITLE" />
               </BreadcrumbLink>
             </NextLink>
           </BreadcrumbItem>
           <BreadcrumbItem>
             <NextLink href="/app/settings" passHref>
-              <BreadcrumbLink>
+              <BreadcrumbLink as="span">
                 <FormattedMessage id="SETTINGS_PAGE_TITLE" />
               </BreadcrumbLink>
             </NextLink>
           </BreadcrumbItem>
         </Breadcrumb>
+        <Heading as="h2" mb="2" size="2xl">
+          <FormattedMessage id="SETTINGS_PAGE_TITLE" />
+        </Heading>
       </Box>
 
       <Flex w="full" h="full">

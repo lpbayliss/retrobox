@@ -14,7 +14,7 @@ function getConfig(config) {
 
 module.exports = getConfig({
   output: 'standalone',
-  reactStrictMode: true,
+  reactStrictMode: false,
   swcMinify: true,
   i18n: {
     locales: ['en-AU'],

@@ -5,10 +5,10 @@ import {
   BreadcrumbItem,
   BreadcrumbLink,
   Button,
+  Card,
   Heading,
   VStack,
 } from '@chakra-ui/react';
-import { Card } from '@components/card';
 import { PageSection } from '@components/page-section';
 import { UpdateProfileForm } from '@components/update-profile-form';
 import { withDefaultServerSideProps } from '@lib/props';
@@ -32,35 +32,36 @@ const ProfilePage: NextPage = () => {
         <meta name="description" content="Retrobox home" />
       </Head>
 
-      <Box as="section" mb="12">
-        <Heading as="h2" mb="2" size="2xl">
-          Profile
-        </Heading>
-        <Breadcrumb separator={<ChevronRightIcon color="gray.500" />} spacing="8px">
+      {/* Page Heading */}
+      <Box as="section" mb="6">
+        <Breadcrumb mb={4} separator={<ChevronRightIcon color="gray.500" />} spacing="8px">
           <BreadcrumbItem>
             <NextLink href="/app" passHref>
-              <BreadcrumbLink>
+              <BreadcrumbLink as="span">
                 <FormattedMessage id="HOME_PAGE_TITLE" />
               </BreadcrumbLink>
             </NextLink>
           </BreadcrumbItem>
           <BreadcrumbItem>
             <NextLink href="/app/profile" passHref>
-              <BreadcrumbLink>Profile</BreadcrumbLink>
+              <BreadcrumbLink as="span">Profile</BreadcrumbLink>
             </NextLink>
           </BreadcrumbItem>
         </Breadcrumb>
+        <Heading as="h2" mb="2" size="2xl">
+          Your Profile
+        </Heading>
       </Box>
 
       <PageSection>
         <VStack alignItems="start" w="lg">
-          <Card w="full">
+          <Card w="full" p="4" bg="rgba(255,255,255,0.5)" backdropFilter="blur(5px)">
             <Heading as="h3" mb="2" size="lg">
               Change name
             </Heading>
             <UpdateProfileForm />
           </Card>
-          <Card w="full">
+          <Card w="full" p="4" bg="rgba(255,255,255,0.5)" backdropFilter="blur(5px)">
             <Heading as="h3" mb="2" size="lg">
               Other
             </Heading>

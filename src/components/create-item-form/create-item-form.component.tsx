@@ -12,7 +12,7 @@ import {
 } from '@chakra-ui/react';
 import { trpc } from '@lib/trpc';
 import { useSession } from 'next-auth/react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 export type ICreateItemFormInputs = {
@@ -37,24 +37,25 @@ const CreateBoxForm = ({ boxId, onSubmit, ...props }: Props & StackProps) => {
     reset,
   } = useForm<ICreateItemFormInputs>();
 
-  const addItemMutation = trpc.box.addItem.useMutation({
-    onSuccess() {
-      trpcContext.box.fetchById.invalidate();
-      reset();
-      if (onSubmit) onSubmit();
-    },
-  });
+  // const addItemMutation = () => trpc.project.addItem.useMutation({
+  //   onSuccess() {
+  //     trpcContext.project.fetchById.invalidate();
+  //     reset();
+  //     if (onSubmit) onSubmit();
+  //   },
+  // });
 
-  const handleOnSubmit: SubmitHandler<ICreateItemFormInputs> = async (data) => {
-    await addItemMutation.mutateAsync({
-      id: boxId,
-      content: data.content,
-      anonymous: data.anonymous,
-    });
-  };
+  // const handleOnSubmit: SubmitHandler<ICreateItemFormInputs> = async (data) => {
+  //   await addItemMutation.mutateAsync({
+  //     id: boxId,
+  //     content: data.content,
+  //     anonymous: data.anonymous,
+  //   });
+  // };
 
   return (
-    <VStack as="form" onSubmit={handleSubmit(handleOnSubmit)} spacing="4" {...props}>
+    // <VStack as="form" onSubmit={handleSubmit(handleOnSubmit)} spacing="4" {...props}>
+    <VStack as="form" spacing="4" {...props}>
       <FormControl isInvalid={!!errors.content}>
         <FormLabel>
           <FormattedMessage id="CREATE_ITEM_FORM_CONTENT_LABEL" />
