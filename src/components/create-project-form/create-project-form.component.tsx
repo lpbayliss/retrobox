@@ -22,21 +22,22 @@ type Props = { onClose: (created?: boolean) => void } & StackProps;
 
 const CreateProjectForm = ({ onClose, ...props }: Props) => {
   const trpcContext = trpc.useContext();
-
-  const createBoxMutation = trpc.project.create.useMutation({
-    onSuccess() {
-      trpcContext.project.fetchAll.invalidate();
-      onClose(true);
-    },
-  });
-
   const intl = useIntl();
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<ICreateProjectFormInputs>();
+
+  const createBoxMutation = trpc.project.create.useMutation({
+    onSuccess() {
+      trpcContext.project.fetchAll.invalidate();
+      onClose(true);
+      reset();
+    },
+  });
 
   const handleOnSubmit: SubmitHandler<ICreateProjectFormInputs> = async (data) => {
     await createBoxMutation.mutateAsync({ name: data.name, isPublic: data.isPublic });

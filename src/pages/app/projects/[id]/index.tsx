@@ -1,5 +1,7 @@
 import { ChevronRightIcon, HamburgerIcon } from '@chakra-ui/icons';
 import {
+  Avatar,
+  AvatarGroup,
   Badge,
   Box,
   Breadcrumb,
@@ -9,6 +11,7 @@ import {
   Card,
   Center,
   Circle,
+  Divider,
   Heading,
   HStack,
   IconButton,
@@ -21,6 +24,8 @@ import {
   Text,
   VStack,
 } from '@chakra-ui/react';
+import { CreateItemForm } from '@components/create-item-form';
+import { TileGrid, TileGridItem } from '@components/tile-grid';
 import { withDefaultServerSideProps } from '@lib/props';
 import { trpc } from '@lib/trpc';
 import { CycleStatus } from '@prisma/client';
@@ -189,15 +194,14 @@ const ProjectPage: NextPage = () => {
           <Card
             w="full"
             mb="6"
-            p="6"
             borderWidth="2px"
             borderStyle="solid"
             borderColor={recentlyCreated && index === 0 ? 'blue.300' : 'transparent'}
             transition="border"
             transitionDuration="400ms"
           >
-            <HStack>
-              {/* <Icon icon={faChevronUp} width="3" /> */}
+            {/* Title Row */}
+            <HStack p="6">
               <HStack fontWeight="semibold" spacing={4}>
                 <Heading size="lg">{`${format(cycle.startDate, 'PP')} ${
                   cycle.endDate ? ' - ' + format(cycle.endDate, 'PP') : ''
@@ -210,15 +214,8 @@ const ProjectPage: NextPage = () => {
                 </HStack>
               </HStack>
               <Spacer />
-              {/* <AvatarGroup max={2} size="sm">
-                <Avatar name="Ryan Florence" src="https://bit.ly/ryan-florence" />
-                <Avatar name="Segun Adebayo" src="https://bit.ly/sage-adebayo" />
-                <Avatar name="Kent Dodds" src="https://bit.ly/kent-c-dodds" />
-                <Avatar name="Prosper Otemuyiwa" src="https://bit.ly/prosper-baba" />
-                <Avatar name="Christian Nwamba" src="https://bit.ly/code-beast" />
-              </AvatarGroup> */}
               <Button color="red" variant="solid">
-                {cycle.items.length} Items
+                {cycle.items.length} items
               </Button>
               <Menu>
                 <MenuButton
@@ -248,6 +245,83 @@ const ProjectPage: NextPage = () => {
                 </MenuList>
               </Menu>
             </HStack>
+
+            {/* Divider (When open) */}
+            <Divider bg="gray.200" />
+
+            {/* Add Item Form */}
+            {cycle.status !== CycleStatus.CLOSED && <CreateItemForm p="6" boxId={cycle.id} />}
+
+            {/* Item Display */}
+            {!!cycle.items.length && (
+              <TileGrid
+                pos="relative"
+                maxH="500px"
+                overflowY={cycle.status === CycleStatus.PENDING ? 'hidden' : 'auto'}
+                overflowX="hidden"
+                p="6"
+                css={{
+                  '&::-webkit-scrollbar': {
+                    width: '4px',
+                  },
+                  '&::-webkit-scrollbar-track': {
+                    width: '6px',
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    background: 'white',
+                    borderRadius: '24px',
+                  },
+                }}
+              >
+                {cycle.status === CycleStatus.PENDING && (
+                  <Center
+                    pos="absolute"
+                    zIndex="overlay"
+                    top={-1}
+                    right={-1}
+                    bottom={-1}
+                    left={-1}
+                    bg="rgba(255,255,255,0.5)"
+                    backdropFilter="blur(5px)"
+                  >
+                    <VStack>
+                      <HStack>
+                        <AvatarGroup max={2} size="sm">
+                          {cycle.contributors.map((user, index) => (
+                            <>
+                              {user && (
+                                <Avatar
+                                  key={`${cycle.id}-user-${user.id}`}
+                                  name={user.name || 'Unknown'}
+                                />
+                              )}
+                              {!user && (
+                                <Avatar key={`${cycle.id}-anon-${index}`} name="Anonymous" />
+                              )}
+                            </>
+                          ))}
+                        </AvatarGroup>
+                        <Text>{`${cycle.contributors.length} have contributed`}</Text>
+                      </HStack>
+                      <Button
+                        colorScheme="blue"
+                        onClick={handleRevealCycle(cycle.id)}
+                        variant={'outline'}
+                      >
+                        Review
+                      </Button>
+                    </VStack>
+                  </Center>
+                )}
+                {cycle.items.map((item) => (
+                  <TileGridItem key={item.id}>
+                    <Card h="32" p="4">
+                      {item.content}
+                    </Card>
+                  </TileGridItem>
+                ))}
+              </TileGrid>
+            )}
           </Card>
         </ScaleFade>
       ))}

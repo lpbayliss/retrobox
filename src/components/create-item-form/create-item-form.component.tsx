@@ -1,22 +1,21 @@
 import {
   Button,
   Checkbox,
-  Divider,
   FormControl,
   FormErrorMessage,
   FormHelperText,
   FormLabel,
+  HStack,
   Input,
   StackProps,
-  VStack,
 } from '@chakra-ui/react';
 import { trpc } from '@lib/trpc';
 import { useSession } from 'next-auth/react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 export type ICreateItemFormInputs = {
-  anonymous?: boolean;
+  anonymous: boolean;
   content: string;
 };
 
@@ -37,25 +36,24 @@ const CreateBoxForm = ({ boxId, onSubmit, ...props }: Props & StackProps) => {
     reset,
   } = useForm<ICreateItemFormInputs>();
 
-  // const addItemMutation = () => trpc.project.addItem.useMutation({
-  //   onSuccess() {
-  //     trpcContext.project.fetchById.invalidate();
-  //     reset();
-  //     if (onSubmit) onSubmit();
-  //   },
-  // });
+  const addItemMutation = trpc.cycle.addItem.useMutation({
+    onSuccess() {
+      trpcContext.project.fetchById.invalidate();
+      reset();
+      if (onSubmit) onSubmit();
+    },
+  });
 
-  // const handleOnSubmit: SubmitHandler<ICreateItemFormInputs> = async (data) => {
-  //   await addItemMutation.mutateAsync({
-  //     id: boxId,
-  //     content: data.content,
-  //     anonymous: data.anonymous,
-  //   });
-  // };
+  const handleOnSubmit: SubmitHandler<ICreateItemFormInputs> = async (data) => {
+    await addItemMutation.mutateAsync({
+      id: boxId,
+      content: data.content,
+      isAnonymous: data.anonymous || false,
+    });
+  };
 
   return (
-    // <VStack as="form" onSubmit={handleSubmit(handleOnSubmit)} spacing="4" {...props}>
-    <VStack as="form" spacing="4" {...props}>
+    <HStack as="form" onSubmit={handleSubmit(handleOnSubmit)} spacing="4" {...props}>
       <FormControl isInvalid={!!errors.content}>
         <FormLabel>
           <FormattedMessage id="CREATE_ITEM_FORM_CONTENT_LABEL" />
@@ -73,8 +71,7 @@ const CreateBoxForm = ({ boxId, onSubmit, ...props }: Props & StackProps) => {
         </FormHelperText>
         <FormErrorMessage>{errors.content && errors.content.message}</FormErrorMessage>
       </FormControl>
-      <Divider />
-      <FormControl>
+      <FormControl w="sm">
         <Checkbox
           {...register('anonymous')}
           disabled={!data?.user}
@@ -83,10 +80,10 @@ const CreateBoxForm = ({ boxId, onSubmit, ...props }: Props & StackProps) => {
           <FormattedMessage id="CREATE_ITEM_FORM_ANONYMOUS_LABEL" />
         </Checkbox>
       </FormControl>
-      <Button w="full" isLoading={isSubmitting} type="submit">
+      <Button w="2xs" isLoading={isSubmitting} type="submit">
         <FormattedMessage id="CREATE_ITEM_FORM_SUBMIT_BUTTON_LABEL" />
       </Button>
-    </VStack>
+    </HStack>
   );
 };
 

@@ -44,6 +44,7 @@
     "framer-motion": "9.0.4",
     "hex-to-hsl": "^1.0.2",
     "hsl-to-hex": "^1.0.0",
+    "lorem-ipsum": "^2.0.8",
     "next": "13.1.6",
     "next-auth": "4.19.2",
     "nodemailer": "6.9.1",

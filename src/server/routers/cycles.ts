@@ -108,4 +108,40 @@ export const cycleRouter = router({
 
       return true;
     }),
+  addItem: publicProcedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+        isAnonymous: z.boolean(),
+        content: z.string(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const user = getUserOrThrow(ctx);
+
+      const cycle = await ctx.prisma.cycle.findFirst({
+        where: {
+          id: input.id,
+        },
+        select: { isPublic: true, status: true, createdBy: true },
+      });
+
+      if (!cycle) throw new TRPCError({ code: 'NOT_FOUND' });
+
+      if (!cycle.isPublic && cycle.createdBy.id !== user.id)
+        throw new TRPCError({ code: 'FORBIDDEN' });
+
+      if (cycle.status === CycleStatus.CLOSED)
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Cannot add items to a closed cycle' });
+
+      await ctx.prisma.item.create({
+        data: {
+          content: input.content,
+          ...(input.isAnonymous && { createdBy: { connect: { id: user.id } } }),
+          cycle: { connect: { id: input.id } },
+        },
+      });
+
+      return true;
+    }),
 });
