@@ -57,7 +57,15 @@ export const projectRouter = router({
                 id: true,
                 startDate: true,
                 endDate: true,
-                items: { select: { id: true, content: true, createdBy: true } },
+                items: {
+                  select: {
+                    id: true,
+                    content: true,
+                    createdBy: true,
+                    itemReaction: { select: { reactionType: true } },
+                    createdAt: true,
+                  },
+                },
                 status: true,
               },
               orderBy: { createdAt: 'desc' },

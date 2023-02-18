@@ -26,9 +26,11 @@ import {
 } from '@chakra-ui/react';
 import { CreateItemForm } from '@components/create-item-form';
 import { TileGrid, TileGridItem } from '@components/tile-grid';
+import { faThumbsDown, faThumbsUp } from '@fortawesome/pro-light-svg-icons';
+import { Icon } from '@lib/icon';
 import { withDefaultServerSideProps } from '@lib/props';
 import { trpc } from '@lib/trpc';
-import { CycleStatus } from '@prisma/client';
+import { CycleStatus, Reaction } from '@prisma/client';
 import { useFlag } from '@unleash/proxy-client-react';
 import { format } from 'date-fns';
 import { GetServerSideProps, NextPage } from 'next';
@@ -58,19 +60,8 @@ const ProjectPage: NextPage = () => {
   // const intl = useIntl();
   const trpcContext = trpc.useContext();
   const router = useRouter();
-  // const createItemEnabled = useFlag('create-item');
-  const createDropEnabled = useFlag('create-drop');
-  // const {
-  //   isOpen: isItemModalOpen,
-  //   onOpen: onItemModalOpen,
-  //   onClose: onItemModalClose,
-  // } = useDisclosure();
-  // const {
-  //   isOpen: isDropModalOpen,
-  //   onOpen: onDropModalOpen,
-  //   onClose: onDropModalClose,
-  // } = useDisclosure();
-  // const toast = useToast();
+  const createItemEnabled = useFlag('create-item');
+  const createDropEnabled = useFlag('create-drop'); // Create cycle
 
   const [recentlyCreated, setRecentlyCreated] = useState<boolean>(false);
 
@@ -83,6 +74,12 @@ const ProjectPage: NextPage = () => {
       setTimeout(() => {
         setRecentlyCreated(false);
       }, 5000);
+    },
+  });
+
+  const createReactionMutation = trpc.item.addReaction.useMutation({
+    onSuccess() {
+      trpcContext.project.fetchById.invalidate();
     },
   });
 
@@ -115,17 +112,12 @@ const ProjectPage: NextPage = () => {
     closeCycleMutation.mutateAsync({ id: cycleId });
   };
 
-  // const handleShareLink = () => {
-  //   navigator.clipboard.writeText(window.location.href);
-  //   toast({
-  //     title: 'Link copied',
-  //     description: "We've copied the box link to your clipboard",
-  //     status: 'success',
-  //     duration: 5000,
-  //     isClosable: true,
-  //     position: 'top-right',
-  //   });
-  // };
+  const handleItemReaction = (itemId: string, reaction: Reaction) => () => {
+    createReactionMutation.mutateAsync({
+      id: itemId,
+      type: reaction,
+    });
+  };
 
   return (
     <>
@@ -165,29 +157,6 @@ const ProjectPage: NextPage = () => {
           <Badge colorScheme="blue">Created by {project?.createdBy.name || 'Unknown'}</Badge>
         </HStack>
       </VStack>
-
-      {/*  Controls */}
-      {/* <Card
-        as="section"
-        w="full"
-        mb="6"
-        px="6"
-        py="3"
-        // bg="rgba(255,255,255,0.5)"
-        // backdropFilter="blur(5px)"
-      >
-        <HStack alignContent="center">
-          <Spacer />
-          <Button
-            gap={2}
-            aria-label="create new cycle"
-            disabled={!project}
-            onClick={handleCreateCycle}
-          >
-            Create Cycle
-          </Button>
-        </HStack>
-      </Card> */}
 
       {project?.cycles.map((cycle, index) => (
         <ScaleFade key={cycle.id} delay={0.03 * index} in={true} initialScale={0.9}>
@@ -250,7 +219,9 @@ const ProjectPage: NextPage = () => {
             <Divider bg="gray.200" />
 
             {/* Add Item Form */}
-            {cycle.status !== CycleStatus.CLOSED && <CreateItemForm p="6" boxId={cycle.id} />}
+            {cycle.status !== CycleStatus.CLOSED && createItemEnabled && (
+              <CreateItemForm p="6" boxId={cycle.id} />
+            )}
 
             {/* Item Display */}
             {!!cycle.items.length && (
@@ -316,7 +287,52 @@ const ProjectPage: NextPage = () => {
                 {cycle.items.map((item) => (
                   <TileGridItem key={item.id}>
                     <Card h="32" p="4">
-                      {item.content}
+                      <VStack>
+                        <Text w="full">{item.content}</Text>
+                        <HStack justifyContent="flex-start" w="full" pb="4">
+                          <Button
+                            aria-label="like-item"
+                            disabled={cycle.status !== CycleStatus.OPEN}
+                            leftIcon={<Icon icon={faThumbsUp} />}
+                            onClick={handleItemReaction(item.id, Reaction.LIKE)}
+                            size="xs"
+                          >
+                            {
+                              item.itemReaction.filter(
+                                (item) => item.reactionType === Reaction.LIKE,
+                              ).length
+                            }
+                          </Button>
+                          <Button
+                            aria-label="dislike-item"
+                            disabled={cycle.status !== CycleStatus.OPEN}
+                            leftIcon={<Icon icon={faThumbsDown} />}
+                            onClick={handleItemReaction(item.id, Reaction.DISLIKE)}
+                            size="xs"
+                          >
+                            {
+                              item.itemReaction.filter(
+                                (item) => item.reactionType === Reaction.DISLIKE,
+                              ).length
+                            }
+                          </Button>
+                        </HStack>
+                        <HStack justifyContent="space-between" w="full">
+                          {item.createdBy && (
+                            <HStack>
+                              <Avatar name={item.createdBy.name || 'Unknown'} size="2xs" />
+                              <Text fontSize="sm">{item.createdBy.name || 'Unknown'}</Text>
+                            </HStack>
+                          )}
+                          {!item.createdBy && (
+                            <HStack>
+                              <Avatar name="Anonymous" size="2xs" />
+                              <Text fontSize="sm">Anonymous</Text>
+                            </HStack>
+                          )}
+                          <Text fontSize="sm">{format(item.createdAt, 'PP')}</Text>
+                        </HStack>
+                      </VStack>
                     </Card>
                   </TileGridItem>
                 ))}

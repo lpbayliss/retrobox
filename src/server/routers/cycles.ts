@@ -119,6 +119,8 @@ export const cycleRouter = router({
     .mutation(async ({ input, ctx }) => {
       const user = getUserOrThrow(ctx);
 
+      ctx.log.info(input.isAnonymous);
+
       const cycle = await ctx.prisma.cycle.findFirst({
         where: {
           id: input.id,
@@ -137,7 +139,7 @@ export const cycleRouter = router({
       await ctx.prisma.item.create({
         data: {
           content: input.content,
-          ...(input.isAnonymous && { createdBy: { connect: { id: user.id } } }),
+          ...(!input.isAnonymous && { createdBy: { connect: { id: user.id } } }),
           cycle: { connect: { id: input.id } },
         },
       });
