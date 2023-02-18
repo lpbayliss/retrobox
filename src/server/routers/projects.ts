@@ -45,7 +45,7 @@ export const projectRouter = router({
       }),
     )
     .query(async ({ input, ctx }) => {
-      const user = ctx.session?.user;
+      const user = getUserOrThrow(ctx);
 
       const project = await ctx.prisma.project.findUnique({
         where: { id: input.id },

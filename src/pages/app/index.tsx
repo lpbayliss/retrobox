@@ -33,7 +33,7 @@ const ProjectsPage: NextPage = () => {
       </Box>
 
       <NextLink href="/app/projects">
-        <Card w="full" mb="6" px="6" py="3">
+        <Card w="full" mb="6" px="6" py="3" variant="glass">
           Projects
         </Card>
       </NextLink>

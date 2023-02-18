@@ -119,8 +119,6 @@ export const cycleRouter = router({
     .mutation(async ({ input, ctx }) => {
       const user = getUserOrThrow(ctx);
 
-      ctx.log.info(input.isAnonymous);
-
       const cycle = await ctx.prisma.cycle.findFirst({
         where: {
           id: input.id,
@@ -145,5 +143,59 @@ export const cycleRouter = router({
       });
 
       return true;
+    }),
+  fetchItems: publicProcedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      getUserOrThrow(ctx);
+
+      const items = await ctx.prisma.item.findMany({
+        where: { cycle: { id: input.id } },
+        select: {
+          id: true,
+          content: true,
+          createdBy: true,
+          itemReaction: { select: { reactionType: true } },
+          createdAt: true,
+        },
+      });
+
+      if (!items) throw new TRPCError({ code: 'NOT_FOUND' });
+
+      return items;
+    }),
+  fetchContributors: publicProcedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      getUserOrThrow(ctx);
+
+      const items = await ctx.prisma.item.findMany({
+        where: { cycle: { id: input.id } },
+        select: {
+          id: true,
+          content: true,
+          createdBy: true,
+          itemReaction: { select: { reactionType: true } },
+          createdAt: true,
+        },
+      });
+
+      if (!items) throw new TRPCError({ code: 'NOT_FOUND' });
+
+      const contributors = items
+        .map((item) => item.createdBy)
+        .filter((user, index, self) =>
+          !user ? false : self.findIndex((t) => (!t ? false : t.id === user.id)) === index,
+        );
+
+      return contributors;
     }),
 });

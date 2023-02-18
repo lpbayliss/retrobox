@@ -84,15 +84,7 @@ const ProjectsPage: NextPage = () => {
       </Box>
 
       {/*  Controls */}
-      <Card
-        as="section"
-        w="full"
-        mb="6"
-        px="6"
-        py="3"
-        // bg="rgba(255,255,255,0.5)"
-        // backdropFilter="blur(5px)"
-      >
+      <Card as="section" w="full" mb="6" px="6" py="3">
         <HStack alignContent="center">
           <Spacer />
           {createBoxEnabled && (

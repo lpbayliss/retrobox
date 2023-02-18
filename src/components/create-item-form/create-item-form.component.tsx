@@ -5,9 +5,9 @@ import {
   FormErrorMessage,
   FormHelperText,
   FormLabel,
-  HStack,
   Input,
   StackProps,
+  VStack,
 } from '@chakra-ui/react';
 import { trpc } from '@lib/trpc';
 import { useSession } from 'next-auth/react';
@@ -24,7 +24,7 @@ interface Props {
   onSubmit?: () => void;
 }
 
-const CreateBoxForm = ({ boxId, onSubmit, ...props }: Props & StackProps) => {
+const CreateItemForm = ({ boxId, onSubmit, ...props }: Props & StackProps) => {
   const { data } = useSession();
   const trpcContext = trpc.useContext();
   const intl = useIntl();
@@ -53,7 +53,13 @@ const CreateBoxForm = ({ boxId, onSubmit, ...props }: Props & StackProps) => {
   };
 
   return (
-    <HStack as="form" onSubmit={handleSubmit(handleOnSubmit)} spacing="4" {...props}>
+    <VStack
+      as="form"
+      onSubmit={handleSubmit(handleOnSubmit)}
+      spacing="4"
+      {...props}
+      alignItems="flex-start"
+    >
       <FormControl isInvalid={!!errors.content}>
         <FormLabel>
           <FormattedMessage id="CREATE_ITEM_FORM_CONTENT_LABEL" />
@@ -83,8 +89,8 @@ const CreateBoxForm = ({ boxId, onSubmit, ...props }: Props & StackProps) => {
       <Button w="2xs" isLoading={isSubmitting} type="submit">
         <FormattedMessage id="CREATE_ITEM_FORM_SUBMIT_BUTTON_LABEL" />
       </Button>
-    </HStack>
+    </VStack>
   );
 };
 
-export default CreateBoxForm;
+export default CreateItemForm;
