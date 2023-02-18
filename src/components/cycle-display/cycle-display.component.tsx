@@ -190,136 +190,133 @@ const CycleDisplay = ({
           </Menu>
         </HStack>
 
-        <VStack
-          as={Collapse}
-          w="full"
-          animateOpacity
-          in={isOpen && !isLoadingCycleData}
-          spacing={4}
-        >
-          {/* Add Item Form */}
-          {status !== CycleStatus.CLOSED && createItemEnabled && (
-            <Card w="full" p="4" variant="outline">
-              <CreateItemForm boxId={cycleId} w="full" onSubmit={handleItemCreated} />
-            </Card>
-          )}
+        {!isLoadingCycleData && items && !!items.length && (
+          <VStack as={Collapse} w="full" animateOpacity in={isOpen} spacing={4}>
+            {/* Add Item Form */}
+            {status !== CycleStatus.CLOSED && createItemEnabled && (
+              <Card w="full" p="4" variant="outline">
+                <CreateItemForm boxId={cycleId} w="full" onSubmit={handleItemCreated} />
+              </Card>
+            )}
 
-          {/* Item Display */}
-          {items && !!items.length && (
-            <TileGrid
-              pos="relative"
-              maxH="500px"
-              overflowY={status === CycleStatus.PENDING ? 'hidden' : 'auto'}
-              overflowX="hidden"
-              css={{
-                '&::-webkit-scrollbar': {
-                  width: '4px',
-                },
-                '&::-webkit-scrollbar-track': {
-                  width: '6px',
-                },
-                '&::-webkit-scrollbar-thumb': {
-                  background: 'white',
-                  borderRadius: '24px',
-                },
-              }}
-            >
-              {status === CycleStatus.PENDING && (
-                <Center
-                  pos="absolute"
-                  zIndex="overlay"
-                  top={-1}
-                  right={-1}
-                  bottom={-1}
-                  left={-1}
-                  bg="rgba(255,255,255,0.5)"
-                  backdropFilter="blur(5px)"
-                >
-                  <VStack>
-                    {contributors && (
-                      <HStack>
-                        <AvatarGroup max={2} size="sm">
-                          {contributors.map((user, index) => (
-                            <>
-                              {user && (
-                                <Avatar
-                                  key={`${cycleId}-user-${user.id}`}
-                                  name={user.name || 'Unknown'}
-                                />
-                              )}
-                              {!user && (
-                                <Avatar key={`${cycleId}-anon-${index}`} name="Anonymous" />
-                              )}
-                            </>
-                          ))}
-                        </AvatarGroup>
-                        <Text>{`${contributors.length} have contributed`}</Text>
-                      </HStack>
-                    )}
-                    <Button
-                      colorScheme="blue"
-                      onClick={handleRevealCycle(cycleId)}
-                      variant={'outline'}
-                    >
-                      Review
-                    </Button>
-                  </VStack>
-                </Center>
-              )}
-              {items.map((item) => (
-                <TileGridItem key={item.id}>
-                  <Card h="32" p="4" variant="outline">
+            {/* Item Display */}
+            {items && !!items.length && (
+              <TileGrid
+                pos="relative"
+                maxH="500px"
+                overflowY={status === CycleStatus.PENDING ? 'hidden' : 'auto'}
+                overflowX="hidden"
+                css={{
+                  '&::-webkit-scrollbar': {
+                    width: '4px',
+                  },
+                  '&::-webkit-scrollbar-track': {
+                    width: '6px',
+                  },
+                  '&::-webkit-scrollbar-thumb': {
+                    background: 'white',
+                    borderRadius: '24px',
+                  },
+                }}
+              >
+                {status === CycleStatus.PENDING && (
+                  <Center
+                    pos="absolute"
+                    zIndex="overlay"
+                    top={-1}
+                    right={-1}
+                    bottom={-1}
+                    left={-1}
+                    bg="rgba(255,255,255,0.5)"
+                    backdropFilter="blur(5px)"
+                  >
                     <VStack>
-                      <Text w="full">{item.content}</Text>
-                      <HStack justifyContent="flex-start" w="full" pb="4">
-                        <Button
-                          aria-label="like-item"
-                          disabled={status !== CycleStatus.OPEN}
-                          leftIcon={<Icon icon={faThumbsUp} />}
-                          onClick={handleItemReaction(item.id, Reaction.LIKE)}
-                          size="xs"
-                        >
-                          {
-                            item.itemReaction.filter((item) => item.reactionType === Reaction.LIKE)
-                              .length
-                          }
-                        </Button>
-                        <Button
-                          aria-label="dislike-item"
-                          disabled={status !== CycleStatus.OPEN}
-                          leftIcon={<Icon icon={faThumbsDown} />}
-                          onClick={handleItemReaction(item.id, Reaction.DISLIKE)}
-                          size="xs"
-                        >
-                          {
-                            item.itemReaction.filter(
-                              (item) => item.reactionType === Reaction.DISLIKE,
-                            ).length
-                          }
-                        </Button>
-                      </HStack>
-                      <HStack justifyContent="space-between" w="full">
-                        {item.createdBy && (
-                          <HStack>
-                            <Avatar name={item.createdBy.name || 'Unknown'} size="2xs" />
-                            <Text fontSize="sm">{item.createdBy.name || 'Unknown'}</Text>
-                          </HStack>
-                        )}
-                        {!item.createdBy && (
-                          <HStack>
-                            <Avatar name="Anonymous" size="2xs" />
-                            <Text fontSize="sm">Anonymous</Text>
-                          </HStack>
-                        )}
-                        <Text fontSize="sm">{format(item.createdAt, 'PP')}</Text>
-                      </HStack>
+                      {contributors && (
+                        <HStack>
+                          <AvatarGroup max={2} size="sm">
+                            {contributors.map((user, index) => (
+                              <>
+                                {user && (
+                                  <Avatar
+                                    key={`${cycleId}-user-${user.id}`}
+                                    name={user.name || 'Unknown'}
+                                  />
+                                )}
+                                {!user && (
+                                  <Avatar key={`${cycleId}-anon-${index}`} name="Anonymous" />
+                                )}
+                              </>
+                            ))}
+                          </AvatarGroup>
+                          <Text>{`${contributors.length} have contributed`}</Text>
+                        </HStack>
+                      )}
+                      <Button
+                        colorScheme="blue"
+                        onClick={handleRevealCycle(cycleId)}
+                        variant={'outline'}
+                      >
+                        Review
+                      </Button>
                     </VStack>
-                  </Card>
-                </TileGridItem>
-              ))}
-            </TileGrid>
-          )}
-        </VStack>
+                  </Center>
+                )}
+                {items.map((item) => (
+                  <TileGridItem key={item.id}>
+                    <Card h="32" p="4" variant="outline">
+                      <VStack>
+                        <Text w="full">{item.content}</Text>
+                        <HStack justifyContent="flex-start" w="full" pb="4">
+                          <Button
+                            aria-label="like-item"
+                            disabled={status !== CycleStatus.OPEN}
+                            leftIcon={<Icon icon={faThumbsUp} />}
+                            onClick={handleItemReaction(item.id, Reaction.LIKE)}
+                            size="xs"
+                          >
+                            {
+                              item.itemReaction.filter(
+                                (item) => item.reactionType === Reaction.LIKE,
+                              ).length
+                            }
+                          </Button>
+                          <Button
+                            aria-label="dislike-item"
+                            disabled={status !== CycleStatus.OPEN}
+                            leftIcon={<Icon icon={faThumbsDown} />}
+                            onClick={handleItemReaction(item.id, Reaction.DISLIKE)}
+                            size="xs"
+                          >
+                            {
+                              item.itemReaction.filter(
+                                (item) => item.reactionType === Reaction.DISLIKE,
+                              ).length
+                            }
+                          </Button>
+                        </HStack>
+                        <HStack justifyContent="space-between" w="full">
+                          {item.createdBy && (
+                            <HStack>
+                              <Avatar name={item.createdBy.name || 'Unknown'} size="2xs" />
+                              <Text fontSize="sm">{item.createdBy.name || 'Unknown'}</Text>
+                            </HStack>
+                          )}
+                          {!item.createdBy && (
+                            <HStack>
+                              <Avatar name="Anonymous" size="2xs" />
+                              <Text fontSize="sm">Anonymous</Text>
+                            </HStack>
+                          )}
+                          <Text fontSize="sm">{format(item.createdAt, 'PP')}</Text>
+                        </HStack>
+                      </VStack>
+                    </Card>
+                  </TileGridItem>
+                ))}
+              </TileGrid>
+            )}
+          </VStack>
+        )}
       </VStack>
     </Card>
   );
