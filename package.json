@@ -54,7 +54,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "7.43.1",
-    "react-intl": "6.2.8",
+    "react-intl": "6.2.9",
     "simplex-noise": "^4.0.1",
     "superjson": "1.12.2",
     "unleash-proxy-client": "2.4.2",
