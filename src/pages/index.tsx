@@ -99,10 +99,7 @@ const IndexPage: NextPage = () => {
             </Button>
           </Stack>
           <Box className="group" pos="relative" overflow="hidden" shadow="md" rounded="lg">
-            <Img
-              alt="Screenshot of Envelope App"
-              src="https://res.cloudinary.com/chakra-ui-pro/image/upload/v1621085270/pro-website/app-screenshot-light_kit2sp.png"
-            />
+            <Img alt="Screenshot of App" src="/screenshot.png" />
           </Box>
         </Box>
       </Box>

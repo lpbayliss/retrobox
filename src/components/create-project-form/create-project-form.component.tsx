@@ -47,24 +47,24 @@ const CreateProjectForm = ({ onClose, ...props }: Props) => {
     <VStack as="form" onSubmit={handleSubmit(handleOnSubmit)} spacing="4" {...props}>
       <FormControl isInvalid={!!errors.name}>
         <FormLabel>
-          <FormattedMessage id="CREATE_BOX_FORM_NAME_LABEL" />
+          <FormattedMessage id="CREATE_PROJECT_FORM_NAME_LABEL" />
         </FormLabel>
         <Input
           id="name"
-          placeholder={intl.formatMessage({ id: 'CREATE_BOX_FORM_NAME_PLACEHOLDER' })}
+          placeholder={intl.formatMessage({ id: 'CREATE_PROJECT_FORM_NAME_PLACEHOLDER' })}
           variant="filled"
           {...register('name', {
-            required: intl.formatMessage({ id: 'CREATE_BOX_FORM_NAME_REQUIRED_ERROR' }),
+            required: intl.formatMessage({ id: 'CREATE_PROJECT_FORM_NAME_REQUIRED_ERROR' }),
             minLength: {
               value: 4,
               message: intl.formatMessage({
-                id: 'CREATE_BOX_FORM_NAME_MIN_LENGTH_ERROR',
+                id: 'CREATE_PROJECT_FORM_NAME_MIN_LENGTH_ERROR',
               }),
             },
           })}
         />
         <FormHelperText>
-          <FormattedMessage id="CREATE_BOX_FORM_HELP_TEXT" />
+          <FormattedMessage id="CREATE_PROJECT_FORM_HELP_TEXT" />
         </FormHelperText>
         <FormErrorMessage>{errors.name && errors.name.message}</FormErrorMessage>
       </FormControl>
@@ -74,7 +74,7 @@ const CreateProjectForm = ({ onClose, ...props }: Props) => {
         <FormHelperText>Check if you want this box to be accessible by others</FormHelperText>
       </FormControl>
       <Button w="full" isLoading={isSubmitting} type="submit">
-        <FormattedMessage id="CREATE_BOX_FORM_SUBMIT_BUTTON_LABEL" />
+        <FormattedMessage id="CREATE_PROJECT_FORM_SUBMIT_BUTTON_LABEL" />
       </Button>
     </VStack>
   );

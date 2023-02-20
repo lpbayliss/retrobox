@@ -26,7 +26,6 @@ interface Props {
 
 const CreateItemForm = ({ boxId, onSubmit, ...props }: Props & StackProps) => {
   const { data } = useSession();
-  const trpcContext = trpc.useContext();
   const intl = useIntl();
 
   const {
@@ -38,7 +37,8 @@ const CreateItemForm = ({ boxId, onSubmit, ...props }: Props & StackProps) => {
 
   const addItemMutation = trpc.cycle.addItem.useMutation({
     onSuccess() {
-      trpcContext.project.fetchById.invalidate();
+      console.log('item added...');
+
       reset();
       if (onSubmit) onSubmit();
     },

@@ -80,7 +80,7 @@ const ProjectPage: NextPage = () => {
           </BreadcrumbItem>
         </Breadcrumb>
         <Heading as="h2" mb="2" size="2xl">
-          Design Box
+          {project?.name || 'Project 404 (Not Found)'}
         </Heading>
       </Box>
 
@@ -95,6 +95,7 @@ const ProjectPage: NextPage = () => {
       {project?.cycles.map((cycle, index) => (
         <ScaleFade key={cycle.id} delay={0.03 * index} in={true} initialScale={0.9}>
           <CycleDisplay
+            key={cycle.id}
             projectId={project.id}
             highlight={recentlyCreated && index === 0}
             cycleId={cycle.id}

@@ -73,7 +73,7 @@ const ProjectsPage: NextPage = () => {
             </NextLink>
           </BreadcrumbItem>
           <BreadcrumbItem>
-            <NextLink href="/app/boxes" passHref>
+            <NextLink href="/app/projects" passHref>
               <BreadcrumbLink as="span">Projects</BreadcrumbLink>
             </NextLink>
           </BreadcrumbItem>
@@ -89,7 +89,7 @@ const ProjectsPage: NextPage = () => {
           <Spacer />
           {createBoxEnabled && (
             <Button gap={2} aria-label="create new box" onClick={handleCreateBoxButtonClick}>
-              {!isOpen && <Text>Create box</Text>}
+              {!isOpen && <Text>Create project</Text>}
               {isOpen && <Text>Cancel</Text>}
             </Button>
           )}

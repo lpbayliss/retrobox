@@ -1,5 +1,8 @@
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Breadcrumb, BreadcrumbItem, BreadcrumbLink, Card, Heading } from '@chakra-ui/react';
+import { TileGrid, TileGridItem } from '@components/tile-grid';
+import { faFolders, faUser } from '@fortawesome/pro-light-svg-icons';
+import { Icon } from '@lib/icon';
 import { withDefaultServerSideProps } from '@lib/props';
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
@@ -32,16 +35,28 @@ const ProjectsPage: NextPage = () => {
         </Heading>
       </Box>
 
-      <NextLink href="/app/projects">
-        <Card w="full" mb="6" px="6" py="3" variant="glass">
-          Projects
-        </Card>
-      </NextLink>
-      <NextLink href="/app/profile">
-        <Card w="full" mb="6" px="6" py="3">
-          Profile
-        </Card>
-      </NextLink>
+      <TileGrid>
+        <TileGridItem>
+          <NextLink href="/app/projects">
+            <Card w="full" px="6" py="3">
+              <Icon icon={faFolders} height={16} pb="4" />
+              <Heading as="h2" textAlign={'center'}>
+                Your Projects
+              </Heading>
+            </Card>
+          </NextLink>
+        </TileGridItem>
+        <TileGridItem>
+          <NextLink href="/app/profile">
+            <Card w="full" px="6" py="3">
+              <Icon icon={faUser} height={16} pb="4" />
+              <Heading as="h2" textAlign={'center'}>
+                Your Profile
+              </Heading>
+            </Card>
+          </NextLink>
+        </TileGridItem>
+      </TileGrid>
     </>
   );
 };
