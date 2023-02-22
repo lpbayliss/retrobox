@@ -151,22 +151,33 @@ export const cycleRouter = router({
       }),
     )
     .query(async ({ input, ctx }) => {
-      getUserOrThrow(ctx);
+      const user = getUserOrThrow(ctx);
 
-      const items = await ctx.prisma.item.findMany({
-        where: { cycle: { id: input.id } },
+      const cycle = await ctx.prisma.cycle.findUnique({
+        where: { id: input.id },
         select: {
-          id: true,
-          content: true,
-          createdBy: true,
-          itemReaction: { select: { reactionType: true } },
-          createdAt: true,
+          createdBy: { select: { id: true } },
+          isPublic: true,
+          items: {
+            select: {
+              id: true,
+              content: true,
+              createdBy: true,
+              itemReaction: { select: { reactionType: true } },
+              createdAt: true,
+            },
+          },
         },
       });
 
-      if (!items) throw new TRPCError({ code: 'NOT_FOUND' });
+      if (!cycle) throw new TRPCError({ code: 'NOT_FOUND' });
 
-      return items;
+      if (!cycle.isPublic && cycle.createdBy.id !== user?.id)
+        throw new TRPCError({ code: 'FORBIDDEN' });
+
+      if (!cycle.items) throw new TRPCError({ code: 'NOT_FOUND' });
+
+      return cycle.items;
     }),
   fetchContributors: publicProcedure
     .input(
@@ -175,22 +186,31 @@ export const cycleRouter = router({
       }),
     )
     .query(async ({ input, ctx }) => {
-      getUserOrThrow(ctx);
+      const user = getUserOrThrow(ctx);
 
-      const items = await ctx.prisma.item.findMany({
-        where: { cycle: { id: input.id } },
+      const cycle = await ctx.prisma.cycle.findUnique({
+        where: { id: input.id },
         select: {
-          id: true,
-          content: true,
-          createdBy: true,
-          itemReaction: { select: { reactionType: true } },
-          createdAt: true,
+          createdBy: { select: { id: true } },
+          isPublic: true,
+          items: {
+            select: {
+              id: true,
+              content: true,
+              createdBy: true,
+              itemReaction: { select: { reactionType: true } },
+              createdAt: true,
+            },
+          },
         },
       });
 
-      if (!items) throw new TRPCError({ code: 'NOT_FOUND' });
+      if (!cycle) throw new TRPCError({ code: 'NOT_FOUND' });
 
-      const contributors = items
+      if (!cycle.isPublic && cycle.createdBy.id !== user?.id)
+        throw new TRPCError({ code: 'FORBIDDEN' });
+
+      const contributors = cycle.items
         .map((item) => item.createdBy)
         .filter((user, index, self) =>
           !user ? false : self.findIndex((t) => (!t ? false : t.id === user.id)) === index,

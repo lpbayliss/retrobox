@@ -15,6 +15,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { CycleDisplay } from '@components/cycle-display';
+import { prisma } from '@lib/prisma';
 import { withDefaultServerSideProps } from '@lib/props';
 import { trpc } from '@lib/trpc';
 import { useFlag } from '@unleash/proxy-client-react';
@@ -22,16 +23,36 @@ import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { default as NextLink } from 'next/link';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: false });
+export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({
+  protected: async (ctx, session) => {
+    if (!session) return true;
+    const project = await prisma.project.findUnique({
+      where: { id: String(ctx.query.id) },
+      select: {
+        createdBy: { select: { id: true } },
+        isPublic: true,
+      },
+    });
+    if (!project) return true;
+    if (!project.isPublic && project.createdBy.id !== session.user?.id) return true;
+    return false;
+  },
+});
 
 const ProjectPage: NextPage = () => {
   const router = useRouter();
   const createDropEnabled = useFlag('create-drop'); // Create cycle
   const [recentlyCreated, setRecentlyCreated] = useState<boolean>(false);
-  const { data: project } = trpc.project.fetchById.useQuery({ id: String(router.query['id']) });
+  const { data: project, error } = trpc.project.fetchById.useQuery({
+    id: String(router.query['id']),
+  });
   const trpcContext = trpc.useContext();
+
+  useEffect(() => {
+    if (error?.data?.code === 'FORBIDDEN') router.push('/');
+  }, [error, router]);
 
   const createCycleMutation = trpc.cycle.create.useMutation({
     onSuccess() {
