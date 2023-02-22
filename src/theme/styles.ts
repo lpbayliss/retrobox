@@ -5,6 +5,11 @@ const styles: Styles = {
     body: {
       bg: 'canvas',
     },
+    div: {
+      '&::-webkit-scrollbar': {
+        display: 'none',
+      },
+    },
   }),
 };
 

@@ -21,6 +21,7 @@ import { FormattedMessage } from 'react-intl';
 export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: true });
 
 const ProfilePage: NextPage = () => {
+
   const handleLogout = () => {
     signOut();
   };
@@ -54,14 +55,14 @@ const ProfilePage: NextPage = () => {
       </Box>
 
       <PageSection>
-        <VStack alignItems="start" w="lg">
-          <Card w="full" p="4" bg="rgba(255,255,255,0.5)" backdropFilter="blur(5px)">
+        <VStack alignItems="start">
+          <Card w="full" p="4">
             <Heading as="h3" mb="2" size="lg">
               Change name
             </Heading>
             <UpdateProfileForm />
           </Card>
-          <Card w="full" p="4" bg="rgba(255,255,255,0.5)" backdropFilter="blur(5px)">
+          <Card w="full" p="4">
             <Heading as="h3" mb="2" size="lg">
               Other
             </Heading>

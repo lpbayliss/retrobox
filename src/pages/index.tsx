@@ -10,7 +10,6 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  Stack,
   Text,
   useDisclosure,
   VStack,
@@ -50,14 +49,14 @@ const IndexPage: NextPage = () => {
   };
 
   return (
-    <Box>
+    <>
       <Head>
         <title>Retrobox | Welcome</title>
         <meta name="description" content="Welcome" />
       </Head>
       <Box as="section" py="7.5rem">
         <Box maxW={{ base: 'xl', md: '5xl' }} mx="auto" px={{ base: '6', md: '8' }}>
-          <Box textAlign="center">
+          <VStack textAlign="center" spacing={4}>
             <Heading
               as="h1"
               maxW="48rem"
@@ -67,40 +66,30 @@ const IndexPage: NextPage = () => {
               letterSpacing="tight"
               size="3xl"
             >
-              <FormattedMessage id="INDEX_PAGE_TITLE" />
+              Retrobox
             </Heading>
-            <Text maxW="xl" mt="4" mx="auto" fontSize="xl">
+            <Text maxW="2xl" mx="auto" fontSize="4xl">
+              The super simple retrospective tool for keeping track of your items.
+            </Text>
+            <Img mx="auto" py="6" alt="Landing" rounded="lg" src="/illustration.png" />
+            <Text maxW="xl" mx="auto" fontSize="xl">
               <FormattedMessage id="INDEX_PAGE_SUBTEXT" />
             </Text>
-          </Box>
-
-          <Stack
-            justify="center"
-            direction={{ base: 'column', md: 'row' }}
-            mt="10"
-            mb="20"
-            spacing="4"
-          >
             {customSignInEnabled && (
               <Button
                 as="a"
-                px="8"
+                px="16"
                 fontSize="md"
                 fontWeight="bold"
                 colorScheme="blue"
                 onClick={handleSignInOnClick}
+                rounded="full"
                 size="lg"
               >
-                <FormattedMessage id="INDEX_PAGE_SIGN_IN" />
+                Sign in with a magic link
               </Button>
             )}
-            <Button as="a" px="8" fontSize="md" fontWeight="bold" href="#" size="lg">
-              <FormattedMessage id="INDEX_PAGE_LEARN_MORE" />
-            </Button>
-          </Stack>
-          <Box className="group" pos="relative" overflow="hidden" shadow="md" rounded="lg">
-            <Img alt="Screenshot of App" src="/screenshot.png" />
-          </Box>
+          </VStack>
         </Box>
       </Box>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -131,7 +120,7 @@ const IndexPage: NextPage = () => {
           <ModalFooter />
         </ModalContent>
       </Modal>
-    </Box>
+    </>
   );
 };
 

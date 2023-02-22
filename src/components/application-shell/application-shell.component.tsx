@@ -33,8 +33,27 @@ const ApplicationShell = ({ children, withLava }: PropsWithChildren<{ withLava?:
   };
 
   return (
-    <Flex direction={{ base: 'column', lg: 'row' }} w="full" minW="sm" h="100vh">
-      <Flex as="main" direction="column" overflow="auto" w="full" h="full" p={['4', null, '8']}>
+    <Flex
+      direction={{ base: 'column', lg: 'row' }}
+      w="full"
+      minW="md"
+      maxW="4xl"
+      h="100vh"
+      mx="auto"
+    >
+      <Flex
+        as="main"
+        direction="column"
+        overflow="auto"
+        w="full"
+        h="full"
+        p={['4', null, '8']}
+        css={{
+          '&::-webkit-scrollbar': {
+            display: 'none',
+          },
+        }}
+      >
         {children}
       </Flex>
       <Modal isOpen={isOpen} onClose={onClose}>

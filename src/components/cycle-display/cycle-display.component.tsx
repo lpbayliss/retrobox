@@ -261,7 +261,7 @@ const CycleDisplay = ({
       <Box as={Collapse} w="full" animateOpacity in={isOpen}>
         {/* Add Item Form */}
         {status !== CycleStatus.CLOSED && createItemEnabled && (
-          <Card w="full" mt={4} p="4" variant="outline">
+          <Card w="full" mt={4} p="4" shadow="none" variant="outline">
             <CreateItemForm boxId={cycleId} w="full" onSubmit={handleItemCreated} />
           </Card>
         )}
@@ -274,18 +274,6 @@ const CycleDisplay = ({
             maxH="500px"
             overflowY={status === CycleStatus.PENDING ? 'hidden' : 'auto'}
             overflowX="hidden"
-            css={{
-              '&::-webkit-scrollbar': {
-                width: '4px',
-              },
-              '&::-webkit-scrollbar-track': {
-                width: '6px',
-              },
-              '&::-webkit-scrollbar-thumb': {
-                background: 'white',
-                borderRadius: '24px',
-              },
-            }}
           >
             {items.map((item) => (
               <TileGridItem
@@ -294,7 +282,9 @@ const CycleDisplay = ({
               >
                 <Card h="32" p="4" shadow={'none'} variant="outline">
                   <VStack>
-                    <Text w="full">{item.content}</Text>
+                    <Text overflow="hidden" w="full" isTruncated>
+                      {item.content}
+                    </Text>
                     <HStack justifyContent="flex-start" w="full" pb="4">
                       <Button
                         aria-label="like-item"
