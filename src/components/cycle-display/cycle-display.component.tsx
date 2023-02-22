@@ -130,16 +130,16 @@ const CycleOverlay = ({ display, id, contributors, onReveal }: CycleOverlayProps
           <HStack>
             <AvatarGroup max={2} size="sm">
               {contributors.map((user, index) => (
-                <>
+                <Text key="">
                   {user && <Avatar key={`${id}-user-${user.id}`} name={user.name || 'Unknown'} />}
                   {!user && <Avatar key={`${id}-anon-${index}`} name="Anonymous" />}
-                </>
+                </Text>
               ))}
             </AvatarGroup>
             <Text>{`${contributors.length} have contributed`}</Text>
           </HStack>
         )}
-        <Button colorScheme="blue" onClick={handleRevealCycle} variant={'outline'}>
+        <Button colorScheme="blue" onClick={handleRevealCycle}>
           Review
         </Button>
       </VStack>

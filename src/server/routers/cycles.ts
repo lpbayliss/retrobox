@@ -216,6 +216,8 @@ export const cycleRouter = router({
           !user ? false : self.findIndex((t) => (!t ? false : t.id === user.id)) === index,
         );
 
-      return contributors;
+      const hasAnonymous = !!cycle.items.find((item) => !item.createdBy);
+
+      return hasAnonymous ? [...contributors, null] : contributors;
     }),
 });
