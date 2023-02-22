@@ -71,7 +71,9 @@ const IndexPage: NextPage = () => {
             <Text maxW="2xl" mx="auto" fontSize="4xl">
               The super simple retrospective tool for keeping track of your items.
             </Text>
-            <Img mx="auto" py="6" alt="Landing" rounded="lg" src="/illustration.png" />
+            <Box py="6">
+              <Img overflow="hidden" mx="auto" alt="Landing" rounded="lg" src="/illustration.png" />
+            </Box>
             <Text maxW="xl" mx="auto" fontSize="xl">
               <FormattedMessage id="INDEX_PAGE_SUBTEXT" />
             </Text>
