@@ -58,7 +58,7 @@
     "simplex-noise": "^4.0.1",
     "superjson": "1.12.2",
     "unleash-proxy-client": "2.4.3",
-    "unleash-server": "4.20.5",
+    "unleash-server": "4.21.0",
     "zod": "^3.20.2"
   },
   "devDependencies": {
