@@ -64,7 +64,7 @@
   "devDependencies": {
     "@babel/core": "7.21.0",
     "@chakra-ui/storybook-addon": "4.0.16",
-    "@playwright/test": "1.31.0",
+    "@playwright/test": "1.31.1",
     "@storybook/addon-actions": "6.5.16",
     "@storybook/addon-essentials": "6.5.16",
     "@storybook/addon-interactions": "6.5.16",
@@ -98,7 +98,7 @@
     "jest": "29.4.3",
     "jest-environment-jsdom": "29.4.3",
     "lint-staged": "13.1.2",
-    "playwright": "1.31.0",
+    "playwright": "1.31.1",
     "prettier": "2.8.4",
     "prisma": "4.10.1",
     "storybook-react-intl": "1.1.1",
