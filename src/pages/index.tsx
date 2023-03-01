@@ -54,45 +54,50 @@ const IndexPage: NextPage = () => {
         <title>Retrobox | Welcome</title>
         <meta name="description" content="Welcome" />
       </Head>
-      <Box as="section" py="7.5rem">
-        <Box maxW={{ base: 'xl', md: '5xl' }} mx="auto" px={{ base: '6', md: '8' }}>
-          <VStack textAlign="center" spacing={4}>
-            <Heading
-              as="h1"
-              maxW="48rem"
+      <Box as="section" maxW={{ base: 'xl', md: '5xl' }} mx="auto" px={{ base: '6', md: '8' }}>
+        <VStack textAlign="center" spacing={4}>
+          <Heading
+            as="h1"
+            maxW="48rem"
+            mx="auto"
+            fontWeight="extrabold"
+            lineHeight="1.2"
+            letterSpacing="tight"
+            size="3xl"
+          >
+            Retrobox
+          </Heading>
+          <Text maxW="2xl" mx="auto" fontSize={['2xl', null, '4xl']}>
+            The super simple retrospective tool for keeping track of your items.
+          </Text>
+          <Box py="6">
+            <Img
+              overflow="hidden"
+              w={['300px', '500px', '800px']}
               mx="auto"
-              fontWeight="extrabold"
-              lineHeight="1.2"
-              letterSpacing="tight"
-              size="3xl"
+              alt="Landing"
+              rounded="lg"
+              src="/illustration.png"
+            />
+          </Box>
+          <Text maxW="xl" mx="auto" fontSize="xl">
+            <FormattedMessage id="INDEX_PAGE_SUBTEXT" />
+          </Text>
+          {customSignInEnabled && (
+            <Button
+              as="a"
+              px="16"
+              fontSize="md"
+              fontWeight="bold"
+              colorScheme="blue"
+              onClick={handleSignInOnClick}
+              rounded="full"
+              size="lg"
             >
-              Retrobox
-            </Heading>
-            <Text maxW="2xl" mx="auto" fontSize="4xl">
-              The super simple retrospective tool for keeping track of your items.
-            </Text>
-            <Box py="6">
-              <Img overflow="hidden" mx="auto" alt="Landing" rounded="lg" src="/illustration.png" />
-            </Box>
-            <Text maxW="xl" mx="auto" fontSize="xl">
-              <FormattedMessage id="INDEX_PAGE_SUBTEXT" />
-            </Text>
-            {customSignInEnabled && (
-              <Button
-                as="a"
-                px="16"
-                fontSize="md"
-                fontWeight="bold"
-                colorScheme="blue"
-                onClick={handleSignInOnClick}
-                rounded="full"
-                size="lg"
-              >
-                Sign in with a magic link
-              </Button>
-            )}
-          </VStack>
-        </Box>
+              Sign in with a magic link
+            </Button>
+          )}
+        </VStack>
       </Box>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

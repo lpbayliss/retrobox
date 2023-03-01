@@ -15,18 +15,32 @@ import {
   MenuButton,
   MenuItemOption,
   MenuList,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  ScaleFade,
   Text,
   useDisclosure,
   VStack,
 } from '@chakra-ui/react';
 import { CreateItemForm } from '@components/create-item-form';
 import { TileGrid, TileGridItem } from '@components/tile-grid';
-import { faThumbsDown, faThumbsUp } from '@fortawesome/pro-light-svg-icons';
+import {
+  faChevronDown,
+  faChevronUp,
+  faThumbsDown,
+  faThumbsUp,
+} from '@fortawesome/pro-light-svg-icons';
 import { Icon } from '@lib/icon';
 import { trpc } from '@lib/trpc';
 import { CycleStatus, Reaction } from '@prisma/client';
 import { useFlag } from '@unleash/proxy-client-react';
 import { format } from 'date-fns';
+import { useSession } from 'next-auth/react';
 
 const getStatusColor = (status: CycleStatus) => {
   if (status === CycleStatus.PENDING) return 'green';
@@ -117,6 +131,8 @@ interface CycleOverlayProps {
 }
 
 const CycleOverlay = ({ display, id, contributors, onReveal }: CycleOverlayProps) => {
+  const { data: sessionData } = useSession();
+
   if (!display) return null;
 
   const handleRevealCycle = () => {
@@ -139,7 +155,7 @@ const CycleOverlay = ({ display, id, contributors, onReveal }: CycleOverlayProps
             <Text>{`${contributors.length} have contributed`}</Text>
           </HStack>
         )}
-        <Button colorScheme="blue" onClick={handleRevealCycle}>
+        <Button colorScheme="blue" isDisabled={!sessionData?.user} onClick={handleRevealCycle}>
           Review
         </Button>
       </VStack>
@@ -168,8 +184,10 @@ const CycleDisplay = ({
   endDate,
   status,
 }: CycleDisplayProps) => {
+  const { data: sessionData } = useSession();
   const createItemEnabled = useFlag('create-item');
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const closeCycleDisclosure = useDisclosure();
   const trpcContext = trpc.useContext();
 
   const { data: items, refetch: fetchItems } = trpc.cycle.fetchItems.useQuery(
@@ -207,6 +225,7 @@ const CycleDisplay = ({
   const handleCloseCycle = (cycleId: string) => () => {
     closeCycleMutation.mutateAsync({ id: cycleId });
     if (onCloseCycle) onCloseCycle();
+    closeCycleDisclosure.onClose();
   };
 
   const handleItemReaction = (itemId: string, reaction: Reaction) => () => {
@@ -233,113 +252,152 @@ const CycleDisplay = ({
   };
 
   return (
-    <Card
-      zIndex="base"
-      w="full"
-      mb="6"
-      p={4}
-      borderWidth="2px"
-      borderStyle="solid"
-      borderColor={highlight ? 'blue.300' : 'transparent'}
-      transition="border"
-      transitionDuration="400ms"
-    >
-      <HStack justifyContent="space-between" w="full">
-        <CycleTitle
-          start={startDate}
-          end={endDate}
-          status={status}
-          onClick={handleCycleCardClicked}
-        />
-        <CycleMenu
-          status={status}
-          onReview={handleRevealCycle(cycleId)}
-          onClose={handleCloseCycle(cycleId)}
-        />
-      </HStack>
-
-      <Box as={Collapse} w="full" animateOpacity in={isOpen}>
-        {/* Add Item Form */}
-        {status !== CycleStatus.CLOSED && createItemEnabled && (
-          <Card w="full" mt={4} p="4" shadow="none" variant="outline">
-            <CreateItemForm boxId={cycleId} w="full" onSubmit={handleItemCreated} />
-          </Card>
-        )}
-
-        {/* Item Display */}
-        {items && !!items.length && (
-          <TileGrid
-            pos="relative"
-            mt={4}
-            maxH="500px"
-            overflowY={status === CycleStatus.PENDING ? 'hidden' : 'auto'}
-            overflowX="hidden"
-          >
-            {items.map((item) => (
-              <TileGridItem
-                key={item.id}
-                filter={status === CycleStatus.PENDING ? 'blur(5px)' : ''}
+    <>
+      <Card
+        zIndex="base"
+        w="full"
+        mb="6"
+        p={4}
+        borderWidth="2px"
+        borderStyle="solid"
+        borderColor={highlight ? 'blue.300' : 'transparent'}
+        transition="border"
+        transitionDuration="400ms"
+      >
+        <HStack justifyContent="space-between" w="full">
+          <CycleTitle start={startDate} end={endDate} status={status} />
+          <HStack>
+            <ScaleFade in={status === CycleStatus.OPEN}>
+              <Button
+                colorScheme="red"
+                isDisabled={!sessionData?.user}
+                onClick={closeCycleDisclosure.onOpen}
+                variant="ghost"
               >
-                <Card h="32" p="4" shadow={'none'} variant="outline">
-                  <VStack>
-                    <Text overflow="hidden" w="full" isTruncated>
-                      {item.content}
-                    </Text>
-                    <HStack justifyContent="flex-start" w="full" pb="4">
-                      <Button
-                        aria-label="like-item"
-                        disabled={status !== CycleStatus.OPEN}
-                        leftIcon={<Icon icon={faThumbsUp} />}
-                        onClick={handleItemReaction(item.id, Reaction.LIKE)}
-                        size="xs"
-                      >
-                        {
-                          item.itemReaction.filter((item) => item.reactionType === Reaction.LIKE)
-                            .length
-                        }
-                      </Button>
-                      <Button
-                        aria-label="dislike-item"
-                        disabled={status !== CycleStatus.OPEN}
-                        leftIcon={<Icon icon={faThumbsDown} />}
-                        onClick={handleItemReaction(item.id, Reaction.DISLIKE)}
-                        size="xs"
-                      >
-                        {
-                          item.itemReaction.filter((item) => item.reactionType === Reaction.DISLIKE)
-                            .length
-                        }
-                      </Button>
-                    </HStack>
-                    <HStack justifyContent="space-between" w="full">
-                      {item.createdBy && (
-                        <HStack>
-                          <Avatar name={item.createdBy.name || 'Unknown'} size="2xs" />
-                          <Text fontSize="sm">{item.createdBy.name || 'Unknown'}</Text>
-                        </HStack>
-                      )}
-                      {!item.createdBy && (
-                        <HStack>
-                          <Avatar name="Anonymous" size="2xs" />
-                          <Text fontSize="sm">Anonymous</Text>
-                        </HStack>
-                      )}
-                      <Text fontSize="sm">{format(item.createdAt, 'PP')}</Text>
-                    </HStack>
-                  </VStack>
-                </Card>
-              </TileGridItem>
-            ))}
-            <CycleOverlay
-              display={status === CycleStatus.PENDING}
-              contributors={contributors || []}
-              id={cycleId}
-              onReveal={handleRevealCycle(cycleId)}
+                Close
+              </Button>
+            </ScaleFade>
+            <IconButton
+              aria-label="Test"
+              icon={isOpen ? <Icon icon={faChevronUp} /> : <Icon icon={faChevronDown} />}
+              onClick={handleCycleCardClicked}
+              variant="ghost"
             />
-          </TileGrid>
-        )}
-      </Box>
-    </Card>
+          </HStack>
+        </HStack>
+
+        <Box as={Collapse} w="full" animateOpacity in={isOpen}>
+          {/* Add Item Form */}
+          {status !== CycleStatus.CLOSED && createItemEnabled && (
+            <Card w="full" mt={4} p="4" shadow="none" variant="outline">
+              <CreateItemForm boxId={cycleId} w="full" onSubmit={handleItemCreated} />
+            </Card>
+          )}
+
+          {/* Item Display */}
+          {items && !!items.length && (
+            <TileGrid
+              pos="relative"
+              mt={4}
+              maxH="500px"
+              overflowY={status === CycleStatus.PENDING ? 'hidden' : 'auto'}
+              overflowX="hidden"
+            >
+              {items.map((item) => (
+                <TileGridItem
+                  key={item.id}
+                  filter={status === CycleStatus.PENDING ? 'blur(5px)' : ''}
+                >
+                  <Card h="32" p="4" shadow={'none'} variant="outline">
+                    <VStack>
+                      <Text overflow="hidden" w="full" isTruncated>
+                        {item.content}
+                      </Text>
+                      <HStack justifyContent="flex-start" w="full" pb="4">
+                        <Button
+                          aria-label="like-item"
+                          disabled={status !== CycleStatus.OPEN}
+                          leftIcon={<Icon icon={faThumbsUp} />}
+                          onClick={handleItemReaction(item.id, Reaction.LIKE)}
+                          size="xs"
+                        >
+                          {
+                            item.itemReaction.filter((item) => item.reactionType === Reaction.LIKE)
+                              .length
+                          }
+                        </Button>
+                        <Button
+                          aria-label="dislike-item"
+                          disabled={status !== CycleStatus.OPEN}
+                          leftIcon={<Icon icon={faThumbsDown} />}
+                          onClick={handleItemReaction(item.id, Reaction.DISLIKE)}
+                          size="xs"
+                        >
+                          {
+                            item.itemReaction.filter(
+                              (item) => item.reactionType === Reaction.DISLIKE,
+                            ).length
+                          }
+                        </Button>
+                      </HStack>
+                      <HStack justifyContent="space-between" w="full">
+                        {item.createdBy && (
+                          <HStack>
+                            <Avatar name={item.createdBy.name || 'Unknown'} size="2xs" />
+                            <Text fontSize="sm">{item.createdBy.name || 'Unknown'}</Text>
+                          </HStack>
+                        )}
+                        {!item.createdBy && (
+                          <HStack>
+                            <Avatar name="Anonymous" size="2xs" />
+                            <Text fontSize="sm">Anonymous</Text>
+                          </HStack>
+                        )}
+                        <Text fontSize="sm">{format(item.createdAt, 'PP')}</Text>
+                      </HStack>
+                    </VStack>
+                  </Card>
+                </TileGridItem>
+              ))}
+              <CycleOverlay
+                display={status === CycleStatus.PENDING}
+                contributors={contributors || []}
+                id={cycleId}
+                onReveal={handleRevealCycle(cycleId)}
+              />
+            </TileGrid>
+          )}
+        </Box>
+      </Card>
+      <Modal
+        blockScrollOnMount={false}
+        isOpen={closeCycleDisclosure.isOpen}
+        onClose={closeCycleDisclosure.onClose}
+      >
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Are you sure?</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <VStack alignItems="flex-start">
+              <Text>
+                Closing a cycle cannot be undone. You will not be able to add any addition items but
+                will still be able to view them.
+              </Text>
+              <Text>Are you sure you want to close this cycle?</Text>
+            </VStack>
+          </ModalBody>
+          <ModalFooter>
+            <Button mr={3} onClick={closeCycleDisclosure.onClose} variant="ghost">
+              Cancel
+            </Button>
+            <Button colorScheme="red" onClick={handleCloseCycle(cycleId)}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    </>
   );
 };
 

@@ -15,7 +15,6 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { CycleDisplay } from '@components/cycle-display';
-import { prisma } from '@lib/prisma';
 import { withDefaultServerSideProps } from '@lib/props';
 import { trpc } from '@lib/trpc';
 import { useFlag } from '@unleash/proxy-client-react';
@@ -23,25 +22,13 @@ import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import { default as NextLink } from 'next/link';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 
-export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({
-  protected: async (ctx, session) => {
-    if (!session) return true;
-    const project = await prisma.project.findUnique({
-      where: { id: String(ctx.query.id) },
-      select: {
-        createdBy: { select: { id: true } },
-        isPublic: true,
-      },
-    });
-    if (!project) return true;
-    if (!project.isPublic && project.createdBy.id !== session.user?.id) return true;
-    return false;
-  },
-});
+export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({});
 
 const ProjectPage: NextPage = () => {
+  const { data: sessionData } = useSession();
   const router = useRouter();
   const createDropEnabled = useFlag('create-drop'); // Create cycle
   const [recentlyCreated, setRecentlyCreated] = useState<boolean>(false);
@@ -83,23 +70,25 @@ const ProjectPage: NextPage = () => {
 
       {/* Page Heading */}
       <Box as="section" mb="3">
-        <Breadcrumb mb={4} separator={<ChevronRightIcon color="gray.500" />} spacing="8px">
-          <BreadcrumbItem>
-            <NextLink href="/app" passHref>
-              <BreadcrumbLink as="span">Home</BreadcrumbLink>
-            </NextLink>
-          </BreadcrumbItem>
-          <BreadcrumbItem>
-            <NextLink href="/app/projects" passHref>
-              <BreadcrumbLink as="span">Projects</BreadcrumbLink>
-            </NextLink>
-          </BreadcrumbItem>
-          <BreadcrumbItem isCurrentPage>
-            <NextLink href={`/app/projects/${project?.id || null}`} passHref>
-              <BreadcrumbLink as="span">Design Box</BreadcrumbLink>
-            </NextLink>
-          </BreadcrumbItem>
-        </Breadcrumb>
+        {sessionData?.user && (
+          <Breadcrumb mb={4} separator={<ChevronRightIcon color="gray.500" />} spacing="8px">
+            <BreadcrumbItem>
+              <NextLink href="/app" passHref>
+                <BreadcrumbLink as="span">Home</BreadcrumbLink>
+              </NextLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem>
+              <NextLink href="/app/projects" passHref>
+                <BreadcrumbLink as="span">Projects</BreadcrumbLink>
+              </NextLink>
+            </BreadcrumbItem>
+            <BreadcrumbItem isCurrentPage>
+              <NextLink href={`/app/projects/${project?.id || null}`} passHref>
+                <BreadcrumbLink as="span">{project?.name}</BreadcrumbLink>
+              </NextLink>
+            </BreadcrumbItem>
+          </Breadcrumb>
+        )}
         <Heading as="h2" mb="2" size="2xl">
           {project?.name || 'Project 404 (Not Found)'}
         </Heading>
@@ -132,7 +121,7 @@ const ProjectPage: NextPage = () => {
       {!project?.cycles.length && (
         <Center>
           <Card w="full" p="6">
-            <VStack spacing={4}>
+            <VStack textAlign="center" spacing={4}>
               <Text>
                 There doesn&apos;t appear to be much going on here just yet. You can get started by
                 making creating your first cycle!
@@ -141,7 +130,11 @@ const ProjectPage: NextPage = () => {
                 After your first cycle a new one will be created each time you close out an active
                 cycle.
               </Text>
-              <Button colorScheme="blue" disabled={!createDropEnabled} onClick={handleCreateCycle}>
+              <Button
+                colorScheme="blue"
+                isDisabled={!createDropEnabled || !sessionData?.user}
+                onClick={handleCreateCycle}
+              >
                 Create cycle
               </Button>
             </VStack>

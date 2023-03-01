@@ -117,7 +117,7 @@ export const cycleRouter = router({
       }),
     )
     .mutation(async ({ input, ctx }) => {
-      const user = getUserOrThrow(ctx);
+      const user = ctx.session?.user;
 
       const cycle = await ctx.prisma.cycle.findFirst({
         where: {
@@ -128,7 +128,7 @@ export const cycleRouter = router({
 
       if (!cycle) throw new TRPCError({ code: 'NOT_FOUND' });
 
-      if (!cycle.isPublic && cycle.createdBy.id !== user.id)
+      if (!cycle.isPublic && cycle.createdBy.id !== user?.id)
         throw new TRPCError({ code: 'FORBIDDEN' });
 
       if (cycle.status === CycleStatus.CLOSED)
@@ -137,7 +137,7 @@ export const cycleRouter = router({
       await ctx.prisma.item.create({
         data: {
           content: input.content,
-          ...(!input.isAnonymous && { createdBy: { connect: { id: user.id } } }),
+          ...(!input.isAnonymous && !!user && { createdBy: { connect: { id: user.id } } }),
           cycle: { connect: { id: input.id } },
         },
       });
@@ -151,7 +151,7 @@ export const cycleRouter = router({
       }),
     )
     .query(async ({ input, ctx }) => {
-      const user = getUserOrThrow(ctx);
+      const user = ctx.session?.user;
 
       const cycle = await ctx.prisma.cycle.findUnique({
         where: { id: input.id },
@@ -186,7 +186,7 @@ export const cycleRouter = router({
       }),
     )
     .query(async ({ input, ctx }) => {
-      const user = getUserOrThrow(ctx);
+      const user = ctx.session?.user;
 
       const cycle = await ctx.prisma.cycle.findUnique({
         where: { id: input.id },
