@@ -68,24 +68,24 @@ enum Reaction {
 }
 
 model ItemReaction {
-  id           String   @id @default(cuid())
   reactionType Reaction
   item         Item?    @relation(fields: [itemId], references: [id])
   user         User?    @relation(name: "itemReactionByUserId", fields: [userId], references: [id])
 
-  itemId String?
-  userId String?
+  userId String
+  itemId String
+  @@id([userId, itemId])
 }
 
 model ItemComment {
-  id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   createdBy User?    @relation(name: "itemCommentByUserId", fields: [userId], references: [id])
   Item      Item?    @relation(fields: [itemId], references: [id])
   content   String
 
-  userId String?
-  itemId String?
+  userId String
+  itemId String
+  @@id([userId, itemId])
 }
 
 model Item {

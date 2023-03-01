@@ -108,4 +108,116 @@ export const cycleRouter = router({
 
       return true;
     }),
+  addItem: publicProcedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+        isAnonymous: z.boolean(),
+        content: z.string(),
+      }),
+    )
+    .mutation(async ({ input, ctx }) => {
+      const user = ctx.session?.user;
+
+      const cycle = await ctx.prisma.cycle.findFirst({
+        where: {
+          id: input.id,
+        },
+        select: { isPublic: true, status: true, createdBy: true },
+      });
+
+      if (!cycle) throw new TRPCError({ code: 'NOT_FOUND' });
+
+      if (!cycle.isPublic && cycle.createdBy.id !== user?.id)
+        throw new TRPCError({ code: 'FORBIDDEN' });
+
+      if (cycle.status === CycleStatus.CLOSED)
+        throw new TRPCError({ code: 'BAD_REQUEST', message: 'Cannot add items to a closed cycle' });
+
+      await ctx.prisma.item.create({
+        data: {
+          content: input.content,
+          ...(!input.isAnonymous && !!user && { createdBy: { connect: { id: user.id } } }),
+          cycle: { connect: { id: input.id } },
+        },
+      });
+
+      return true;
+    }),
+  fetchItems: publicProcedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const user = ctx.session?.user;
+
+      const cycle = await ctx.prisma.cycle.findUnique({
+        where: { id: input.id },
+        select: {
+          createdBy: { select: { id: true } },
+          isPublic: true,
+          items: {
+            select: {
+              id: true,
+              content: true,
+              createdBy: true,
+              itemReaction: { select: { reactionType: true } },
+              createdAt: true,
+            },
+          },
+        },
+      });
+
+      if (!cycle) throw new TRPCError({ code: 'NOT_FOUND' });
+
+      if (!cycle.isPublic && cycle.createdBy.id !== user?.id)
+        throw new TRPCError({ code: 'FORBIDDEN' });
+
+      if (!cycle.items) throw new TRPCError({ code: 'NOT_FOUND' });
+
+      return cycle.items;
+    }),
+  fetchContributors: publicProcedure
+    .input(
+      z.object({
+        id: z.string().cuid(),
+      }),
+    )
+    .query(async ({ input, ctx }) => {
+      const user = ctx.session?.user;
+
+      const cycle = await ctx.prisma.cycle.findUnique({
+        where: { id: input.id },
+        select: {
+          createdBy: { select: { id: true } },
+          isPublic: true,
+          items: {
+            select: {
+              id: true,
+              content: true,
+              createdBy: true,
+              itemReaction: { select: { reactionType: true } },
+              createdAt: true,
+            },
+          },
+        },
+      });
+
+      if (!cycle) throw new TRPCError({ code: 'NOT_FOUND' });
+
+      if (!cycle.isPublic && cycle.createdBy.id !== user?.id)
+        throw new TRPCError({ code: 'FORBIDDEN' });
+
+      const contributors = cycle.items
+        .map((item) => item.createdBy)
+        .filter((user, index, self) =>
+          !user ? false : self.findIndex((t) => (!t ? false : t.id === user.id)) === index,
+        );
+
+      const hasAnonymous = !!cycle.items.find((item) => !item.createdBy);
+
+      return hasAnonymous ? [...contributors, null] : contributors;
+    }),
 });

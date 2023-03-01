@@ -1,5 +1,5 @@
 import { default as merge } from 'deepmerge';
-import { GetServerSideProps, GetServerSidePropsResult } from 'next';
+import { GetServerSideProps, GetServerSidePropsContext, GetServerSidePropsResult } from 'next';
 import { Session } from 'next-auth';
 import { getServerSession } from 'next-auth/next';
 import { authOptions } from 'src/pages/api/auth/[...nextauth]';
@@ -11,7 +11,10 @@ export type DefaultProps = { toggles: IToggle[]; session: Session | null };
 
 export const withDefaultServerSideProps =
   <P extends { [key: string]: any } = { [key: string]: any }>(
-    opts: { secure?: boolean },
+    opts: {
+      secure?: boolean;
+      protected?: (ctx: GetServerSidePropsContext, session?: Session | null) => Promise<boolean>;
+    },
     func?: GetServerSideProps<P>,
   ): GetServerSideProps =>
   async (context) => {
@@ -23,6 +26,10 @@ export const withDefaultServerSideProps =
     if (session?.user) unleash.updateContext({ userId: session?.user.id });
     await unleash.start();
     const toggles = unleash.getAllToggles();
+
+    // Protect route if protected func provided
+    if (opts.protected && (await opts.protected(context, session)))
+      return { redirect: { destination: '/', permanent: false } };
 
     // Protect route if secure
     if (opts.secure && !session?.user) return { redirect: { destination: '/', permanent: false } };

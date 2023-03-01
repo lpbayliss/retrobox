@@ -7,7 +7,6 @@ import {
   Button,
   Card,
   Collapse,
-  Divider,
   Heading,
   HStack,
   ScaleFade,
@@ -73,7 +72,7 @@ const ProjectsPage: NextPage = () => {
             </NextLink>
           </BreadcrumbItem>
           <BreadcrumbItem>
-            <NextLink href="/app/boxes" passHref>
+            <NextLink href="/app/projects" passHref>
               <BreadcrumbLink as="span">Projects</BreadcrumbLink>
             </NextLink>
           </BreadcrumbItem>
@@ -84,29 +83,24 @@ const ProjectsPage: NextPage = () => {
       </Box>
 
       {/*  Controls */}
-      <Card
-        as="section"
-        w="full"
-        mb="6"
-        px="6"
-        py="3"
-        // bg="rgba(255,255,255,0.5)"
-        // backdropFilter="blur(5px)"
-      >
-        <HStack alignContent="center">
-          <Spacer />
-          {createBoxEnabled && (
-            <Button gap={2} aria-label="create new box" onClick={handleCreateBoxButtonClick}>
-              {!isOpen && <Text>Create box</Text>}
-              {isOpen && <Text>Cancel</Text>}
-            </Button>
-          )}
-        </HStack>
+      <Box as="section" w="full" mb="6">
+        {createBoxEnabled && (
+          <Button
+            gap={2}
+            aria-label="create new box"
+            colorScheme={'blue'}
+            onClick={handleCreateBoxButtonClick}
+          >
+            {!isOpen && <Text>Create project</Text>}
+            {isOpen && <Text>Cancel</Text>}
+          </Button>
+        )}
         <Collapse animateOpacity in={isOpen}>
-          <Divider my={4} />
-          <CreateProjectForm onClose={handleOnClose} />
+          <Card mt="4" p="4" variant={'outline'}>
+            <CreateProjectForm onClose={handleOnClose} />
+          </Card>
         </Collapse>
-      </Card>
+      </Box>
 
       {/* Project List */}
       {projects &&
