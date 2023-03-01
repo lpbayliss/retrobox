@@ -6,7 +6,7 @@ import { z } from 'zod';
 
 import { publicProcedure, router } from '../trpc';
 
-const defaultBoxSelect = Prisma.validator<Prisma.ProjectSelect>()({
+const defaultProjectSelect = Prisma.validator<Prisma.ProjectSelect>()({
   id: true,
   name: true,
   createdBy: { select: { id: true, name: true, email: true } },
@@ -34,7 +34,7 @@ export const projectRouter = router({
           ...input,
           userId: user.id,
         },
-        select: defaultBoxSelect,
+        select: defaultProjectSelect,
       });
       return project;
     }),
@@ -49,7 +49,7 @@ export const projectRouter = router({
       const project = await ctx.prisma.project.findUnique({
         where: { id: input.id },
         select: {
-          ...defaultBoxSelect,
+          ...defaultProjectSelect,
           ...{
             cycles: {
               select: {
@@ -72,6 +72,14 @@ export const projectRouter = router({
           },
         },
       });
+
+      if (user) {
+        await ctx.prisma.projectViews.upsert({
+          where: { userId_projectId: { projectId: input.id, userId: user.id } },
+          create: { viewedAt: new Date(), projectId: input.id, userId: user.id },
+          update: { viewedAt: new Date() },
+        });
+      }
 
       if (!project) throw new TRPCError({ code: 'NOT_FOUND' });
 
@@ -98,11 +106,47 @@ export const projectRouter = router({
 
       return { ...project, cycles: cyclesWithContributors };
     }),
+  fetchRecentlyViewed: publicProcedure.query(async ({ ctx }) => {
+    const user = getUserOrThrow(ctx);
+    const views = await ctx.prisma.projectViews.findMany({
+      where: boxWhereUserIsOwnerInput(user.id),
+      select: {
+        project: {
+          select: {
+            ...defaultProjectSelect,
+            ...{
+              cycles: {
+                select: {
+                  id: true,
+                  startDate: true,
+                  endDate: true,
+                  items: {
+                    select: {
+                      id: true,
+                      content: true,
+                      createdBy: true,
+                      itemReaction: { select: { reactionType: true } },
+                      createdAt: true,
+                    },
+                  },
+                  status: true,
+                },
+                orderBy: { createdAt: 'desc' },
+              },
+            },
+          },
+        },
+      },
+      orderBy: { viewedAt: 'desc' },
+      take: 5,
+    });
+    return views.map((view) => view.project);
+  }),
   fetchAll: publicProcedure.query(async ({ ctx }) => {
     const user = getUserOrThrow(ctx);
     const projects = await ctx.prisma.project.findMany({
       where: boxWhereUserIsOwnerInput(user.id),
-      select: defaultBoxSelect,
+      select: defaultProjectSelect,
       orderBy: { updatedAt: 'desc' },
     });
     return projects;
