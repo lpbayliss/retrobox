@@ -11,7 +11,7 @@ import {
 } from '@chakra-ui/react';
 import { trpc } from '@lib/trpc';
 import { useSession } from 'next-auth/react';
-import { useForm } from 'react-hook-form';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import { FormattedMessage, useIntl } from 'react-intl';
 
 export type ICreateItemFormInputs = {
