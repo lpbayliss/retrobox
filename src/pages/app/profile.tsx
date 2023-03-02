@@ -1,5 +1,7 @@
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import {
+  Alert,
+  AlertIcon,
   Box,
   Breadcrumb,
   BreadcrumbItem,
@@ -7,6 +9,7 @@ import {
   Button,
   Card,
   Heading,
+  Text,
   VStack,
 } from '@chakra-ui/react';
 import { PageSection } from '@components/page-section';
@@ -15,12 +18,13 @@ import { withDefaultServerSideProps } from '@lib/props';
 import { GetServerSideProps, NextPage } from 'next';
 import Head from 'next/head';
 import NextLink from 'next/link';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { FormattedMessage } from 'react-intl';
 
 export const getServerSideProps: GetServerSideProps = withDefaultServerSideProps({ secure: true });
 
 const ProfilePage: NextPage = () => {
+  const { data: sessionData } = useSession();
 
   const handleLogout = () => {
     signOut();
@@ -53,7 +57,15 @@ const ProfilePage: NextPage = () => {
           Your Profile
         </Heading>
       </Box>
-
+      <Alert status="info">
+        <AlertIcon />
+        <Text>
+          You&apos;ve signed in with the email{' '}
+          <Text as="span" textDecor="underline">
+            {sessionData?.user.email}
+          </Text>
+        </Text>
+      </Alert>
       <PageSection>
         <VStack alignItems="start">
           <Card w="full" p="4">

@@ -1,5 +1,7 @@
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import {
+  Alert,
+  AlertIcon,
   Badge,
   Box,
   Breadcrumb,
@@ -8,9 +10,11 @@ import {
   Button,
   Card,
   Center,
+  Collapse,
   Heading,
   HStack,
   ScaleFade,
+  Stack,
   Text,
   VStack,
 } from '@chakra-ui/react';
@@ -101,6 +105,24 @@ const ProjectPage: NextPage = () => {
           <Badge colorScheme="blue">Created by {project?.createdBy.name || 'Unknown'}</Badge>
         </HStack>
       </VStack>
+
+      <Collapse animateOpacity in={!sessionData?.user}>
+        <Stack py={4} spacing={4}>
+          <Alert status="info">
+            <AlertIcon />
+            <Text>
+              <Text as="span">
+                You can still add items to cycles while not logged in, but you will not be able to
+                vote on items during the review phase.{' '}
+              </Text>
+              <Text as="span" textDecor={'underline'}>
+                <NextLink href={'/'}>Click here</NextLink>
+              </Text>
+              <Text as="span"> If you want to log in.</Text>
+            </Text>
+          </Alert>
+        </Stack>
+      </Collapse>
 
       {project?.cycles.map((cycle, index) => (
         <ScaleFade key={cycle.id} delay={0.03 * index} in={true} initialScale={0.9}>

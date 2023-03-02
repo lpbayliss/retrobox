@@ -317,6 +317,7 @@ const CycleDisplay = ({
                         <Button
                           aria-label="like-item"
                           disabled={status !== CycleStatus.OPEN}
+                          isDisabled={!sessionData?.user}
                           leftIcon={<Icon icon={faThumbsUp} />}
                           onClick={handleItemReaction(item.id, Reaction.LIKE)}
                           size="xs"
@@ -329,6 +330,7 @@ const CycleDisplay = ({
                         <Button
                           aria-label="dislike-item"
                           disabled={status !== CycleStatus.OPEN}
+                          isDisabled={!sessionData?.user}
                           leftIcon={<Icon icon={faThumbsDown} />}
                           onClick={handleItemReaction(item.id, Reaction.DISLIKE)}
                           size="xs"

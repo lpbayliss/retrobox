@@ -52,6 +52,7 @@ model User {
   itemReactions   ItemReaction[] @relation(name: "itemReactionByUserId")
   itemComments    ItemComment[]  @relation(name: "itemCommentByUserId")
   cyclesCreated   Cycle[]        @relation(name: "cycleCreatedByUserId")
+  ProjectViews    ProjectViews[]
 }
 
 model VerificationToken {
@@ -74,6 +75,7 @@ model ItemReaction {
 
   userId String
   itemId String
+
   @@id([userId, itemId])
 }
 
@@ -85,6 +87,7 @@ model ItemComment {
 
   userId String
   itemId String
+
   @@id([userId, itemId])
 }
 
@@ -125,13 +128,24 @@ model Cycle {
 }
 
 model Project {
-  id        String   @id @default(cuid())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  createdBy User     @relation(name: "projectCreatedByUserId", fields: [userId], references: [id])
-  isPublic  Boolean
+  id           String         @id @default(cuid())
+  name         String
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  createdBy    User           @relation(name: "projectCreatedByUserId", fields: [userId], references: [id])
+  isPublic     Boolean
+  cycles       Cycle[]
+  ProjectViews ProjectViews[]
 
   userId String
-  cycles Cycle[]
+}
+
+model ProjectViews {
+  user      User     @relation(fields: [userId], references: [id])
+  project   Project  @relation(fields: [projectId], references: [id])
+  viewedAt  DateTime
+  userId    String
+  projectId String
+
+  @@unique([userId, projectId])
 }

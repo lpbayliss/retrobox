@@ -13,6 +13,7 @@ import {
   Spacer,
   Text,
   useDisclosure,
+  VStack,
 } from '@chakra-ui/react';
 import { CreateProjectForm } from '@components/create-project-form';
 import { faChevronRight } from '@fortawesome/pro-light-svg-icons';
@@ -32,6 +33,7 @@ const ProjectsPage: NextPage = () => {
   const createBoxEnabled = useFlag('create-box');
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { data: projects } = trpc.project.fetchAll.useQuery();
+  const { data: recentlyViewed } = trpc.project.fetchRecentlyViewed.useQuery();
 
   const [recentlyCreated, setRecentlyCreated] = useState<boolean>(false);
 
@@ -102,34 +104,91 @@ const ProjectsPage: NextPage = () => {
         </Collapse>
       </Box>
 
-      {/* Project List */}
-      {projects &&
-        projects.map((project, index) => (
-          <ScaleFade key={project.id} delay={0.03 * index} in={true} initialScale={0.9}>
-            <NextLink href={`/app/projects/${project.id}`}>
-              <Card
-                as="section"
+      <VStack alignItems="flex-start" gap="4" w="full">
+        {/* Recently Viewed Project List */}
+        {recentlyViewed && (
+          <>
+            <Heading as="h3" mb="2">
+              Recent Projects
+            </Heading>
+            {recentlyViewed.map((project, index) => (
+              <Box
+                key={project.id}
+                as={ScaleFade}
                 w="full"
-                mb="6"
-                px="6"
-                py="3"
-                // bg="rgba(255,255,255,0.5)"
-                // backdropFilter="blur(5px)"
-                borderWidth="2px"
-                borderStyle="solid"
-                borderColor={recentlyCreated && index === 0 ? 'blue.300' : 'transparent'}
-                transition="border"
-                transitionDuration="400ms"
+                delay={0.03 * index}
+                in={true}
+                initialScale={0.9}
               >
-                <HStack>
-                  <Heading size="lg">{project.name}</Heading>
-                  <Spacer />
-                  <Icon icon={faChevronRight} height="6" />
-                </HStack>
-              </Card>
-            </NextLink>
-          </ScaleFade>
-        ))}
+                <NextLink href={`/app/projects/${project.id}`}>
+                  <Card
+                    as="section"
+                    w="full"
+                    px="6"
+                    py="3"
+                    // bg="rgba(255,255,255,0.5)"
+                    // backdropFilter="blur(5px)"
+                    borderWidth="2px"
+                    borderStyle="solid"
+                    borderColor="transparent"
+                    transition="border"
+                    transitionDuration="400ms"
+                  >
+                    <HStack>
+                      <Heading size="lg">{project.name}</Heading>
+                      <Spacer />
+                      <Icon icon={faChevronRight} height="6" />
+                    </HStack>
+                  </Card>
+                </NextLink>
+              </Box>
+            ))}
+          </>
+        )}
+
+        {/* Project List */}
+        {projects && (
+          <>
+            <Heading as="h3" mb="2">
+              Your Projects
+            </Heading>
+            {projects.map((project, index) => (
+              <>
+                <Box
+                  key={project.id}
+                  as={ScaleFade}
+                  w="full"
+                  delay={0.03 * index}
+                  in={true}
+                  initialScale={0.9}
+                >
+                  <NextLink href={`/app/projects/${project.id}`}>
+                    <Card
+                      as="section"
+                      w="full"
+                      px="6"
+                      py="3"
+                      // bg="rgba(255,255,255,0.5)"
+                      // backdropFilter="blur(5px)"
+                      borderWidth="2px"
+                      borderStyle="solid"
+                      borderColor={recentlyCreated && index === 0 ? 'blue.300' : 'transparent'}
+                      transition="border"
+                      transitionDuration="400ms"
+                    >
+                      <HStack>
+                        <Heading size="lg">{project.name}</Heading>
+                        <Spacer />
+                        <Icon icon={faChevronRight} height="6" />
+                      </HStack>
+                    </Card>
+                  </NextLink>
+                </Box>
+              </>
+            ))}
+          </>
+        )}
+      </VStack>
 
       {/* No Projects Display */}
       {!projects && (
