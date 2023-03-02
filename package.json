@@ -48,6 +48,7 @@
     "next": "13.2.3",
     "next-auth": "4.19.2",
     "nodemailer": "6.9.1",
+    "openai": "^3.2.1",
     "pino": "8.11.0",
     "pino-pretty": "9.4.0",
     "pixi.js": "^7.1.0",

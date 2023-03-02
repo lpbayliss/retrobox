@@ -177,7 +177,29 @@ export const cycleRouter = router({
 
       if (!cycle.items) throw new TRPCError({ code: 'NOT_FOUND' });
 
-      return cycle.items;
+      const sentiments = await Promise.all(
+        cycle.items.map(async (item) => {
+          const response = await ctx.openai.createCompletion({
+            model: 'text-davinci-003',
+            prompt: `Classify the sentiment of the following retrospective item: ${item.content}`,
+            temperature: 0,
+            max_tokens: 60,
+            top_p: 1.0,
+            frequency_penalty: 0.0,
+            presence_penalty: 0.0,
+          });
+
+          if (response.data.choices[0].text?.toLowerCase().includes('positive')) return 'POSITIVE';
+          if (response.data.choices[0].text?.toLowerCase().includes('negative')) return 'NEGATIVE';
+          if (response.data.choices[0].text?.toLowerCase().includes('neutral')) return 'NEUTRAL';
+          return 'NEUTRAL';
+        }),
+      );
+
+      return cycle.items.map((item, index) => ({
+        ...item,
+        sentiment: sentiments[index],
+      }));
     }),
   fetchContributors: publicProcedure
     .input(

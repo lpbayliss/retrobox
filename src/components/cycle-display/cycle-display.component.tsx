@@ -2,6 +2,7 @@ import { HamburgerIcon } from '@chakra-ui/icons';
 import {
   Avatar,
   AvatarGroup,
+  Badge,
   Box,
   Button,
   Card,
@@ -41,6 +42,13 @@ import { CycleStatus, Reaction } from '@prisma/client';
 import { useFlag } from '@unleash/proxy-client-react';
 import { format } from 'date-fns';
 import { useSession } from 'next-auth/react';
+
+const getSentimentColor = (sentiment: 'POSITIVE' | 'NEGATIVE' | 'NEUTRAL') => {
+  if (sentiment === 'POSITIVE') return 'green';
+  if (sentiment === 'NEGATIVE') return 'red';
+  if (sentiment === 'NEUTRAL') return 'grey';
+  return 'grey';
+};
 
 const getStatusColor = (status: CycleStatus) => {
   if (status === CycleStatus.PENDING) return 'green';
@@ -341,6 +349,9 @@ const CycleDisplay = ({
                             ).length
                           }
                         </Button>
+                        <Badge colorScheme={getSentimentColor(item.sentiment)}>
+                          {item.sentiment}
+                        </Badge>
                       </HStack>
                       <HStack justifyContent="space-between" w="full">
                         {item.createdBy && (
