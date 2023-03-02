@@ -9,6 +9,7 @@ import {
   VStack,
 } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
+import { useSession } from 'next-auth/react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { trpc } from 'src/lib/trpc';
 
@@ -19,6 +20,7 @@ export type IUpdateProfileFormInputs = {
 type Props = {} & StackProps;
 
 const UpdateProfileForm = (props: Props) => {
+  const { data: sessionData } = useSession();
   const { reload } = useRouter();
   const updateUserMutation = trpc.user.update.useMutation({
     onSuccess() {
@@ -42,7 +44,7 @@ const UpdateProfileForm = (props: Props) => {
         <FormLabel>Name</FormLabel>
         <Input
           id="name"
-          placeholder="Your name"
+          placeholder={!!sessionData?.user.name ? sessionData.user.name : 'Your name'}
           variant="filled"
           {...register('name', {
             required: 'You must provide a name',
