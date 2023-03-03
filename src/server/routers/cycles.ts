@@ -108,12 +108,14 @@ export const cycleRouter = router({
 
       const itemsAsPoints = cycle.items.map((item, index) => `${index + 1}. ${item.content}`);
 
-      const prompt = 'Given the following items, provide a summary without referencing the "theme" or "items": ' + itemsAsPoints.reduce((acc, curr, index) => {
-        if (index === 0) {
-          return acc + curr;
-        }
-        return acc + '\n' + curr;
-      }, '');
+      const prompt =
+        'Given the following items, provide a summary from a first-person plural perspective without referencing the "theme" or "items": ' +
+        itemsAsPoints.reduce((acc, curr, index) => {
+          if (index === 0) {
+            return acc + curr;
+          }
+          return acc + '\n' + curr;
+        }, '');
 
       const response = await ctx.openai.createCompletion({
         model: 'text-davinci-003',
