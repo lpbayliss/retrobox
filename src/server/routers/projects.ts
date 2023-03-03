@@ -66,6 +66,7 @@ export const projectRouter = router({
                   },
                 },
                 status: true,
+                summary: true,
               },
               orderBy: { createdAt: 'desc' },
             },

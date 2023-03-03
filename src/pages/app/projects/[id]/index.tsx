@@ -134,6 +134,7 @@ const ProjectPage: NextPage = () => {
             startDate={cycle.startDate}
             endDate={cycle.endDate}
             status={cycle.status}
+            summary={cycle.summary}
             onCloseCycle={handleCloseCycle}
           />
         </ScaleFade>

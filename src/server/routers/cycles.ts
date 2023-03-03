@@ -87,7 +87,12 @@ export const cycleRouter = router({
         where: {
           id: input.id,
         },
-        select: { isPublic: true, status: true, createdBy: true },
+        select: {
+          isPublic: true,
+          status: true,
+          createdBy: true,
+          items: { select: { content: true } },
+        },
       });
 
       if (!cycle) throw new TRPCError({ code: 'NOT_FOUND' });
@@ -101,9 +106,30 @@ export const cycleRouter = router({
           message: 'A cycle must be open before it can be closed',
         });
 
+      const itemsAsPoints = cycle.items.map((item, index) => `${index + 1}. ${item.content}`);
+
+      const prompt = 'Given the following items, provide a summary without referencing the "theme" or "items": ' + itemsAsPoints.reduce((acc, curr, index) => {
+        if (index === 0) {
+          return acc + curr;
+        }
+        return acc + '\n' + curr;
+      }, '');
+
+      const response = await ctx.openai.createCompletion({
+        model: 'text-davinci-003',
+        prompt: prompt,
+        temperature: 0,
+        max_tokens: 60,
+        top_p: 1.0,
+        frequency_penalty: 0.0,
+        presence_penalty: 0.0,
+      });
+
+      const openaiResponse = response.data.choices[0].text || 'This cycle could not be summarized'
+
       await ctx.prisma.cycle.update({
         where: { id: input.id },
-        data: { status: CycleStatus.CLOSED, endDate: new Date() },
+        data: { status: CycleStatus.CLOSED, endDate: new Date(), summary: openaiResponse.replace(/\n/g, '') },
       });
 
       return true;
@@ -136,7 +162,7 @@ export const cycleRouter = router({
 
       const response = await ctx.openai.createCompletion({
         model: 'text-davinci-003',
-        prompt: `Based on the following retrospective item, infer a sentiment as either "POSITIVE", "NEGATIVE", or "NEUTRAL" where the response is a JSON object with a "sentiment" property: ${input.content}`,
+        prompt: `Based on the following retrospective item, infer a sentiment as either "POSITIVE", "NEGATIVE", or "NEUTRAL": ${input.content}`,
         temperature: 0,
         max_tokens: 60,
         top_p: 1.0,
@@ -144,17 +170,19 @@ export const cycleRouter = router({
         presence_penalty: 0.0,
       });
 
-      const openaiText = response.data.choices[0].text?.replace('\n\n', '');
-      const openaiJSON = openaiText
-        ? (JSON.parse(openaiText) as { sentiment: Sentiment })
-        : { sentiment: Sentiment.NEUTRAL };
+      const openaiResponse = response.data.choices[0].text?.toUpperCase();
+      let sentiment;
+      if (openaiResponse?.includes(Sentiment.NEGATIVE)) sentiment = Sentiment.NEGATIVE;
+      else if (openaiResponse?.includes(Sentiment.NEGATIVE)) sentiment = Sentiment.POSITIVE;
+      else if (openaiResponse?.includes(Sentiment.NEUTRAL)) sentiment = Sentiment.NEUTRAL;
+      else sentiment = Sentiment.NEUTRAL;
 
       await ctx.prisma.item.create({
         data: {
           content: input.content,
           ...(!input.isAnonymous && !!user && { createdBy: { connect: { id: user.id } } }),
           cycle: { connect: { id: input.id } },
-          sentiment: openaiJSON.sentiment,
+          sentiment: sentiment,
         },
       });
 

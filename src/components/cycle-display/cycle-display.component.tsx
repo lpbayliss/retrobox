@@ -177,7 +177,8 @@ interface CycleDisplayProps {
   cycleId: string;
   startDate: Date;
   endDate: Date | null;
-  status: CycleStatus;
+  status?: string;
+  summary?: string;
   onRevealCycle?: () => any;
   onCloseCycle?: () => any;
 }
@@ -191,6 +192,7 @@ const CycleDisplay = ({
   startDate,
   endDate,
   status,
+  summary,
 }: CycleDisplayProps) => {
   const { data: sessionData } = useSession();
   const createItemEnabled = useFlag('create-item');
@@ -295,6 +297,16 @@ const CycleDisplay = ({
         </HStack>
 
         <Box as={Collapse} w="full" animateOpacity in={isOpen}>
+          {/* Summary Card */}
+          {status === CycleStatus.CLOSED && (
+            <Card w="full" mt={4} p="4" shadow="none" variant="outline">
+              <Heading as="h3" mb="2" size="sm">
+                Summary
+              </Heading>
+              <Text>{summary}</Text>
+            </Card>
+          )}
+
           {/* Add Item Form */}
           {status !== CycleStatus.CLOSED && createItemEnabled && (
             <Card w="full" mt={4} p="4" shadow="none" variant="outline">

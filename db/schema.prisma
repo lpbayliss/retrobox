@@ -129,6 +129,7 @@ model Cycle {
   items     Item[]
   isPublic  Boolean
   status    CycleStatus @default(PENDING)
+  summary   String      @default("")
 
   userId    String
   projectId String
