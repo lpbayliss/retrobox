@@ -1,5 +1,5 @@
 import { getUserOrThrow } from '@lib/prisma';
-import { CycleStatus } from '@prisma/client';
+import { CycleStatus, Sentiment } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
@@ -134,11 +134,27 @@ export const cycleRouter = router({
       if (cycle.status === CycleStatus.CLOSED)
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'Cannot add items to a closed cycle' });
 
+      const response = await ctx.openai.createCompletion({
+        model: 'text-davinci-003',
+        prompt: `Based on the following retrospective item, infer a sentiment as either "POSITIVE", "NEGATIVE", or "NEUTRAL" where the response is a JSON object with a "sentiment" property: ${input.content}`,
+        temperature: 0,
+        max_tokens: 60,
+        top_p: 1.0,
+        frequency_penalty: 0.0,
+        presence_penalty: 0.0,
+      });
+
+      const openaiText = response.data.choices[0].text?.replace('\n\n', '');
+      const openaiJSON = openaiText
+        ? (JSON.parse(openaiText) as { sentiment: Sentiment })
+        : { sentiment: Sentiment.NEUTRAL };
+
       await ctx.prisma.item.create({
         data: {
           content: input.content,
           ...(!input.isAnonymous && !!user && { createdBy: { connect: { id: user.id } } }),
           cycle: { connect: { id: input.id } },
+          sentiment: openaiJSON.sentiment,
         },
       });
 
@@ -165,6 +181,7 @@ export const cycleRouter = router({
               createdBy: true,
               itemReaction: { select: { reactionType: true } },
               createdAt: true,
+              sentiment: true,
             },
           },
         },
@@ -177,29 +194,7 @@ export const cycleRouter = router({
 
       if (!cycle.items) throw new TRPCError({ code: 'NOT_FOUND' });
 
-      const sentiments = await Promise.all(
-        cycle.items.map(async (item) => {
-          const response = await ctx.openai.createCompletion({
-            model: 'text-davinci-003',
-            prompt: `Classify the sentiment of the following retrospective item: ${item.content}`,
-            temperature: 0,
-            max_tokens: 60,
-            top_p: 1.0,
-            frequency_penalty: 0.0,
-            presence_penalty: 0.0,
-          });
-
-          if (response.data.choices[0].text?.toLowerCase().includes('positive')) return 'POSITIVE';
-          if (response.data.choices[0].text?.toLowerCase().includes('negative')) return 'NEGATIVE';
-          if (response.data.choices[0].text?.toLowerCase().includes('neutral')) return 'NEUTRAL';
-          return 'NEUTRAL';
-        }),
-      );
-
-      return cycle.items.map((item, index) => ({
-        ...item,
-        sentiment: sentiments[index],
-      }));
+      return cycle.items;
     }),
   fetchContributors: publicProcedure
     .input(

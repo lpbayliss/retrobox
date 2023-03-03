@@ -91,6 +91,12 @@ model ItemComment {
   @@id([userId, itemId])
 }
 
+enum Sentiment {
+  POSITIVE
+  NEGATIVE
+  NEUTRAL
+}
+
 model Item {
   id           String         @id @default(cuid())
   createdAt    DateTime       @default(now())
@@ -100,6 +106,7 @@ model Item {
   comments     ItemComment[]
   itemReaction ItemReaction[]
   cycle        Cycle?         @relation(fields: [cycleId], references: [id])
+  sentiment    Sentiment      @default(NEUTRAL)
 
   userId  String?
   cycleId String?
