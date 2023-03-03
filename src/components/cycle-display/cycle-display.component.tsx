@@ -177,7 +177,7 @@ interface CycleDisplayProps {
   cycleId: string;
   startDate: Date;
   endDate: Date | null;
-  status?: string;
+  status: CycleStatus;
   summary?: string;
   onRevealCycle?: () => any;
   onCloseCycle?: () => any;
@@ -298,7 +298,7 @@ const CycleDisplay = ({
 
         <Box as={Collapse} w="full" animateOpacity in={isOpen}>
           {/* Summary Card */}
-          {status === CycleStatus.CLOSED && (
+          {status === CycleStatus.CLOSED && !!summary && (
             <Card w="full" mt={4} p="4" shadow="none" variant="outline">
               <Heading as="h3" mb="2" size="sm">
                 Summary
