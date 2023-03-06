@@ -54,7 +54,7 @@
     "pixi.js": "^7.1.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-hook-form": "7.43.4",
+    "react-hook-form": "7.43.5",
     "react-intl": "6.2.10",
     "simplex-noise": "^4.0.1",
     "superjson": "1.12.2",
