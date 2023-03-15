@@ -2,6 +2,7 @@ import * as trpc from '@trpc/server';
 import * as trpcNext from '@trpc/server/adapters/next';
 import { getSession } from 'next-auth/react';
 
+import { bullmq } from '../lib/bullmq';
 import logger from '../lib/logger';
 import { openai } from '../lib/openapi';
 import { prisma } from '../lib/prisma';
@@ -20,6 +21,7 @@ export const createContext = async ({ req, res }: trpcNext.CreateNextContextOpti
     session,
     log,
     openai,
+    bullmq,
   };
 };
 

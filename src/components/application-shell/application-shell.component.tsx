@@ -16,7 +16,7 @@ import {
 import { SignInForm } from '@components/sign-in-form';
 import { PropsWithChildren, useState } from 'react';
 
-const ApplicationShell = ({ children, withLava }: PropsWithChildren<{ withLava?: boolean }>) => {
+const ApplicationShell = ({ children }: PropsWithChildren<{}>) => {
   // const { data } = useSession();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
