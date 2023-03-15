@@ -44,7 +44,6 @@ const ApplicationShell = ({ children }: PropsWithChildren<{}>) => {
       <Flex
         as="main"
         direction="column"
-        overflow="auto"
         w="full"
         h="full"
         p={['4', null, '8']}
