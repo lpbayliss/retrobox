@@ -1,5 +1,5 @@
 import { getUserOrThrow } from '@lib/prisma';
-import { CycleStatus, Sentiment } from '@prisma/client';
+import { CycleStatus } from '@prisma/client';
 import { TRPCError } from '@trpc/server';
 import { z } from 'zod';
 
@@ -127,11 +127,15 @@ export const cycleRouter = router({
         presence_penalty: 0.0,
       });
 
-      const openaiResponse = response.data.choices[0].text || 'This cycle could not be summarized'
+      const openaiResponse = response.data.choices[0].text || 'This cycle could not be summarized';
 
       await ctx.prisma.cycle.update({
         where: { id: input.id },
-        data: { status: CycleStatus.CLOSED, endDate: new Date(), summary: openaiResponse.replace(/\n/g, '') },
+        data: {
+          status: CycleStatus.CLOSED,
+          endDate: new Date(),
+          summary: openaiResponse.replace(/\n/g, ''),
+        },
       });
 
       return true;
@@ -162,31 +166,20 @@ export const cycleRouter = router({
       if (cycle.status === CycleStatus.CLOSED)
         throw new TRPCError({ code: 'BAD_REQUEST', message: 'Cannot add items to a closed cycle' });
 
-      const response = await ctx.openai.createCompletion({
-        model: 'text-davinci-003',
-        prompt: `Based on the following retrospective item, infer a sentiment as either "POSITIVE", "NEGATIVE", or "NEUTRAL": ${input.content}`,
-        temperature: 0,
-        max_tokens: 60,
-        top_p: 1.0,
-        frequency_penalty: 0.0,
-        presence_penalty: 0.0,
-      });
-
-      const openaiResponse = response.data.choices[0].text?.toUpperCase();
-      let sentiment;
-      if (openaiResponse?.includes(Sentiment.NEGATIVE)) sentiment = Sentiment.NEGATIVE;
-      else if (openaiResponse?.includes(Sentiment.NEGATIVE)) sentiment = Sentiment.POSITIVE;
-      else if (openaiResponse?.includes(Sentiment.NEUTRAL)) sentiment = Sentiment.NEUTRAL;
-      else sentiment = Sentiment.NEUTRAL;
-
-      await ctx.prisma.item.create({
+      const item = await ctx.prisma.item.create({
         data: {
           content: input.content,
           ...(!input.isAnonymous && !!user && { createdBy: { connect: { id: user.id } } }),
           cycle: { connect: { id: input.id } },
-          sentiment: sentiment,
+          // sentiment: sentiment,
+        },
+        select: {
+          id: true,
+          content: true,
         },
       });
+
+      ctx.bullmq.itemGPTSentiment.add(`item-${item.id}`, item);
 
       return true;
     }),
