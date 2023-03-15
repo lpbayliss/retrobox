@@ -4501,26 +4501,26 @@
   integrity sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==
 
 "@trpc/client@^10.7.0":
-  version "10.7.0"
-  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.7.0.tgz#73793dfdfd1a0b8d0484c69bfc558dfd28843fe6"
-  integrity sha512-xCPc2hp37REJst6TXMkJvdc85CHvxpVY6YVdZIjl7uCYoQcrstwy8AWi7ElB3x7e19Cweke+9CAaUXKwAE1AKQ==
+  version "10.16.0"
+  resolved "https://registry.yarnpkg.com/@trpc/client/-/client-10.16.0.tgz#665fc51f849808090ed21b3467190b0d1e7089d9"
+  integrity sha512-Hxxi3mOcUyszosj6xpPDIIBV1TOhXKpZ191BW/60r1lXBAfNrDUWHOTol1Dfu+hpcx4bpj3WRyob5cf+6KeCDA==
 
 "@trpc/next@^10.7.0":
-  version "10.7.0"
-  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-10.7.0.tgz#33ec7d134f9d3093e59cba1170dcb75bc9b914c0"
-  integrity sha512-ZLY4J9IgEHN2op0UM14NCwCDyodRUw8Pmxgnpr62+UMIhDll6uggb2an8Op87l9EeYdKhKe2VavDWphI8vFGgw==
+  version "10.16.0"
+  resolved "https://registry.yarnpkg.com/@trpc/next/-/next-10.16.0.tgz#d02d2fb863ed8c2e2124d27d5e5072cd154298dc"
+  integrity sha512-2AohDydvvLk2IjnQ1hTnT8cVmLItYf6cFRwJVYnyi35y2DVKXLiIWuKSTzc9xzR5enYFUQJZivXaWx/i0jjcfQ==
   dependencies:
     react-ssr-prepass "^1.5.0"
 
 "@trpc/react-query@^10.7.0":
-  version "10.7.0"
-  resolved "https://registry.yarnpkg.com/@trpc/react-query/-/react-query-10.7.0.tgz#37cd9a3ab5db0e9bcf012cfec3669ce0ecc055e1"
-  integrity sha512-dSSmYid6NWocU32QMsH6qWEqnW4mbp7hX01hxsBfAA2mGYD8b4Kgc9ripw4MpPNbsJElJFyWDHfb/UHnhywWbA==
+  version "10.16.0"
+  resolved "https://registry.yarnpkg.com/@trpc/react-query/-/react-query-10.16.0.tgz#16056e30ede349b8fb3063ee3c7bd7565ff2b96a"
+  integrity sha512-LHLkyYgmmmaqMK33Hil7+DxCRG+8cRl2hF/rY8DQneh7e/u4cBA/wbun5vs8BAJxmYcHsQNPlq5aBy80CyU78g==
 
 "@trpc/server@^10.7.0":
-  version "10.7.0"
-  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-10.7.0.tgz#97c451cb5963c70fba68f4813c56111331baec3c"
-  integrity sha512-kFhlqhzZt5PwVRRDci8oJKMMFGjjq9189stT6bvS9xuuLjRzzwhMShRi99sm/jqhdjWmlXyO3Ncx0rnghUvH+w==
+  version "10.16.0"
+  resolved "https://registry.yarnpkg.com/@trpc/server/-/server-10.16.0.tgz#eda8f443852c6fb3791294ac936e49659346b221"
+  integrity sha512-lCUq7AB7vcgrNbaN+xP/AN62OjKDgrRyG7fTDPv5K633ut7KJ3m57qs60VRBOgp9vow6elAg51pKFFDtPHbTRA==
 
 "@types/aria-query@^4.2.0":
   version "4.2.2"
@@ -4533,12 +4533,12 @@
   integrity sha512-XTIieEY+gvJ39ChLcB4If5zHtPxt3Syj5rgZR+e1ctpmK8NjPf0zFqsz4JpLJT0xla9GFDKjy8Cpu331nrmE1Q==
 
 "@types/babel__core@^7.1.14":
-  version "7.1.19"
-  resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.1.19.tgz#7b497495b7d1b4812bdb9d02804d0576f43ee460"
-  integrity sha512-WEOTgRsbYkvA/KCsDwVEGkd7WAr1e3g31VHQ8zy5gul/V1qKullU/BU5I68X5v7V3GnB9eotmom4v5a5gjxorw==
+  version "7.20.0"
+  resolved "https://registry.yarnpkg.com/@types/babel__core/-/babel__core-7.20.0.tgz#61bc5a4cae505ce98e1e36c5445e4bee060d8891"
+  integrity sha512-+n8dL/9GWblDO0iU6eZAwEIJVr5DWigtle+Q6HLOrh/pdbXOhOtqzq8VPPE2zvNJzSKY4vH/z3iT3tn0A3ypiQ==
   dependencies:
-    "@babel/parser" "^7.1.0"
-    "@babel/types" "^7.0.0"
+    "@babel/parser" "^7.20.7"
+    "@babel/types" "^7.20.7"
     "@types/babel__generator" "*"
     "@types/babel__template" "*"
     "@types/babel__traverse" "*"
