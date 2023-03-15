@@ -1,4 +1,3 @@
-import { HamburgerIcon } from '@chakra-ui/icons';
 import {
   Avatar,
   AvatarGroup,
@@ -12,10 +11,6 @@ import {
   Heading,
   HStack,
   IconButton,
-  Menu,
-  MenuButton,
-  MenuItemOption,
-  MenuList,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -91,46 +86,6 @@ const CycleTitle = ({ start, end = null, status, onClick }: CycleTitleProps) => 
   );
 };
 
-interface CycleMenuProps {
-  status: CycleStatus;
-  onReview?: () => any;
-  onClose?: () => any;
-  onRename?: () => any;
-}
-
-const CycleMenu = ({ status, onClose, onReview, onRename }: CycleMenuProps) => {
-  const handleOnReview = () => {
-    if (onReview) onReview();
-  };
-
-  const handleOnClose = () => {
-    if (onClose) onClose();
-  };
-
-  const handleOnRename = () => {
-    if (onRename) onRename();
-  };
-
-  return (
-    <Menu>
-      <MenuButton as={IconButton} aria-label="Options" icon={<HamburgerIcon />} variant="ghost" />
-      <MenuList>
-        {status === CycleStatus.PENDING && (
-          <MenuItemOption disabled={status !== CycleStatus.PENDING} onClick={handleOnReview}>
-            Review
-          </MenuItemOption>
-        )}
-        {status === CycleStatus.OPEN && (
-          <MenuItemOption disabled={status !== CycleStatus.OPEN} onClick={handleOnClose}>
-            Close
-          </MenuItemOption>
-        )}
-        {/* <MenuItemOption>Rename</MenuItemOption> */}
-      </MenuList>
-    </Menu>
-  );
-};
-
 interface CycleOverlayProps {
   display: boolean;
   id: string;
@@ -172,6 +127,7 @@ const CycleOverlay = ({ display, id, contributors, onReveal }: CycleOverlayProps
 };
 
 interface CycleDisplayProps {
+  openByDefault?: boolean;
   projectId: string;
   highlight: boolean;
   cycleId: string;
@@ -184,6 +140,7 @@ interface CycleDisplayProps {
 }
 
 const CycleDisplay = ({
+  openByDefault = false,
   projectId,
   cycleId,
   highlight,
@@ -196,13 +153,13 @@ const CycleDisplay = ({
 }: CycleDisplayProps) => {
   const { data: sessionData } = useSession();
   const createItemEnabled = useFlag('create-item');
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure({ isOpen: openByDefault });
   const closeCycleDisclosure = useDisclosure();
   const trpcContext = trpc.useContext();
 
   const { data: items, refetch: fetchItems } = trpc.cycle.fetchItems.useQuery(
     { id: cycleId },
-    { enabled: false },
+    { enabled: openByDefault },
   );
   const { data: contributors, refetch: fetchContributors } = trpc.cycle.fetchContributors.useQuery(
     { id: cycleId },

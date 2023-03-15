@@ -127,6 +127,7 @@ const ProjectPage: NextPage = () => {
       {project?.cycles.map((cycle, index) => (
         <ScaleFade key={cycle.id} delay={0.03 * index} in={true} initialScale={0.9}>
           <CycleDisplay
+            openByDefault={index === 0}
             key={cycle.id}
             projectId={project.id}
             highlight={recentlyCreated && index === 0}

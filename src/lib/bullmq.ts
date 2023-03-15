@@ -1,19 +1,18 @@
 import { Sentiment } from '@prisma/client';
 import { Job, Queue, Worker } from 'bullmq';
+import IORedis from 'ioredis';
 
 import { default as logger } from './logger';
 import { openai } from './openapi';
 import { prisma } from './prisma';
 
-const connection = {
-  host: process.env.REDIS_HOST || 'localhost',
-};
+const connection = new IORedis(`${process.env.REDIS_HOST}:${6379}`);
 
 const createBullMQ = () => {
   logger.debug('BullMQ Init');
 
   // Queues
-  const itemGPTSentiment = new Queue('item-gpt-sentiment', { connection: {} });
+  const itemGPTSentiment = new Queue('item-gpt-sentiment', { connection });
   const itemGPTSummary = new Queue('item-gpt-summary', { connection });
 
   // Workers
