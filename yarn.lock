@@ -2561,24 +2561,24 @@
     intl-messageformat "10.3.3"
     tslib "^2.4.0"
 
-"@fortawesome/fontawesome-common-types@6.3.0":
-  version "6.3.0"
-  resolved "https://npm.fontawesome.com/@fortawesome/fontawesome-common-types/-/6.3.0/fontawesome-common-types-6.3.0.tgz#51f734e64511dbc3674cd347044d02f4dd26e86b"
-  integrity sha512-4BC1NMoacEBzSXRwKjZ/X/gmnbp/HU5Qqat7E8xqorUtBFZS+bwfGH5/wqOC2K6GV0rgEobp3OjGRMa5fK9pFg==
+"@fortawesome/fontawesome-common-types@6.4.0":
+  version "6.4.0"
+  resolved "https://npm.fontawesome.com/@fortawesome/fontawesome-common-types/-/6.4.0/fontawesome-common-types-6.4.0.tgz#88da2b70d6ca18aaa6ed3687832e11f39e80624b"
+  integrity sha512-HNii132xfomg5QVZw0HwXXpN22s7VBHQBv9CeOu9tfJnhsWQNd2lmTNi8CSrnw5B+5YOmzu1UoPAyxaXsJ6RgQ==
 
-"@fortawesome/fontawesome-svg-core@6.3.0":
-  version "6.3.0"
-  resolved "https://npm.fontawesome.com/@fortawesome/fontawesome-svg-core/-/6.3.0/fontawesome-svg-core-6.3.0.tgz#b6a17d48d231ac1fad93e43fca7271676bf316cf"
-  integrity sha512-uz9YifyKlixV6AcKlOX8WNdtF7l6nakGyLYxYaCa823bEBqyj/U2ssqtctO38itNEwXb8/lMzjdoJ+aaJuOdrw==
+"@fortawesome/fontawesome-svg-core@6.4.0":
+  version "6.4.0"
+  resolved "https://npm.fontawesome.com/@fortawesome/fontawesome-svg-core/-/6.4.0/fontawesome-svg-core-6.4.0.tgz#3727552eff9179506e9203d72feb5b1063c11a21"
+  integrity sha512-Bertv8xOiVELz5raB2FlXDPKt+m94MQ3JgDfsVbrqNpLU9+UE2E18GKjLKw+d3XbeYPqg1pzyQKGsrzbw+pPaw==
   dependencies:
-    "@fortawesome/fontawesome-common-types" "6.3.0"
+    "@fortawesome/fontawesome-common-types" "6.4.0"
 
-"@fortawesome/pro-light-svg-icons@6.3.0":
-  version "6.3.0"
-  resolved "https://npm.fontawesome.com/@fortawesome/pro-light-svg-icons/-/6.3.0/pro-light-svg-icons-6.3.0.tgz#86901f1e9f419cd14a46edc762baf8f56044f2c6"
-  integrity sha512-hNvvz3aAzDdzvEvL5lNKNIG2Yv/iPy6+g0oL/Y54Qhu+Ba+yi1BGfzRv54F6JwCWgglZeJ9WjN4Bhr8cLxp+hQ==
+"@fortawesome/pro-light-svg-icons@6.4.0":
+  version "6.4.0"
+  resolved "https://npm.fontawesome.com/@fortawesome/pro-light-svg-icons/-/6.4.0/pro-light-svg-icons-6.4.0.tgz#5971cdf9d234b69f3ba7f4c46e493a1c14bb3230"
+  integrity sha512-LAK1nUBWhXz8wrNBP+GwpZPqDSHfj7Xp9hhKqhF0Gd2lYtjgl67IvQSf1Vv1o75LK+odq6rkt6RfzBv0quwH/g==
   dependencies:
-    "@fortawesome/fontawesome-common-types" "6.3.0"
+    "@fortawesome/fontawesome-common-types" "6.4.0"
 
 "@fortawesome/react-fontawesome@0.2.0":
   version "0.2.0"
