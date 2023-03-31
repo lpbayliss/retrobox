@@ -52,7 +52,7 @@
     "pino-pretty": "10.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-hook-form": "7.43.8",
+    "react-hook-form": "7.43.9",
     "react-intl": "6.3.2",
     "superjson": "1.12.2",
     "unleash-proxy-client": "2.4.3",
