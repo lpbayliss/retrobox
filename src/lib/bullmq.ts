@@ -6,7 +6,7 @@ import { default as logger } from './logger';
 import { openai } from './openapi';
 import { prisma } from './prisma';
 
-const connection = new IORedis(String(process.env.REDIS_HOST));
+const connection = new IORedis(String(process.env.REDIS_HOST), { family: 6 });
 
 const createBullMQ = () => {
   logger.debug('BullMQ Init');
