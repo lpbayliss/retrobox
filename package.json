@@ -86,7 +86,7 @@
     "eslint-config-next": "13.3.0",
     "eslint-config-prettier": "8.8.0",
     "eslint-import-resolver-typescript": "3.5.5",
-    "eslint-plugin-chakra-ui": "0.7.5",
+    "eslint-plugin-chakra-ui": "0.8.0",
     "eslint-plugin-import": "2.27.5",
     "eslint-plugin-simple-import-sort": "10.0.0",
     "eslint-plugin-storybook": "0.6.11",
