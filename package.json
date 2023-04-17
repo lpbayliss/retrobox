@@ -53,7 +53,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "7.43.9",
-    "react-intl": "6.3.2",
+    "react-intl": "6.4.0",
     "superjson": "1.12.2",
     "unleash-proxy-client": "2.4.3",
     "unleash-server": "4.22.5",
