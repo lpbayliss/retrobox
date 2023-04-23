@@ -96,7 +96,7 @@
     "jest-environment-jsdom": "29.5.0",
     "lint-staged": "13.2.1",
     "playwright": "1.32.3",
-    "prettier": "2.8.7",
+    "prettier": "2.8.8",
     "prisma": "4.13.0",
     "storybook-react-intl": "2.0.1",
     "typescript": "5.0.4"
