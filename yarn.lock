@@ -5235,10 +5235,10 @@
     swagger-parser "^10.0.3"
     swagger-ui-dist "^4.10.3"
 
-"@unleash/proxy-client-react@3.5.2":
-  version "3.5.2"
-  resolved "https://registry.yarnpkg.com/@unleash/proxy-client-react/-/proxy-client-react-3.5.2.tgz#32a0218a5187995b93d300543519633f2043c779"
-  integrity sha512-5Y3sfZadCPmJ3xaXrcIlrYeVVYzz7JQF8zDu9x46Ea2uBM7A5lVpYfdoIVkTnuK6xFoPxyByUGHhSNuH24x1bA==
+"@unleash/proxy-client-react@3.6.0":
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/@unleash/proxy-client-react/-/proxy-client-react-3.6.0.tgz#50e56abf6e1e2a02b53f17787b96462258b55901"
+  integrity sha512-maQ3PYdBWUpIraD9z/2C8oVoCAS/EryV0WT4HiZQWxzrwvrZ+XHQJw1sImzRdWlGMvl1qJcgdEoxXhNSuYIrEQ==
 
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
