@@ -15639,10 +15639,10 @@ unleash-proxy-client@2.5.0:
     tiny-emitter "^2.1.0"
     uuid "^8.3.2"
 
-unleash-server@5.0.5:
-  version "5.0.5"
-  resolved "https://registry.yarnpkg.com/unleash-server/-/unleash-server-5.0.5.tgz#286b4ab125b6be2bd7add5f0961968f4a9f66f79"
-  integrity sha512-2CVN+a1LiGJgPnreftd5zRuNXkrK/200bXqpwKytTgyxUv3gX4aIp/NocHqLMtsZY33yXJR4nIsKwgCOSDp9nA==
+unleash-server@5.0.6:
+  version "5.0.6"
+  resolved "https://registry.yarnpkg.com/unleash-server/-/unleash-server-5.0.6.tgz#310d65ac5b18d8cd1f041b697d9c2272217b36d2"
+  integrity sha512-b24z6ojN3K5LAtNs8y4CIidpUOVjwNW5t0B8/ke+aWlrGu7SXmIlP8AdJ6FelvbFDjfV55yGYyIZkommVfhMpA==
   dependencies:
     "@unleash/express-openapi" "^0.2.2"
     ajv "^8.11.0"
