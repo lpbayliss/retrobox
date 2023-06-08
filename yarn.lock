@@ -9883,7 +9883,7 @@ http-cache-semantics@^4.0.0, http-cache-semantics@^4.1.0:
   resolved "https://registry.yarnpkg.com/http-cache-semantics/-/http-cache-semantics-4.1.0.tgz#49e91c5cbf36c9b94bcfcd71c23d5249ec74e390"
   integrity sha512-carPklcUh7ROWRK7Cv27RPtdhYhUsela/ue5/jKzjegVvXDqM2ILE9Q2BGn9JZJh1g87cp56su/FgQSzcWS8cQ==
 
-http-errors@2.0.0:
+http-errors@2.0.0, http-errors@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/http-errors/-/http-errors-2.0.0.tgz#b7774a1486ef73cf7667ac9ae0858c012c57b9d3"
   integrity sha512-FtwrG/euBzaEjYeRqOgly7G0qviiXoJWnvEH2Z1plBdXgbyjv34pHTSb9zoeHMyDy33+DWy5Wt9Wo+TURtOYSQ==
@@ -15669,10 +15669,10 @@ unleash-proxy-client@2.5.0:
     tiny-emitter "^2.1.0"
     uuid "^8.3.2"
 
-unleash-server@5.1.6:
-  version "5.1.6"
-  resolved "https://registry.yarnpkg.com/unleash-server/-/unleash-server-5.1.6.tgz#bffed370f470f9f385db3784972510156369f1b0"
-  integrity sha512-UIcrQUr1ujSxTOvaZrlZ9Ht+gVpO5bAzylqXNFf1YzN9oV1iftZUVbSi5/bQeEvZ0Gub8UfQGtgHTCHIGdDiuA==
+unleash-server@5.1.7:
+  version "5.1.7"
+  resolved "https://registry.yarnpkg.com/unleash-server/-/unleash-server-5.1.7.tgz#85d7e8bdbfdeea9774c9e18c2d01d456ab7e6a08"
+  integrity sha512-r19gtTBwSIbuvNxyzGvaAkwrUW+W1U2FSYODGHlWVmBEuxE8lhrzENz+AQ8VxFdzmN9IbFZQJi9B3bR13mtyQQ==
   dependencies:
     "@unleash/express-openapi" "^0.3.0"
     ajv "^8.11.0"
@@ -15698,6 +15698,7 @@ unleash-server@5.1.6:
     gravatar-url "^3.1.0"
     hash-sum "^2.0.0"
     helmet "^6.0.0"
+    http-errors "^2.0.0"
     ip "^1.1.8"
     joi "^17.3.0"
     js-sha256 "^0.9.0"
