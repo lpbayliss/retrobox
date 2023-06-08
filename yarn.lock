@@ -6689,9 +6689,9 @@ builtin-status-codes@^3.0.0:
   integrity sha512-HpGFw18DgFWlncDfjTa2rcQ4W88O1mC8e8yZ2AvQY5KDaktSTwo+KRf6nHK6FRI5FyRyb/5T6+TSxfP7QyGsmQ==
 
 bullmq@^3.10.1:
-  version "3.15.2"
-  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-3.15.2.tgz#ced4176da27c3fba499c6c034ec8b432964b82e8"
-  integrity sha512-E2euGVL0UG4L7yL8aIUWhVoXX/5lqznAi1/vTbIL6BJJy9fjqLIcIDZgbTnCjpqkbqdY4xJWyQ2KqsHkXVIedA==
+  version "3.15.4"
+  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-3.15.4.tgz#0e05f07d828e412e094cf79a190562ea1204231e"
+  integrity sha512-jig63/PWODJEsAuswiCVUHaDWMv5fGpU36SjI0watAdXZMmy9K/iMKQAfPXmfZeK98bY/+co/efaDWVh3eVImw==
   dependencies:
     cron-parser "^4.6.0"
     glob "^8.0.3"
@@ -12219,9 +12219,9 @@ msgpackr-extract@^3.0.2:
     "@msgpackr-extract/msgpackr-extract-win32-x64" "3.0.2"
 
 msgpackr@^1.6.2:
-  version "1.9.4"
-  resolved "https://registry.yarnpkg.com/msgpackr/-/msgpackr-1.9.4.tgz#039ef7c46efb6bc17612a1819ae7386b2861c321"
-  integrity sha512-MihliU9Wgi5rVHmXYjXeB969jDBogwMVUn9CjrL8T2Na5+n5gsTJVGdeUHBplNtqEqgnm/nFnQYK8Bdzry5ahQ==
+  version "1.9.5"
+  resolved "https://registry.yarnpkg.com/msgpackr/-/msgpackr-1.9.5.tgz#ac548c5f4546db895e84e46d39d813be961dc527"
+  integrity sha512-/IJ3cFSN6Ci3eG2wLhbFEL6GT63yEaoN/R5My2QkV6zro+OJaVRLPlwvxY7EtHYSmDlQpk8stvOQTL2qJFkDRg==
   optionalDependencies:
     msgpackr-extract "^3.0.2"
 
