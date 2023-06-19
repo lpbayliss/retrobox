@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@chakra-ui/icons": "2.0.19",
-    "@chakra-ui/react": "2.7.0",
+    "@chakra-ui/react": "2.7.1",
     "@chakra-ui/theme-tools": "2.0.18",
     "@emotion/react": "11.11.1",
     "@emotion/styled": "11.11.0",
@@ -60,7 +60,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.22.5",
-    "@chakra-ui/storybook-addon": "4.0.16",
+    "@chakra-ui/storybook-addon": "4.0.17",
     "@playwright/test": "1.35.1",
     "@storybook/addon-actions": "7.0.22",
     "@storybook/addon-essentials": "7.0.22",
