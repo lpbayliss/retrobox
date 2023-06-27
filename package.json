@@ -70,7 +70,7 @@
     "@storybook/manager-webpack5": "6.5.16",
     "@storybook/react": "7.0.24",
     "@storybook/testing-library": "0.2.0",
-    "@tanstack/react-query-devtools": "4.29.18",
+    "@tanstack/react-query-devtools": "4.29.19",
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "14.0.0",
     "@testing-library/user-event": "14.4.3",
