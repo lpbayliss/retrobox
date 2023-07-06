@@ -15179,10 +15179,10 @@ unleash-proxy-client@2.5.0:
     tiny-emitter "^2.1.0"
     uuid "^8.3.2"
 
-unleash-server@5.2.2:
-  version "5.2.2"
-  resolved "https://registry.yarnpkg.com/unleash-server/-/unleash-server-5.2.2.tgz#2b63196917109b4af0768b44b69ebf3642de7719"
-  integrity sha512-Xnch8BRRE5LcL+cLqoTARDnDcmvj14vhmfc59dQTmi3oWX2oNMG3AbVfKGZuOfP1s2zWNe2uTWgnYDDBiy219w==
+unleash-server@5.2.4:
+  version "5.2.4"
+  resolved "https://registry.yarnpkg.com/unleash-server/-/unleash-server-5.2.4.tgz#b22fed73ea41b6b1b1084411647a07a0effaa3a0"
+  integrity sha512-nTyU+Eutr3s1hI8dF71cy8Z17OHZ08Rtb+PBz/AyVpe+SP/EIz1SrL0bB2W7OdPjVVgFuYThYBJ0K6yIlkHWHw==
   dependencies:
     "@unleash/express-openapi" "^0.3.0"
     ajv "^8.11.0"
@@ -15235,7 +15235,7 @@ unleash-server@5.2.2:
     prom-client "^14.0.0"
     response-time "^2.3.2"
     sanitize-filename "^1.6.3"
-    semver "^7.3.5"
+    semver "^7.5.3"
     serve-favicon "^2.5.0"
     stoppable "^1.1.0"
     ts-toolbelt "^9.6.0"
