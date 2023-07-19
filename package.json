@@ -45,7 +45,7 @@
     "lorem-ipsum": "^2.0.8",
     "next": "13.4.10",
     "next-auth": "4.22.3",
-    "nodemailer": "6.9.3",
+    "nodemailer": "6.9.4",
     "openai": "^3.2.1",
     "pino": "8.14.1",
     "pino-pretty": "10.0.1",
