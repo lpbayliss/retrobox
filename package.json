@@ -18,9 +18,9 @@
     "unleash": "node ./unleash/server.js"
   },
   "dependencies": {
-    "@chakra-ui/icons": "2.0.19",
-    "@chakra-ui/react": "2.7.1",
-    "@chakra-ui/theme-tools": "2.0.18",
+    "@chakra-ui/icons": "2.1.0",
+    "@chakra-ui/react": "2.8.0",
+    "@chakra-ui/theme-tools": "2.1.0",
     "@emotion/react": "11.11.1",
     "@emotion/styled": "11.11.0",
     "@fortawesome/fontawesome-svg-core": "6.4.0",
@@ -60,7 +60,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.22.9",
-    "@chakra-ui/storybook-addon": "5.0.0",
+    "@chakra-ui/storybook-addon": "5.0.1",
     "@playwright/test": "1.36.1",
     "@storybook/addon-actions": "7.1.0",
     "@storybook/addon-essentials": "7.1.0",
