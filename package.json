@@ -59,7 +59,7 @@
     "zod": "^3.20.2"
   },
   "devDependencies": {
-    "@babel/core": "7.22.10",
+    "@babel/core": "7.22.11",
     "@chakra-ui/storybook-addon": "5.0.1",
     "@playwright/test": "1.37.1",
     "@storybook/addon-actions": "7.3.2",
