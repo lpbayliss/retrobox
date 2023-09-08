@@ -18,9 +18,9 @@
     "unleash": "node ./unleash/server.js"
   },
   "dependencies": {
-    "@chakra-ui/icons": "2.1.0",
-    "@chakra-ui/react": "2.8.0",
-    "@chakra-ui/theme-tools": "2.1.0",
+    "@chakra-ui/icons": "2.1.1",
+    "@chakra-ui/react": "2.8.1",
+    "@chakra-ui/theme-tools": "2.1.1",
     "@emotion/react": "11.11.1",
     "@emotion/styled": "11.11.0",
     "@fortawesome/fontawesome-svg-core": "6.4.2",
