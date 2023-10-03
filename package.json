@@ -48,7 +48,7 @@
     "nodemailer": "6.9.5",
     "openai": "^4.0.0",
     "pino": "8.15.4",
-    "pino-pretty": "10.2.0",
+    "pino-pretty": "10.2.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "7.46.2",
