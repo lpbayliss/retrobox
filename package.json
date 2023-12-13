@@ -19,8 +19,8 @@
   },
   "dependencies": {
     "@chakra-ui/icons": "2.1.1",
-    "@chakra-ui/react": "2.8.1",
-    "@chakra-ui/theme-tools": "2.1.1",
+    "@chakra-ui/react": "2.8.2",
+    "@chakra-ui/theme-tools": "2.1.2",
     "@emotion/react": "11.11.1",
     "@emotion/styled": "11.11.0",
     "@fortawesome/fontawesome-svg-core": "6.4.2",
@@ -60,7 +60,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.23.2",
-    "@chakra-ui/storybook-addon": "5.0.1",
+    "@chakra-ui/storybook-addon": "5.1.0",
     "@playwright/test": "1.38.1",
     "@storybook/addon-actions": "7.4.6",
     "@storybook/addon-essentials": "7.4.6",
