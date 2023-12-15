@@ -15314,10 +15314,10 @@ storybook-i18n@2.0.13:
   resolved "https://registry.yarnpkg.com/storybook-i18n/-/storybook-i18n-2.0.13.tgz#e2172c9db06bd58a02a561edc508b19a989790bd"
   integrity sha512-p0VPL5QiHdeS3W9BvV7UnuTKw7Mj1HWLW67LK0EOoh5fpSQIchu7byfrUUe1RbCF1gT0gOOhdNuTSXMoVVoTDw==
 
-storybook-react-intl@2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/storybook-react-intl/-/storybook-react-intl-2.0.3.tgz#bf959b7cb7d19ef5d6f18a211b45966b4c520313"
-  integrity sha512-xfzAGPsV771N2mplC2oPHBCgqyY0IqujcAy/OGGVX16viZTS1KJ7uGL100hixRWYcesXD/HishaHpX1aIb/JWA==
+storybook-react-intl@2.0.10:
+  version "2.0.10"
+  resolved "https://registry.yarnpkg.com/storybook-react-intl/-/storybook-react-intl-2.0.10.tgz#65d9bb3662eb52bc77f928ea50e7c18dd1587188"
+  integrity sha512-FtZnZaRoSmrq9Ma7ZAK3EkZUlqmDlSZj1CAyQVo0jRKKYOi2LcucnW8XcaTglN3VBv3n0p/ZiU6WrW7AvB+UZQ==
   dependencies:
     storybook-i18n "2.0.13"
 
