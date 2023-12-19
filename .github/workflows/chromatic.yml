@@ -19,7 +19,7 @@ jobs:
           fetch-depth: 0
       - run: export FONTAWESOME_NPM_AUTH_TOKEN="$FONTAWESOME_NPM_AUTH_TOKEN"
       - run: yarn
-      - uses: chromaui/action@v1
+      - uses: chromaui/action@v10
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           token: ${{ secrets.GITHUB_TOKEN }}
