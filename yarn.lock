@@ -7752,9 +7752,9 @@ date-fns@^2.25.0:
     "@babel/runtime" "^7.21.0"
 
 date-fns@^3.0.0:
-  version "3.0.3"
-  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-3.0.3.tgz#590d03c49d991f1f9e3d2e18dc76aa062b5d5bf1"
-  integrity sha512-orRh4Qc+Y5fE8RO2fG0FkggCTxgfRR71kypohBPvIlEHi+GZCy0RuaPm5i2oNVhnT96nNMj/0R+LWAjBA/3prA==
+  version "3.0.4"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-3.0.4.tgz#56eb7916d8d4666bf9be168ef84bed0deef1077c"
+  integrity sha512-+daptVi95nJ/D4TPS7/gbUqneVMA0Izr4qYAsL2ZZwtcDtEP8Zge765mbXhTqWYdTSG79/VtbBigQTluiE9DBQ==
 
 date-format@^4.0.13, date-format@^4.0.14:
   version "4.0.14"
