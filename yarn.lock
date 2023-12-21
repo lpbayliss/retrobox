@@ -16589,10 +16589,10 @@ unleash-proxy-client@3.2.0:
     tiny-emitter "^2.1.0"
     uuid "^9.0.1"
 
-unleash-server@5.7.1:
-  version "5.7.1"
-  resolved "https://registry.yarnpkg.com/unleash-server/-/unleash-server-5.7.1.tgz#bfa4bed08703133eeeae4a0b3b24af26f341ce0b"
-  integrity sha512-66oFftWJm8tWppubds19s3MmgpzwVt9yG9xO4YP8UsGws6HVnlM2gvfp5cR9n6uEmg6+T3JScTbIw29LjxFASA==
+unleash-server@5.7.2:
+  version "5.7.2"
+  resolved "https://registry.yarnpkg.com/unleash-server/-/unleash-server-5.7.2.tgz#d985905445d0ce659173a9a24472138560b56692"
+  integrity sha512-0lcoaMyJXMgGtGPO1+IDh3ueXAlsBrEx1f+r9yEfUjdhU+mjGgytN7PSm5a2Shdpxac5ZoZKBvPeUnCcjRIAVQ==
   dependencies:
     "@slack/web-api" "^6.10.0"
     "@wesleytodd/openapi" "^0.3.0"
