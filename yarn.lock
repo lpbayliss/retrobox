@@ -6787,10 +6787,10 @@ builtin-status-codes@^3.0.0:
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
   integrity sha512-HpGFw18DgFWlncDfjTa2rcQ4W88O1mC8e8yZ2AvQY5KDaktSTwo+KRf6nHK6FRI5FyRyb/5T6+TSxfP7QyGsmQ==
 
-bullmq@^4.0.0:
-  version "4.17.0"
-  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-4.17.0.tgz#f8f61bea80fb72ab690c1e926de0464f3222f1ea"
-  integrity sha512-URnHgB01rlCP8RTpmW3kFnvv3vdd2aI1OcBMYQwnqODxGiJUlz9MibDVXE83mq7ee1eS1IvD9lMQqGszX6E5Pw==
+bullmq@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-5.0.0.tgz#051860ec21acb8c1f5bbefdb789e518856806096"
+  integrity sha512-/GhvAB/nUKJMy2NzPCBKvq6yic6wlgaWW1gRCcFpjxP2LWB5TiCOSpsAx2i/9fUuMMa53/ZIKNK+vLO2DT+ZVQ==
   dependencies:
     cron-parser "^4.6.0"
     glob "^8.0.3"
