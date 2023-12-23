@@ -21,7 +21,7 @@
     "@chakra-ui/icons": "2.1.1",
     "@chakra-ui/react": "2.8.2",
     "@chakra-ui/theme-tools": "2.1.2",
-    "@emotion/react": "11.11.1",
+    "@emotion/react": "11.11.3",
     "@emotion/styled": "11.11.0",
     "@fortawesome/fontawesome-svg-core": "6.5.1",
     "@fortawesome/pro-light-svg-icons": "6.5.1",
