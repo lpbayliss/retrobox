@@ -6797,9 +6797,9 @@ builtin-status-codes@^3.0.0:
   integrity sha512-HpGFw18DgFWlncDfjTa2rcQ4W88O1mC8e8yZ2AvQY5KDaktSTwo+KRf6nHK6FRI5FyRyb/5T6+TSxfP7QyGsmQ==
 
 bullmq@^5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-5.0.0.tgz#051860ec21acb8c1f5bbefdb789e518856806096"
-  integrity sha512-/GhvAB/nUKJMy2NzPCBKvq6yic6wlgaWW1gRCcFpjxP2LWB5TiCOSpsAx2i/9fUuMMa53/ZIKNK+vLO2DT+ZVQ==
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/bullmq/-/bullmq-5.1.0.tgz#9c527b1bd5121e082bd807a3bbab953b002aea1c"
+  integrity sha512-08rTUvXlAFIhKNIHVRL6KTc0xJf2pxVxnMH0Bvlq6WfKgW3uTWmTjw+oj1NDYCK5BTr3F8ih7dV2exoM8prA2w==
   dependencies:
     cron-parser "^4.6.0"
     glob "^8.0.3"
