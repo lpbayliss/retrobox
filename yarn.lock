@@ -5419,10 +5419,10 @@
   resolved "https://registry.yarnpkg.com/@ungap/structured-clone/-/structured-clone-1.2.0.tgz#756641adb587851b5ccb3e095daf27ae581c8406"
   integrity sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==
 
-"@unleash/proxy-client-react@4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@unleash/proxy-client-react/-/proxy-client-react-4.1.1.tgz#a429a4ffd292d43ddfbb18bc9fdbb9b4a474f0d4"
-  integrity sha512-lbKVGfS9G5ela/8Ei5g7FD+5Q3un61ha3Mk7OWmWTBteeu6GctzFl/zYHWSHzz4ZiayhfX/Km2UprR68Db9Tcg==
+"@unleash/proxy-client-react@4.1.2":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@unleash/proxy-client-react/-/proxy-client-react-4.1.2.tgz#c8eae7783455f63d4ce71ab330fe0d5e35d8f608"
+  integrity sha512-AW6CKMHfLoUDzLahXHTD9bCKMKC31kC0kYLDrg089vf9gTAuGNnrY0bIEmrkh0M06JVkbXq9H8As3EIXdioizg==
 
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
