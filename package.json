@@ -47,7 +47,7 @@
     "next-auth": "4.24.6",
     "nodemailer": "6.9.9",
     "openai": "^4.0.0",
-    "pino": "8.18.0",
+    "pino": "8.19.0",
     "pino-pretty": "10.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
