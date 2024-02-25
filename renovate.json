@@ -3,6 +3,6 @@
   "extends": ["config:base"],
   "baseBranches": ["develop"],
   "automerge": true,
-  "automergeSchedule": ["at any time"]
+  "automergeSchedule": ["at any time"],
   "disabled": true
 }
