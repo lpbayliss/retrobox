@@ -4,4 +4,5 @@
   "baseBranches": ["develop"],
   "automerge": true,
   "automergeSchedule": ["at any time"]
+  "disabled": true
 }
